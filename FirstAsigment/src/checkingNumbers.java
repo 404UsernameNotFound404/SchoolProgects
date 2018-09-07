@@ -1,14 +1,32 @@
+import java.util.Objects;
+
+/*Name: Henry Morris
+ * Date: 9/7/2018
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 
 public class checkingNumbers 
 {
+	boolean postiveIsTruePostive;
+	boolean postiveIsTruePrime;
+	int postiveIsTrueLenth; 
+	boolean postiveIsTruePalandrome;
 	public static boolean checkIfPostive(int num)
 	{
+		boolean postiveIsTrue = false;
 		if(num > 0)
 		{
-			return true;
+			postiveIsTrue = true;
+			return postiveIsTrue;
 		}else
 		{
-			return false;
+			postiveIsTrue = false;
+			return postiveIsTrue;
 		}
 	}
 	public static boolean checkPrime(int num1)
@@ -36,6 +54,7 @@ public class checkingNumbers
 	}
 	public static boolean checkPalandrome(int num3)
 	{
+		boolean returnPalndromeIsTrue = false;
 		int numString1 = String.valueOf(num3).length();
 		String fullString1 = String.valueOf(num3);
 		String firstHalf = "";
@@ -47,17 +66,22 @@ public class checkingNumbers
 				firstHalf = firstHalf + fullString1.charAt(x); 
 				secondHalf = secondHalf + fullString1.charAt((numString1 -1) - x);
 			}
-			System.out.println(firstHalf);
-			System.out.print(secondHalf);
-			if(firstHalf == secondHalf)
-			{
-				//System.out.println(firstHalf + secondHalf);
-				return true;
-			}
 			//System.out.println(firstHalf);
 			//System.out.print(secondHalf);
+		}else
+		{
+			for(int x = 0; x < ((numString1-1)/2);x++)
+			{
+				firstHalf = firstHalf + fullString1.charAt(x);
+				secondHalf = secondHalf + fullString1.charAt((numString1-1)-x);
+			}
 		}
-		return false;
+		if(Objects.equals(secondHalf,firstHalf))
+		{
+			returnPalndromeIsTrue = true; 
+			return returnPalndromeIsTrue;
+		}
+		return returnPalndromeIsTrue;
 	}
 }
 
