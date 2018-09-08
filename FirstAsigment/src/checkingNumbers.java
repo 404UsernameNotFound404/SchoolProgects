@@ -1,12 +1,18 @@
 import java.util.Objects;
 
-/*Name: Henry Morris
+/* Name: Henry Morris
  * Date: 9/7/2018
+ * Purpose: to recieve player input and complete certain actions and operation then return a result
+ * Functions:
+ * checkIfPostive: checks if number is postive or negative(above or below zero) if postive return true
  * 
+ * checkPrime: checks if number is prime. Does this by using input number % then a value that goes from zero
+ * to input number and if any of them return zero it means its not prime, but if none of them do it return 
+ * false meaning its not prime.
  * 
+ * checkLength: converts player input to string then uses function string.length() to find length
  * 
- * 
- * 
+ * checkPalndrome: explantion in function 
  * 
  */
 
@@ -59,28 +65,28 @@ public class checkingNumbers
 		String fullString1 = String.valueOf(num3);
 		String firstHalf = "";
 		String secondHalf = "";
-		if(numString1 % 2 == 0)
+		if(numString1 % 2 == 0) //checks if length of input is even or odd 
 		{
-			for(int x = 0;x < (numString1/2);x++)
+			for(int x = 0;x < (numString1/2);x++)//loop runs half the length of the string 
 			{
-				firstHalf = firstHalf + fullString1.charAt(x); 
-				secondHalf = secondHalf + fullString1.charAt((numString1 -1) - x);
+				firstHalf = firstHalf + fullString1.charAt(x);//starts at begging of input string and adds half its value to empty string
+				secondHalf = secondHalf + fullString1.charAt((numString1 -1) - x);//starts at end of input going back adding its value to emtpy string 
 			}
 			//System.out.println(firstHalf);
 			//System.out.print(secondHalf);
 		}else
 		{
-			for(int x = 0; x < ((numString1-1)/2);x++)
+			for(int x = 0; x < ((numString1-1)/2);x++) //runs half the string minus one becuase the share the middle one 
 			{
-				firstHalf = firstHalf + fullString1.charAt(x);
-				secondHalf = secondHalf + fullString1.charAt((numString1-1)-x);
+				firstHalf = firstHalf + fullString1.charAt(x); //starts at begging of input string and adds half its value to empty string
+				secondHalf = secondHalf + fullString1.charAt((numString1-1)-x); //starts at end of input going back adding its value to emtpy string 
 			}
 		}
-		if(Objects.equals(secondHalf,firstHalf))
+		if(Objects.equals(secondHalf,firstHalf)) //checks if they equal each other if they do return true meaning it is a palndrome 
 		{
 			returnPalndromeIsTrue = true; 
 			return returnPalndromeIsTrue;
-		}
+		}s
 		return returnPalndromeIsTrue;
 	}
 }
