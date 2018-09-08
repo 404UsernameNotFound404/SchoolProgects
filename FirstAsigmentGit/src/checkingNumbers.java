@@ -86,7 +86,7 @@ public class checkingNumbers
 		{
 			returnPalndromeIsTrue = true; 
 			return returnPalndromeIsTrue;
-		}s
+		}
 		return returnPalndromeIsTrue;
 	}
 }
