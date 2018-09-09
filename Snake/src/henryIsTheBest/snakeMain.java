@@ -3,6 +3,8 @@ package henryIsTheBest;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 
+import henryIsTheBest.graphics.Screen;
+
 public class snakeMain extends JFrame 
 {
 	public snakeMain() 
