@@ -124,13 +124,13 @@ public class Screen extends JPanel implements Runnable
 					}
 				}
 			}
+			for(int y = 0; y < partsOfSnake.size();y++)
+			{
+				
+			}
 			if(partsOfSnake.size() > size)
 			{
 				partsOfSnake.remove(0);
-			}
-			if(xCor == 78)
-			{
-				xCor = 0;
 			}
 			b = new BodyPart(xCor,yCor,10);
 			partsOfSnake.add(b);
