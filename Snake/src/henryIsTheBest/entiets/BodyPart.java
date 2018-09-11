@@ -14,6 +14,18 @@ public class BodyPart
 		he = size;
 		
 	}
+	public int getxCor() {
+		return xCor;
+	}
+	public void setxCor(int xCor) {
+		this.xCor = xCor;
+	}
+	public int getyCor() {
+		return yCor;
+	}
+	public void setyCor(int yCor) {
+		this.yCor = yCor;
+	}
 	public void graphics(Graphics g)
 	{
 		g.setColor(Color.BLACK);

@@ -2,9 +2,9 @@ import java.util.Objects;
 
 /* Name: Henry Morris
  * Date: 9/7/2018
- * Purpose: to recieve player input and complete certain actions and operation then return a result
+ * Purpose: to receive player input and complete certain actions and operation then return a result
  * Functions:
- * checkIfPostive: checks if number is postive or negative(above or below zero) if postive return true
+ * checkIfPostive: checks if number is positive or negative(above or below zero) if positive return true
  * 
  * checkPrime: checks if number is prime. Does this by using input number % then a value that goes from zero
  * to input number and if any of them return zero it means its not prime, but if none of them do it return 
@@ -12,7 +12,7 @@ import java.util.Objects;
  * 
  * checkLength: converts player input to string then uses function string.length() to find length
  * 
- * checkPalndrome: explantion in function 
+ * checkPalndrome: explanation in function 
  * 
  */
 
@@ -21,7 +21,14 @@ public class checkingNumbers
 	boolean postiveIsTruePostive;
 	boolean postiveIsTruePrime;
 	int postiveIsTrueLenth; 
+	int input;
 	boolean postiveIsTruePalandrome;
+	
+	public checkingNumbers(int playerInput)
+	{
+		input = playerInput;
+	}
+	
 	public static boolean checkIfPostive(int num)
 	{
 		boolean postiveIsTrue = false;

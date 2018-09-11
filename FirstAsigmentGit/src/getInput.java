@@ -4,10 +4,23 @@ public class getInput
 {
 	public static int getInput()
 	{
-		Scanner inputScanner = new Scanner(System.in);
-		System.out.println("Please Input an Integer: ");
-		int playerInput = inputScanner.nextInt();
-		
+		int playerInput = 0;
+		boolean validInputIsTrue = true;
+		while(validInputIsTrue)
+		{
+			validInputIsTrue = false;
+			try
+			{
+				Scanner inputScanner = new Scanner(System.in);
+				System.out.println("Please Input an Integer: ");
+				playerInput = inputScanner.nextInt();
+			}
+			catch (Exception e)
+			{
+				System.out.println("Error invalid Input please Input a Inreger: ");
+				validInputIsTrue = true;
+			}
+		}
 		return playerInput;
 	}
 
