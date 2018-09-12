@@ -44,7 +44,7 @@ public class Screen extends JPanel implements Runnable
 	
 	private snakeMain main;
 	
-	private int tickRate = 90000;
+	private int tickRate = 900000;
 	
 	private int appleCount = 0;
 	
@@ -124,10 +124,26 @@ public class Screen extends JPanel implements Runnable
 					}
 				}
 			}
-			for(int y = 0; y < partsOfSnake.size();y++)
-			{
-				
-			}
+				System.out.println(xCor);
+				switch(xCor)
+				{
+				case 50:
+					System.out.println("Edged");
+					xCor = 0;
+					break;
+				case -1:					
+					xCor = 49;
+					break;
+				}
+				switch(yCor)
+				{
+				case 50:
+					yCor = 0;
+					break;
+				case -1:
+					yCor = 49;
+					break;
+				}
 			if(partsOfSnake.size() > size)
 			{
 				partsOfSnake.remove(0);
