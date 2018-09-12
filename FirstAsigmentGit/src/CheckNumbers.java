@@ -13,7 +13,7 @@ public class CheckNumbers
 	{
 		getInput inputClass = new getInput(); //creating an instance of the class getInput()
 		int input = inputClass.getInput(); //getting the input 
-		checkingNumbers postiveCheck = new checkingNumbers(input); //creating an instance of checkingNumbers class
+		checkNumberTest postiveCheck = new checkNumberTest(input); //creating an instance of checkingNumbers class
 		
 		//boolean trueIsPostive = postiveCheck.checkIfPostive(input);
 		postiveCheck.postiveIsTruePostive = postiveCheck.checkIfPostive(input);
@@ -30,7 +30,7 @@ public class CheckNumbers
 		
 		disPlayCharacters(postiveCheck);
 	}
-	public static void disPlayCharacters(checkingNumbers nums)
+	public static void disPlayCharacters(checkNumberTest nums)
 	{
 		System.out.println("Your Number: " + nums.input);
 		System.out.println("Postive number: " + nums.postiveIsTruePostive);

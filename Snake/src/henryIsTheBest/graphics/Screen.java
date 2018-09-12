@@ -6,8 +6,11 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +22,8 @@ import henryIsTheBest.entiets.BodyPart;
 public class Screen extends JPanel implements Runnable  
 {
 	private KeyEvent event; 
+	
+	private Timer time;
 	
 	private static long serizableID = 1l;
 	public static final int WIDTH = 500, HEIGHT = 500;
@@ -44,11 +49,15 @@ public class Screen extends JPanel implements Runnable
 	
 	private snakeMain main;
 	
-	private int tickRate = 900000;
-	
 	private int appleCount = 0;
 	
 	private boolean hitApple = false;
+	
+	int numberOfSecondPassed = 0;
+	
+	int delay = 50;
+	
+	TimerTask task;
 	
 	public Screen()
 	{
@@ -65,6 +74,63 @@ public class Screen extends JPanel implements Runnable
 		
 		r = new Random();
 		
+		time = new Timer();
+		
+		
+			task = new TimerTask() 
+				{
+					public void run()
+					{
+						numberOfSecondPassed = 0;
+						if(right) xCor++;
+						if(left) xCor--;
+						if(down) yCor++;
+						if(up) yCor--;
+						for(int i = 0; i < partsOfSnake.size();i++)
+						{
+							for(int x = 1; x < partsOfSnake.size();x++)
+							{
+								if(i != x)
+								{
+									if(partsOfSnake.get(i).getxCor() == partsOfSnake.get(x).getxCor() && partsOfSnake.get(i).getyCor() == partsOfSnake.get(x).getyCor())
+									{
+										main.close();
+										System.out.println("HIT");
+									}
+								}
+							}
+						}
+							System.out.println(xCor);
+							switch(xCor)
+							{
+							case 50:
+								System.out.println("Edged");
+								xCor = 0;
+								break;
+							case -1:					
+								xCor = 49;
+								break;
+							}
+							switch(yCor)
+							{
+							case 50:
+								yCor = 0;
+								break;
+							case -1:
+								yCor = 49;
+								break;
+							}
+						if(partsOfSnake.size() > size)
+						{
+							partsOfSnake.remove(0);
+						}
+						b = new BodyPart(xCor,yCor,10);
+						partsOfSnake.add(b);
+						
+						ticks = 0;
+					}
+				};
+		time.scheduleAtFixedRate(task, delay, delay);
 		start();
 	}
 	public void tick()
@@ -90,70 +156,9 @@ public class Screen extends JPanel implements Runnable
 				size++;
 				apples.remove(i);
 				i--;
-				hitApple = true;
 			}
 		}
-		if(hitApple)
-		{
-			appleCount++;
-			if(appleCount == 2)
-			{
-				tickRate = tickRate - 5000;
-				System.out.print(tickRate);
-				appleCount = 0;
-			}
-			hitApple = false;
-		}
-		if(ticks > tickRate)
-		{
-			if(right) xCor++;
-			if(left) xCor--;
-			if(down) yCor++;
-			if(up) yCor--;
-			for(int i = 0; i < partsOfSnake.size();i++)
-			{
-				for(int x = 1; x < partsOfSnake.size();x++)
-				{
-					if(i != x)
-					{
-						if(partsOfSnake.get(i).getxCor() == partsOfSnake.get(x).getxCor() && partsOfSnake.get(i).getyCor() == partsOfSnake.get(x).getyCor())
-						{
-							main.close();
-							System.out.println("HIT");
-						}
-					}
-				}
-			}
-				System.out.println(xCor);
-				switch(xCor)
-				{
-				case 50:
-					System.out.println("Edged");
-					xCor = 0;
-					break;
-				case -1:					
-					xCor = 49;
-					break;
-				}
-				switch(yCor)
-				{
-				case 50:
-					yCor = 0;
-					break;
-				case -1:
-					yCor = 49;
-					break;
-				}
-			if(partsOfSnake.size() > size)
-			{
-				partsOfSnake.remove(0);
-			}
-			b = new BodyPart(xCor,yCor,10);
-			partsOfSnake.add(b);
 			
-			ticks = 0;
-		}
-		
 		//System.out.println("Running...");
 	}
 	public void paint(Graphics g)

@@ -16,7 +16,7 @@ import java.util.Objects;
  * 
  */
 
-public class checkingNumbers 
+public class checkNumberTest
 {
 	boolean postiveIsTruePostive;
 	boolean postiveIsTruePrime;
@@ -24,7 +24,7 @@ public class checkingNumbers
 	int input;
 	boolean postiveIsTruePalandrome;
 	
-	public checkingNumbers(int playerInput)
+	public checkNumberTest(int playerInput)
 	{
 		input = playerInput;
 	}
