@@ -32,7 +32,6 @@ public class BodyPart
 		g.fillRect(xCor * wd, yCor * he, wd, he);
 		g.setColor(Color.GREEN);
 		g.fillRect(xCor * wd + 2,yCor * he + 2,wd - 4,he - 4);
-		//System.out.println("Andy Samberg");
 	}
 
 }
