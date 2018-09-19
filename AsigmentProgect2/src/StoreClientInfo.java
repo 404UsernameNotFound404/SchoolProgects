@@ -34,12 +34,17 @@ public class StoreClientInfo
 	
 	//////////////////////////////////////////////////////////////////////Constructors above 
 	
-	public void placeOrder(double cost,boolean delivery,float weight)
+	public void placeOrder(double cost,boolean delivery,float weight) //places an order with cost if its delivery and the weight
 	{
+		cost = cost + (SHIPWEIGHT * weight); 
 		if(cost > CREDITLIMIT)
 		{
 			System.err.println("Error Cost exexceds credit limit by " + (cost - CREDITLIMIT));
+		}else
+		{
+			balance = balance + (float) cost; 
 		}
+		System.out.println("Order Placed \nCost: " + cost);
 	}
 	
 	public void payment(int amountPayed)

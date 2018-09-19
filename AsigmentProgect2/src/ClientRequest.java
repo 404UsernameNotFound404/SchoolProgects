@@ -4,9 +4,8 @@ public class ClientRequest {
 
 	public static void main(String[] args) {
 		int menueSelction;
-		Scanner menueScanner = new Scanner(System.in);
-		menueSelction = menueScanner.nextInt();
-		menueScanner.close();
+		getInput input = new getInput();
+		menueSelction = input.getInput();
 		switch(menueSelction)
 		{
 			case 1:
