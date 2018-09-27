@@ -1,6 +1,8 @@
-package henryIsTheBest.graphics;
+package henryIsTheBest.entiets;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -14,10 +16,6 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import henryIsTheBest.snakeMain;
-import henryIsTheBest.entiets.Apple;
-import henryIsTheBest.entiets.BodyPart;
 
 public class Screen extends JPanel implements Runnable  
 {
@@ -59,6 +57,8 @@ public class Screen extends JPanel implements Runnable
 	
 	TimerTask task;
 	
+	boolean gameOver = false;
+	
 	public Screen()
 	{
 		setFocusable(true);
@@ -81,6 +81,8 @@ public class Screen extends JPanel implements Runnable
 				{
 					public void run()
 					{
+						if(!gameOver)
+						{
 						numberOfSecondPassed = 0;
 						if(right) xCor++;
 						if(left) xCor--;
@@ -94,8 +96,9 @@ public class Screen extends JPanel implements Runnable
 								{
 									if(partsOfSnake.get(i).getxCor() == partsOfSnake.get(x).getxCor() && partsOfSnake.get(i).getyCor() == partsOfSnake.get(x).getyCor())
 									{
-										main.close();
-										System.out.println("HIT");
+										gameOver = true;
+										System.out.println("HIT");		
+										task.cancel();
 									}
 								}
 							}
@@ -129,6 +132,7 @@ public class Screen extends JPanel implements Runnable
 						
 						ticks = 0;
 					}
+				}
 				};
 		time.scheduleAtFixedRate(task, delay, delay);
 		start();
@@ -164,6 +168,8 @@ public class Screen extends JPanel implements Runnable
 	public void paint(Graphics g)
 	{
 		g.clearRect(0, 0, WIDTH, HEIGHT);
+		if(!gameOver)
+		{
 		for(int x = 0;x< WIDTH/10;x++)
 		{
 			g.drawLine(x * 10, 0, x * 10, HEIGHT);
@@ -180,16 +186,16 @@ public class Screen extends JPanel implements Runnable
 		{
 			apples.get(x).draw(g);
 		}
+		}else
+		{
+			
+		}
 	}
 	public void start()
 	{
 		running = true; 
 		thread = new Thread(this, "GameLoop");
 		thread.start();
-	}
-	public void stop()
-	{
-		
 	}
 	public void run()
 	{

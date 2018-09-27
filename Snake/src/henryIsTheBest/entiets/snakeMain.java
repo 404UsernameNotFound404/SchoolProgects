@@ -1,12 +1,10 @@
-package henryIsTheBest;
+package henryIsTheBest.entiets;
 
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
-
-import henryIsTheBest.graphics.Screen;
 
 public class snakeMain extends JFrame 
 {
@@ -28,14 +26,9 @@ public class snakeMain extends JFrame
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	public void close()
-	{
-		System.exit(0);
-	}
 	
 	public static void main(String[] args) 
 	{
 		new snakeMain();
-		
 	}
 }
