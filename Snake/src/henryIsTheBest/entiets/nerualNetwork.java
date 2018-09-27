@@ -1,5 +1,6 @@
 package henryIsTheBest.entiets;
 
-public class nerualNetwork {
+public class nerualNetwork 
+{
 
 }

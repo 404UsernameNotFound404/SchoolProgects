@@ -3,13 +3,13 @@ public class StoreClientInfo
 {
 	int ADMINFEE = 20;
 	int CREDITLIMIT = 2000;
-	float SHIPWEIGHT = 0.5f;
-	float INTEREST = 1.15f;
+	double SHIPWEIGHT = 0.5f;
+	double INTEREST = 1.15f;
 	String storeName;
-	float balance = 0;
-	float purchase = 0;
+	double balance = 0;
+	double purchase = 0;
 	float weight = 0;
-	boolean delivery;
+	boolean delivery = false;
 	
 	public StoreClientInfo(String storeName) 
 	{
@@ -27,6 +27,7 @@ public class StoreClientInfo
 			System.out.println(storeName + ": order placed the cost is " + orderAmount + " the balance is now " + balance);
 		}
 		this.storeName = storeName;
+		balance = ADMINFEE + balance;
 	}
 	public StoreClientInfo(String storeName,boolean delivery)
 	{
@@ -42,24 +43,33 @@ public class StoreClientInfo
 	
 	//////////////////////////////////////////////////////////////////////Constructors above 
 	
-	public void placeOrder(double cost,boolean delivery,float weight) //places an order with cost if its delivery and the weight
+	public void placeOrder(double cost,boolean deliveryNeeded,float weightForOrder) //places an order with cost if its delivery and the weight
 	{
-		delivery = this.delivery;
+		delivery = deliveryNeeded;
+		double deliveryCost = 0;
 		if(delivery)
 		{
-		cost = cost + (SHIPWEIGHT * weight);
+			deliveryCost = (SHIPWEIGHT * weightForOrder);
+		}
+		if(deliveryCost + cost + balance > CREDITLIMIT) 
+		{
+			System.out.println("error you have to pick up your order becuase shiping execeds your credit Limit");
+		}
+		else
+		{
+			cost = cost + deliveryCost;
+			System.err.println("ANDY SAMBERG");
 		}
 		if(cost + balance > CREDITLIMIT)
 		{
 			System.err.println(storeName + ": Error Cost exexceds credit limit by " + (cost - CREDITLIMIT));
-			balance = 0;
 		}else
 		{
-			balance = balance + (float) cost; 
+			balance = balance + cost; 
 		}
 		System.out.println(storeName + ": Order Placed the cost is " + cost);
 	}
-	public void payment(int amountPayed)
+	public void payment(double amountPayed)
 	{
 		if(balance - amountPayed >= 0)
 		{
@@ -67,16 +77,16 @@ public class StoreClientInfo
 			System.out.println(storeName + ": the amount payed is " + amountPayed + " now the balance is " + balance + "\n");
 		}else
 		{
-			float changeDue = (balance-amountPayed) * -1;
+			double changeDue = (balance-amountPayed) * -1;
 			System.err.println(storeName + ": ERROR Payment greater then balance \n Change Due: " + changeDue);
+			balance = 0;
 		}
 	}
 	public void addInterest()
 	{		
-		float intrest = ((balance * INTEREST) - balance) / 12;
-		balance = balance - intrest;
+		double intrest = ((balance * INTEREST) - balance) / 12;
+		balance = balance + intrest;
 		System.out.println(storeName + ": Intrest added " + intrest + "balance is now " + balance);
-		intrest = 0;
 	}
 	///////////////////////////////////////////////////////////////////////seters and getter below
 	public String getName() {
@@ -91,7 +101,7 @@ public class StoreClientInfo
 	@Override
 	 public String toString() {
 	    
-		return storeName + " Balance Of Store " + balance + "\n";
+		return storeName + " Balance Of Store " + (float) balance + "\n";
 		
 	  }
 }
