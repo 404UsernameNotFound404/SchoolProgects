@@ -103,7 +103,7 @@ public class Screen extends JPanel implements Runnable
 								}
 							}
 						}
-							System.out.println(xCor);
+							//System.out.println(xCor);
 							switch(xCor)
 							{
 							case 50:
@@ -188,7 +188,10 @@ public class Screen extends JPanel implements Runnable
 		}
 		}else
 		{
-			
+			Font myFont = new Font("Serif", Font.BOLD, 75);
+			g.setFont(myFont);
+			g.setColor(Color.RED);
+			g.drawString("GAME OVER", 10, HEIGHT/2);
 		}
 	}
 	public void start()

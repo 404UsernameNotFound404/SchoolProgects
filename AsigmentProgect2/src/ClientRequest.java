@@ -5,7 +5,7 @@ public class ClientRequest {
 	public static void main(String[] args) {
 		
 
-	      	 StoreClientInfo client1 = new StoreClientInfo();
+	      StoreClientInfo client1 = new StoreClientInfo();
 		 StoreClientInfo client2 = new StoreClientInfo("John's Grocer");
 		 StoreClientInfo client3 = new StoreClientInfo("Mac's", 1250); 
 		 StoreClientInfo client4 = new StoreClientInfo("Jefferson Corner Store", true );
