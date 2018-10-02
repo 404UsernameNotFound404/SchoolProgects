@@ -1,3 +1,21 @@
+/*
+ * Name: Henry Morris
+ * Date: 9/7/2018
+ * Constructors:
+ * all constructors:
+ * StoreClientInfo() takes no parameters and adds admin 
+ * StoreClientInfo(String storeName)
+ * StoreClientInfo(String storeName,int orderAmount)
+ * StoreClientInfo(String storeName, boolean delivery)
+ * Functions:
+ * placeOrder(double cost,boolean deliveryNeeded,float weightForOrder)
+ * payment(double amountPayed)
+ * addInterest()
+ * 
+ * Getters and Setters
+ * 
+ *
+ */
 
 public class StoreClientInfo 
 {
