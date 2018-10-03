@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,6 +34,9 @@ private static long serizableID = 1l;
 	int floorValue = gravityForce * 70;
 	int counter = gravityForce * 50;
 	
+	private bigBarrier bigBar;
+	private ArrayList<bigBarrier> bigBarAL;
+	
 	public Screen()
 	{
 		setFocusable(true);
@@ -44,10 +48,20 @@ private static long serizableID = 1l;
 		
 		timerTask = new TimerTask()
 				{
+					int spawner = 0;
 					@Override
 					public void run() 
 					{
+						spawner++;
+						if(spawner == 100)
+						{
+							bigBar = new bigBarrier();
+							bigBarAL.add(bigBar);
+							spawner = 0;
+							
+						}
 						gravity();
+						collisonCheck();
 					}
 				};
 				
@@ -73,6 +87,11 @@ private static long serizableID = 1l;
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 		g.fillRect(100, counter, 10, 10);
 		g.drawLine(0,floorValue + 3,WIDTH,floorValue + 3);
+		
+		for(int x = 0; x < bigBarAL.size();x++)
+		{
+			bigBarAL.get(x).draw(g);
+		}
 	}
 	private void tick()
 	{
@@ -84,6 +103,10 @@ private static long serizableID = 1l;
 		{
 			counter = counter + gravityForce;
 		}
+	}
+	private void collisonCheck()
+	{
+		
 	}
 	private class Key implements KeyListener
 	{
@@ -101,13 +124,11 @@ private static long serizableID = 1l;
 
 		@Override
 		public void keyReleased(KeyEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void keyTyped(KeyEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 		
