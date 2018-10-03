@@ -44,6 +44,9 @@ private static long serizableID = 1l;
 		addKeyListener(key);
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		
+		bigBarAL = new ArrayList<bigBarrier>();
+		bigBar = new bigBarrier();
+		
 		time = new Timer();
 		
 		timerTask = new TimerTask()
@@ -57,6 +60,7 @@ private static long serizableID = 1l;
 						{
 							bigBar = new bigBarrier();
 							bigBarAL.add(bigBar);
+							System.out.println("HELLO");
 							spawner = 0;
 							
 						}
