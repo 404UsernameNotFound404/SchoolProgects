@@ -39,6 +39,12 @@ private static long serizableID = 1l;
 	
 	public Screen()
 	{
+		/*
+		System.out.println(1+4+" me....");
+		System.out.println("or " +2+4 +" you? \n");
+		System.out.println("or"+ (2+4) + "HELLO");
+		System.out.println(+1+4+5+" me...."+1+2+ "ADDS" +1+5);
+		*/
 		setFocusable(true);
 		key = new Key();
 		addKeyListener(key);
@@ -56,6 +62,7 @@ private static long serizableID = 1l;
 					public void run() 
 					{
 						spawner++;
+						
 						if(spawner == 100)
 						{
 							bigBar = new bigBarrier();
@@ -106,6 +113,13 @@ private static long serizableID = 1l;
 		if(counter < (floorValue - gravityForce))
 		{
 			counter = counter + gravityForce;
+		}
+	}
+	private void upDateBarriers()
+	{
+		for(int x = 0;x<bigBarAL.size();x++)
+		{
+			bigBarAL.get(x).upDatePosition();
 		}
 	}
 	private void collisonCheck()
