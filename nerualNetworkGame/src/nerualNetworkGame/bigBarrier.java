@@ -11,6 +11,7 @@ public class bigBarrier
 		WIDTH = 20;
 		HEIGHT = 50;		
 		xCor = 1500;	
+		//alli sucksss
 	}
 	public void tick()
 	{
