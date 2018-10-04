@@ -37,6 +37,10 @@ private static long serizableID = 1l;
 	private bigBarrier bigBar;
 	private ArrayList<bigBarrier> bigBarAL;
 	
+	boolean jumping = true;
+	
+	int counterForJump = 0;
+	
 	public Screen()
 	{
 		/*
@@ -63,16 +67,23 @@ private static long serizableID = 1l;
 					{
 						spawner++;
 						
-						if(spawner == 100)
+						if(spawner == 50)
 						{
 							bigBar = new bigBarrier();
 							bigBarAL.add(bigBar);
-							System.out.println("HELLO");
+							//System.out.println("HELLO");
 							spawner = 0;
 							
 						}
+						if(counterForJump >= 0)
+						{
+							//System.out.print("JUMP" + counterForJump);
+							counter = counter - (gravityForce * 4);
+							counterForJump--;
+						}
 						gravity();
 						collisonCheck();
+						upDateBarriers();
 					}
 				};
 				
@@ -113,6 +124,9 @@ private static long serizableID = 1l;
 		if(counter < (floorValue - gravityForce))
 		{
 			counter = counter + gravityForce;
+		}else
+		{
+			jumping = false;
 		}
 	}
 	private void upDateBarriers()
@@ -133,9 +147,11 @@ private static long serizableID = 1l;
 		{
 			int key = e.getKeyCode();
 			
-			if(key == KeyEvent.VK_SPACE)
+			if(key == KeyEvent.VK_SPACE && !jumping)
 			{
-				counter = counter - (gravityForce * 10);
+				jumping = true;
+				//counter = counter - (gravityForce * 15);
+				counterForJump = 5;
 				System.out.println("SPACE");
 			}			
 		}
