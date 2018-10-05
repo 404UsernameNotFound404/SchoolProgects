@@ -6,12 +6,12 @@ import java.awt.Graphics;
 public class Apple 
 {
 	private int xCor, yCor, height, width;
-	
-	public Apple(int xCor,int yCor, int width)
+	public Apple(int xCor, int yCor, int size)
 	{
-		xCor = this.xCor;
-		yCor = this.yCor;
-		width = this.width;		
+		this.xCor = xCor;
+		this.yCor = yCor;
+		height = size;
+		width = size;		
 	}
 	public void tick()
 	{
@@ -20,7 +20,7 @@ public class Apple
 	public void draw(Graphics g)
 	{
 		g.setColor(Color.RED);
-		g.fillRect(xCor * width, height + 800, width, height);
+		g.fillRect(xCor * width,yCor * height, width, height);
 	}
 	public int getxCor() {
 		return xCor;
@@ -28,13 +28,11 @@ public class Apple
 	public void setxCor(int xCor) {
 		this.xCor = xCor;
 	}
-	public int getyCor()
-	{
+	public int getyCor() {
 		return yCor;
 	}
-	public void setyCor(int yCor)
-	{
-		yCor = this.yCor;
+	public void setyCor(int yCor) {
+		this.yCor = yCor;
 	}
 
 }

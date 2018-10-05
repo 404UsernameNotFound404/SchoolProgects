@@ -41,14 +41,10 @@ private static long serizableID = 1l;
 	
 	int counterForJump = 0;
 	
+	private Character Char;
+	
 	public Screen()
 	{
-		/*
-		System.out.println(1+4+" me....");
-		System.out.println("or " +2+4 +" you? \n");
-		System.out.println("or"+ (2+4) + "HELLO");
-		System.out.println(+1+4+5+" me...."+1+2+ "ADDS" +1+5);
-		*/
 		setFocusable(true);
 		key = new Key();
 		addKeyListener(key);
@@ -56,6 +52,8 @@ private static long serizableID = 1l;
 		
 		bigBarAL = new ArrayList<bigBarrier>();
 		bigBar = new bigBarrier();
+		
+		Char = new Character(floorValue,gravityForce);
 		
 		time = new Timer();
 		
@@ -78,10 +76,10 @@ private static long serizableID = 1l;
 						if(counterForJump >= 0)
 						{
 							//System.out.print("JUMP" + counterForJump);
-							counter = counter - (gravityForce * 4);
+							Char.yCor = Char.yCor - (gravityForce * 4);
 							counterForJump--;
 						}
-						gravity();
+						Char.gravity();
 						collisonCheck();
 						upDateBarriers();
 					}
@@ -107,9 +105,9 @@ private static long serizableID = 1l;
 	public void paint(Graphics g)
 	{
 		g.clearRect(0, 0, WIDTH, HEIGHT);
-		g.fillRect(100, counter, 10, 10);
+		//g.fillRect(100, counter, 10, 10);
 		g.drawLine(0,floorValue + 3,WIDTH,floorValue + 3);
-		
+		Char.draw(g);
 		for(int x = 0; x < bigBarAL.size();x++)
 		{
 			bigBarAL.get(x).draw(g);
@@ -119,16 +117,6 @@ private static long serizableID = 1l;
 	{
 		
 	}
-	private void gravity()
-	{
-		if(counter < (floorValue - gravityForce))
-		{
-			counter = counter + gravityForce;
-		}else
-		{
-			jumping = false;
-		}
-	}
 	private void upDateBarriers()
 	{
 		for(int x = 0;x<bigBarAL.size();x++)
@@ -137,8 +125,7 @@ private static long serizableID = 1l;
 		}
 	}
 	private void collisonCheck()
-	{
-		
+	{		
 	}
 	private class Key implements KeyListener
 	{
@@ -147,12 +134,12 @@ private static long serizableID = 1l;
 		{
 			int key = e.getKeyCode();
 			
-			if(key == KeyEvent.VK_SPACE && !jumping)
+			if(key == KeyEvent.VK_SPACE && !Char.jumping)
 			{
-				jumping = true;
+				Char.jumping = true;
 				//counter = counter - (gravityForce * 15);
 				counterForJump = 5;
-				System.out.println("SPACE");
+				//System.out.println("SPACE");
 			}			
 		}
 
