@@ -1,6 +1,8 @@
 package nerualNetworkGame;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -49,6 +51,12 @@ private static long serizableID = 1l;
 	
 	Random r;
 	
+	boolean gameOver = false;
+	
+	int points = 0;
+	
+	String pointsString;
+
 	public Screen()
 	{
 		setFocusable(true);
@@ -78,6 +86,8 @@ private static long serizableID = 1l;
 					public void run() 
 					{
 						spawner++;
+						
+						points++;
 						
 						if(numberOfSpawns == 10)
 						{
@@ -130,14 +140,28 @@ private static long serizableID = 1l;
 	{
 		while(running)
 		{
-			tick();
 			repaint();
 		}
 	}
 	public void paint(Graphics g)
 	{
 		g.clearRect(0, 0, WIDTH, HEIGHT);
+		if(points > 100)
+		{
+			g.setColor(Color.cyan);
+			g.fillRect(0, 0, WIDTH, HEIGHT);
+		}
+		if(!gameOver)
+		{
+			pointsString = Integer.toString(points);
+			Font myFont = new Font("Serif", Font.BOLD, 75);
+			g.setFont(myFont);
+			//System.out.println(pointsString);
+			g.setColor(Color.BLACK);
+			g.drawString("Points: " + pointsString, 550, 100);
+		}
 		//g.fillRect(100, counter, 10, 10);
+		g.setColor(Color.BLACK);
 		g.drawLine(0,floorValue + 3,WIDTH,floorValue + 3);
 		Char.draw(g);
 		for(int x = 0; x < bigBarAL.size();x++)
@@ -148,10 +172,14 @@ private static long serizableID = 1l;
 		{
 			smalBarAL.get(x).draw(g);
 		}
-	}
-	private void tick()
-	{
-		
+		if(gameOver)
+		{
+			Font myFont = new Font("Serif", Font.BOLD, 75);
+			g.setFont(myFont);
+			g.setColor(Color.RED);
+			g.drawString("GAME OVER", 500, 100);
+			time.cancel();
+		}
 	}
 	private void upDateBarriers()
 	{
@@ -171,6 +199,7 @@ private static long serizableID = 1l;
 			if((bigBarAL.get(x).xCor <= Char.xCor + Char.WIDTH && Char.xCor <= bigBarAL.get(x).xCor + bigBarAL.get(x).WIDTH)
 					&& Char.yCor + Char.HEIGHT >= bigBarAL.get(x).yCor)
 			{
+				gameOver = true;
 				//System.out.println("FUCKING COLLIDED");
 			}
 			else
@@ -184,6 +213,7 @@ private static long serizableID = 1l;
 			if((smalBarAL.get(y).xCor <= Char.xCor + Char.WIDTH && Char.xCor <= smalBarAL.get(y).xCor + smalBarAL.get(y).WIDTH)
 					&& Char.yCor + Char.HEIGHT >= smalBarAL.get(y).yCor)
 			{
+				gameOver = true;
 				System.out.println("fucking collided");
 			}
 		}
