@@ -3,13 +3,13 @@ package nerualNetworkGame;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class bigBarrier 
+public class smallBarrier 
 {
-	int WIDTH,HEIGHT,xCor,yCor;
-	public bigBarrier()
+	public int WIDTH,HEIGHT,xCor,yCor;
+	public smallBarrier()
 	{
 		WIDTH = 20;
-		HEIGHT = 50;		
+		HEIGHT = 20;		
 		xCor = 1500;	
 		yCor = (6 * 70) - (HEIGHT - 3);
 	}
@@ -19,7 +19,7 @@ public class bigBarrier
 	}
 	public void draw(Graphics g)
 	{
-		g.setColor(Color.RED);
+		g.setColor(Color.GREEN);
 		g.fillRect(xCor, yCor, WIDTH, HEIGHT);
 	}
 	public void upDatePosition()
@@ -33,4 +33,5 @@ public class bigBarrier
 	public void setxCor(int xCor) {
 		this.xCor = xCor;
 	}
+
 }

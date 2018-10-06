@@ -162,7 +162,6 @@ public class Screen extends JPanel implements Runnable
 				i--;
 			}
 		}
-			
 		//System.out.println("Running...");
 	}
 	public void paint(Graphics g)

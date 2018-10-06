@@ -13,6 +13,10 @@
  * addInterest()
  * 
  * Getters and Setters
+ * getName()
+ * getBalance()
+ * setName(String storeName)
+ * 
  * 
  *
  */

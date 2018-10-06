@@ -25,18 +25,19 @@ public class Character extends JPanel
 	public void draw(Graphics g)
 	{
 		g.setColor(Color.RED);
-		g.fillRect(xCor, yCor , WIDTH, HEIGHT);
+		g.fillRect(xCor, yCor, WIDTH, HEIGHT);
 		//System.out.println(yCor);
 	}
 	public void gravity()
 	{
-		System.out.println(floorValue + "floor value");
-		System.out.println(gravityForce + "gravity Force");
+		//System.out.println(floorValue + "floor value");
+		//System.out.println(gravityForce + "gravity Force");
 		if(yCor < (floorValue - gravityForce ) - HEIGHT)
 		{
 			yCor = yCor + gravityForce;
 		}else
 		{
+			yCor = (floorValue - HEIGHT) + 3;
 			jumping = false;
 		}
 	}
