@@ -246,12 +246,11 @@ private static long serizableID = 1l;
 		{
 			if((wideBarAL.get(x).xCor <= Char.xCor + Char.WIDTH && Char.xCor <= wideBarAL.get(x).xCor + wideBarAL.get(x).WIDTH)
 					&& Char.yCor + Char.HEIGHT >= wideBarAL.get(x).yCor)
-			{
+			{			
 				gameOver = true;
 				System.out.println("fucking collided");
 			}
 		}
-		
 	}
 	private void checkBarrierDelete()
 	{

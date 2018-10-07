@@ -5,7 +5,6 @@ import java.awt.Graphics;
 
 public class wideBarrier 
 {
-
 	public int WIDTH,HEIGHT,xCor,yCor;
 	public wideBarrier()
 	{
