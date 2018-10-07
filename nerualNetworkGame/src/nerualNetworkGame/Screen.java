@@ -86,20 +86,22 @@ private static long serizableID = 1l;
 					public void run() 
 					{
 						spawner++;
-						
 						points++;
 						
-						if(numberOfSpawns == 10)
+						if(points % 1000 == 0)
 						{
 							numberOfSpawns = 0;
-							spawnerDelaySteady-= 10;
-							//System.out.println("done ten");
+							if(spawnerDelaySteady != 10)
+							{
+								spawnerDelaySteady-= 5;
+								System.out.println("done ten");
+							}
 						}
 						if(spawner >= spawnerDelay)
 						{
 							if(r.nextInt(2) == 1)
 							{
-								spawnerDelay = spawnerDelaySteady + r.nextInt(20) + 5;
+								spawnerDelay = spawnerDelaySteady + r.nextInt(20) + 10;
 								numberOfSpawns++;
 								bigBar = new bigBarrier();
 								bigBarAL.add(bigBar);
@@ -146,7 +148,7 @@ private static long serizableID = 1l;
 	public void paint(Graphics g)
 	{
 		g.clearRect(0, 0, WIDTH, HEIGHT);
-		if(points > 100)
+		if(points > 1000)
 		{
 			g.setColor(Color.cyan);
 			g.fillRect(0, 0, WIDTH, HEIGHT);
