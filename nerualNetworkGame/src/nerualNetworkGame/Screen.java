@@ -43,6 +43,9 @@ private static long serizableID = 1l;
 	private smallBarrier smalBar;
 	private ArrayList<smallBarrier> smalBarAL;
 	
+	private wideBarrier wideBar;
+	private ArrayList<wideBarrier> wideBarAL;
+	
 	boolean jumping = true;
 	
 	int counterForJump = 0;
@@ -69,6 +72,9 @@ private static long serizableID = 1l;
 		
 		smalBarAL = new ArrayList<smallBarrier>();
 		smalBar = new smallBarrier();
+		
+		wideBarAL = new ArrayList<wideBarrier>();
+		wideBar = new wideBarrier();
 		
 		Char = new Character(floorValue,gravityForce);
 		
@@ -99,22 +105,31 @@ private static long serizableID = 1l;
 						}
 						if(spawner >= spawnerDelay)
 						{
-							if(r.nextInt(2) == 1)
+							int randomInt = r.nextInt(3) + 1;
+							System.out.println(randomInt);
+							switch(randomInt)
 							{
-								spawnerDelay = spawnerDelaySteady + r.nextInt(20) + 10;
-								numberOfSpawns++;
-								bigBar = new bigBarrier();
-								bigBarAL.add(bigBar);
-								//System.out.println("HELLO");
-								spawner = 0;
-							}else
-							{
-								spawnerDelay = spawnerDelaySteady + r.nextInt(20);
-								smalBar = new smallBarrier();
-								smalBarAL.add(smalBar);
-								spawner = 0;
+								case 1:
+									spawnerDelay = spawnerDelaySteady + r.nextInt(20) + 10;
+									numberOfSpawns++;
+									bigBar = new bigBarrier();
+									bigBarAL.add(bigBar);
+									//System.out.println("HELLO");
+									spawner = 0;
+									break;
+								case 2:
+									spawnerDelay = spawnerDelaySteady + r.nextInt(20);
+									smalBar = new smallBarrier();
+									smalBarAL.add(smalBar);
+									spawner = 0;
+									break;
+								case 3:
+									spawnerDelay = spawnerDelaySteady + r.nextInt(20);
+									wideBar = new wideBarrier();
+									wideBarAL.add(wideBar);
+									spawner = 0;
+									break;
 							}
-							
 						}
 						if(counterForJump >= 0)
 						{
@@ -174,6 +189,10 @@ private static long serizableID = 1l;
 		{
 			smalBarAL.get(x).draw(g);
 		}
+		for(int x = 0; x < wideBarAL.size();x++)
+		{
+			wideBarAL.get(x).draw(g);
+		}
 		if(gameOver)
 		{
 			Font myFont = new Font("Serif", Font.BOLD, 75);
@@ -192,6 +211,10 @@ private static long serizableID = 1l;
 		for(int x = 0;x<smalBarAL.size();x++)
 		{
 			smalBarAL.get(x).upDatePosition();
+		}
+		for(int x = 0;x<wideBarAL.size();x++)
+		{
+			wideBarAL.get(x).upDatePosition();
 		}
 	}
 	private void collisonCheck()
@@ -214,6 +237,15 @@ private static long serizableID = 1l;
 		{
 			if((smalBarAL.get(y).xCor <= Char.xCor + Char.WIDTH && Char.xCor <= smalBarAL.get(y).xCor + smalBarAL.get(y).WIDTH)
 					&& Char.yCor + Char.HEIGHT >= smalBarAL.get(y).yCor)
+			{
+				gameOver = true;
+				System.out.println("fucking collided");
+			}
+		}
+		for(int x = 0;x<wideBarAL.size();x++)
+		{
+			if((wideBarAL.get(x).xCor <= Char.xCor + Char.WIDTH && Char.xCor <= wideBarAL.get(x).xCor + wideBarAL.get(x).WIDTH)
+					&& Char.yCor + Char.HEIGHT >= wideBarAL.get(x).yCor)
 			{
 				gameOver = true;
 				System.out.println("fucking collided");
