@@ -59,6 +59,12 @@ private static long serizableID = 1l;
 	int points = 0;
 	
 	String pointsString;
+	
+	nerualNetwork NerNet;
+	
+	int closestXValue = 2000;
+	
+	int typeOfBarrier;
 
 	public Screen()
 	{
@@ -75,6 +81,8 @@ private static long serizableID = 1l;
 		
 		wideBarAL = new ArrayList<wideBarrier>();
 		wideBar = new wideBarrier();
+		
+		NerNet = new nerualNetwork();
 		
 		Char = new Character(floorValue,gravityForce);
 		
@@ -93,7 +101,6 @@ private static long serizableID = 1l;
 					{
 						spawner++;
 						points++;
-						
 						if(points % 1000 == 0)
 						{
 							numberOfSpawns = 0;
@@ -141,6 +148,12 @@ private static long serizableID = 1l;
 						collisonCheck();
 						upDateBarriers();
 						checkBarrierDelete();
+						checkNerualNetworkValues();
+						if(!Char.jumping)
+						{
+							System.out.println("closest x value =" + closestXValue);
+							System.out.println("type of barrier = " + typeOfBarrier);
+						}
 					}
 				};
 				
@@ -210,10 +223,12 @@ private static long serizableID = 1l;
 		}
 		for(int x = 0;x<smalBarAL.size();x++)
 		{
+			
 			smalBarAL.get(x).upDatePosition();
 		}
 		for(int x = 0;x<wideBarAL.size();x++)
 		{
+			
 			wideBarAL.get(x).upDatePosition();
 		}
 	}
@@ -259,6 +274,7 @@ private static long serizableID = 1l;
 			if(bigBarAL.get(x).xCor < 0)
 			{
 				//System.out.println("remomved big " + x);
+				closestXValue = 2000;
 				bigBarAL.remove(x);
 			}
 		}
@@ -266,8 +282,46 @@ private static long serizableID = 1l;
 		{
 			if(smalBarAL.get(x).xCor < 0)
 			{
+				closestXValue = 2000;
 				//System.out.println("remomved small " + x);
 				smalBarAL.remove(x);
+			}
+		}
+		for(int x = 0;x<wideBarAL.size();x++)
+		{
+			if(wideBarAL.get(x).xCor < 0)
+			{
+				closestXValue = 2000;
+				//System.out.println("remomved small " + x);
+				wideBarAL.remove(x);
+			}
+		}
+	}
+	private void checkNerualNetworkValues()
+	{
+		int bigcounter = 0;
+		for(int x = 0;x<bigBarAL.size();x++)
+		{
+			if(bigBarAL.get(bigcounter).xCor < closestXValue)
+			{
+				typeOfBarrier = 0;
+				closestXValue = bigBarAL.get(bigcounter).xCor;
+			}
+		}
+		for(int x = 0;x<smalBarAL.size();x++)
+		{
+			if(smalBarAL.get(bigcounter).xCor < closestXValue)
+			{
+				typeOfBarrier = 1;
+				closestXValue = smalBarAL.get(bigcounter).xCor;
+			}
+		}
+		for(int x = 0;x<wideBarAL.size();x++)
+		{
+			if(wideBarAL.get(bigcounter).xCor < closestXValue)
+			{
+				typeOfBarrier = 2;
+				closestXValue = wideBarAL.get(bigcounter).xCor;
 			}
 		}
 	}
