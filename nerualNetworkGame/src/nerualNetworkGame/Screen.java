@@ -159,7 +159,7 @@ private static long serizableID = 1l;
 							//System.out.println("closest x value =" + closestXValue);
 							//System.out.println("type of barrier = " + typeOfBarrier);
 							NerNet.caculationForNetwork(closestXValue, typeOfBarrier, w1, w2);
-							if(NerNet.finalValue < 2)
+							if(NerNet.finalValue < 1.5)
 							{
 								counterForJump = 5;
 								Char.jumping = true;
@@ -224,6 +224,7 @@ private static long serizableID = 1l;
 			g.setFont(myFont);
 			g.setColor(Color.RED);
 			g.drawString("GAME OVER", 500, 100);
+			//System.out.println("Game Over");
 			time.cancel();
 		}
 	}
@@ -316,7 +317,7 @@ private static long serizableID = 1l;
 		{
 			if(bigBarAL.get(bigcounter).xCor < closestXValue)
 			{
-				typeOfBarrier = 0;
+				typeOfBarrier = 1;
 				closestXValue = bigBarAL.get(bigcounter).xCor;
 			}
 		}
@@ -324,7 +325,7 @@ private static long serizableID = 1l;
 		{
 			if(smalBarAL.get(bigcounter).xCor < closestXValue)
 			{
-				typeOfBarrier = 1;
+				typeOfBarrier = 2;
 				closestXValue = smalBarAL.get(bigcounter).xCor;
 			}
 		}
@@ -332,7 +333,7 @@ private static long serizableID = 1l;
 		{
 			if(wideBarAL.get(bigcounter).xCor < closestXValue)
 			{
-				typeOfBarrier = 2;
+				typeOfBarrier = 3;
 				closestXValue = wideBarAL.get(bigcounter).xCor;
 			}
 		}
