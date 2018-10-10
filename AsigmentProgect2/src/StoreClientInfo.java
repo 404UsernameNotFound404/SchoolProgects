@@ -1,24 +1,23 @@
 /*
  * Name: Henry Morris
  * Date: 9/7/2018
+ * FileNam
+ *
  * Constructors:
- * all constructors:
  * StoreClientInfo() takes no parameters and adds admin 
  * StoreClientInfo(String storeName)
  * StoreClientInfo(String storeName,int orderAmount)
  * StoreClientInfo(String storeName, boolean delivery)
- * Functions:
- * placeOrder(double cost,boolean deliveryNeeded,float weightForOrder)
- * payment(double amountPayed)
- * addInterest()
  * 
- * Getters and Setters
- * getName()
- * getBalance()
+ * Method:
+ * placeOrder(double cost,boolean deliveryNeeded,float weightForOrder) return void
+ * payment(double amountPayed) return void
+ * addInterest() return void
+ * 
+ * Getters and Setters:
+ * getName() returns storeName
+ * getBalance() returns balance
  * setName(String storeName)
- * 
- * 
- *
  */
 
 public class StoreClientInfo 
@@ -111,19 +110,21 @@ public class StoreClientInfo
 		System.out.println(storeName + ": Intrest added " + intrest + "balance is now " + balance);
 	}
 	///////////////////////////////////////////////////////////////////////seters and getter below
-	public String getName() {
+	public String getName() 
+	{
 		return "StoreName: " + storeName;
 	}
-	public void setName(String storeName) {
+	public void setName(String storeName) 
+	{
 		this.storeName = storeName;
 	}
-	public String getBalance() {
+	public String getBalance() 
+	{
 		return storeName + ": Balance For " + storeName + ": " + balance;
 	}
 	@Override
-	 public String toString() {
-	    
+	public String toString() 
+	{	    
 		return storeName + " Balance Of Store " + (float) balance + "\n";
-		
-	  }
+	}
 }

@@ -65,6 +65,8 @@ private static long serizableID = 1l;
 	int closestXValue = 2000;
 	
 	int typeOfBarrier;
+	
+	double w1,w2;
 
 	public Screen()
 	{
@@ -89,6 +91,9 @@ private static long serizableID = 1l;
 		time = new Timer();
 		
 		r = new Random();
+		
+		w1 = r.nextDouble();
+		w2 = r.nextDouble();
 		
 		timerTask = new TimerTask()
 				{
@@ -151,8 +156,14 @@ private static long serizableID = 1l;
 						checkNerualNetworkValues();
 						if(!Char.jumping)
 						{
-							System.out.println("closest x value =" + closestXValue);
-							System.out.println("type of barrier = " + typeOfBarrier);
+							//System.out.println("closest x value =" + closestXValue);
+							//System.out.println("type of barrier = " + typeOfBarrier);
+							NerNet.caculationForNetwork(closestXValue, typeOfBarrier, w1, w2);
+							if(NerNet.finalValue < 2)
+							{
+								counterForJump = 5;
+								Char.jumping = true;
+							}
 						}
 					}
 				};
@@ -189,6 +200,7 @@ private static long serizableID = 1l;
 			//System.out.println(pointsString);
 			g.setColor(Color.BLACK);
 			g.drawString("Points: " + pointsString, 550, 100);
+			
 		}
 		//g.fillRect(100, counter, 10, 10);
 		g.setColor(Color.BLACK);
