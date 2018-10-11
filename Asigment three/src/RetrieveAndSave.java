@@ -25,7 +25,9 @@ public class RetrieveAndSave
       	// the objects for the arrays in the SavePtIO class
       	/**********************************************************/
 		
+		info.fileWriteMethod(currFile);
 		info.fileReadMethod(currFile);
+		info.fileCloseMethod();
 				
 		// add another item into the game savepoint array saveData
 		//info.setSaveData();
