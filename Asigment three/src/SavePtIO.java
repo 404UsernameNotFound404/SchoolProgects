@@ -6,7 +6,7 @@ public class SavePtIO
 {
 	Scanner scan;
 	Formatter formatter;
-	public void fileReadMethod(File fileName)
+	public void fileOpenMethod(File fileName)
 	{
 		try
 		{
@@ -16,6 +16,9 @@ public class SavePtIO
 		{
 			System.out.println("You done messed up son with fileName");
 		}
+	}
+	public void fileReadMethod(File fileName)
+	{
 		while(scan.hasNextLine())
 		{
 			System.out.println(scan.nextLine());
@@ -32,6 +35,9 @@ public class SavePtIO
 			System.out.println("you done messed up with forammatter sooon");
 		}
 		formatter.format("%s", "penis\n penis");
+		formatter.format("%s", "penis\n penis");
+		formatter.format("%s", "penis\n penis");
+		
 	}
 	public void fileCloseMethod()
 	{
