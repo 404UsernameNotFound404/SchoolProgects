@@ -26,10 +26,8 @@ public class RetrieveAndSave
       	/**********************************************************/
 		
       	info.fileOpenMethod(currFile);
-		info.fileWriteMethod(currFile);
-		info.fileCloseMethod();
-		info.fileOpenMethod(currFile);
-		info.fileReadMethod(currFile);
+      	info.fileWriteMethod(currFile);
+      	
 		//info.fileReadMethod(currFile);
 		
 				
