@@ -19,14 +19,19 @@ public class RetrieveAndSave
 		
 		// define the File to open	
       	File currFile = new File("gamerStat.txt");
+      	File backUpFile = new File("gamerStatBackup.txt");
+      	File datFile = new File("gamerStat.dat");
       	
       	/***********************************************************/ 	
 		// open and read the original text file and instantiate
       	// the objects for the arrays in the SavePtIO class
       	/**********************************************************/
 		
-      	info.fileOpenMethod(currFile);
-      	info.fileWriteMethod(currFile);
+      	info.fileReadMethod(currFile);
+      	//info.writeFileMethod(backUpFile);
+      	
+      	info.writeObjectMethod(datFile);
+      	//info.readObjectMethod(datFile);
       	
 		//info.fileReadMethod(currFile);
 		
@@ -43,7 +48,7 @@ public class RetrieveAndSave
 		//info.setIncreaseCount();
 		
 		//print out all of the  entries using the toString()
-		System.out.println(info);
+		//System.out.println(info);
 		
 		
 		/*************************************************************/

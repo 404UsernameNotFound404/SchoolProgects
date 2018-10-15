@@ -1,91 +1,140 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Formatter;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class SavePtIO 
 {
 	Scanner scan;
 	Formatter formatter;
 	
-	String[] stringLines;
-	String[] line;
+	String[] saveData;
+	gameSaveInfo[] saveObjData;
+	
 	FileReader fr;
 	BufferedReader br; 
-	public void fileOpenMethod(File fileName)
+	FileWriter fw;
+	PrintWriter pw;
+	
+	FileInputStream FIS;
+	
+	FileOutputStream FOS;
+	
+	gameSaveInfo saveInfo;
+	public void SavePtIO()
+	{
+	}
+	int counter;
+				
+	public void fileReadMethod(File fileName)
 	{
 		try 
 		{
+			saveData = new String[10];
 			fr = new FileReader(fileName);
 			br = new BufferedReader(fr);
 			
-			line = new String[3];		
-			int counter = 0;
-			
-			for(int x = 0;x<line.length;x++)
+			for(int x = 0;x < saveData.length;x++)
 			{
-				line[counter] = br.readLine();
-				System.out.print(line[counter] + "\n");
-				counter++;
-			}		
-		}
+				saveData[x] = br.readLine();
+				//System.out.println(saveData[x]);
+			}
+			
+		} 
 		catch (FileNotFoundException e) 
 		{
 			System.out.println("file not found");
 		} 
 		catch (IOException e) 
 		{
-			System.out.println("IOExpection");
+			System.out.println("IO execption");
 		}
+		
 	}
-	public void fileReadMethod(File fileName)
+	public void writeFileMethod(File fileName)
 	{
-		int counter = 0;
-		stringLines = new String[2];
-		while(scan.hasNextLine())
+		try 
 		{
-			stringLines[counter] = scan.nextLine();
-		}
-		System.out.println(stringLines[0]);
-		System.out.println(stringLines[1]);
-	}
-	public void fileWriteMethod(File fileName)
-	{
-		String[] s;
-		
-		s = new String[2];
-		s[0] = "H\n";
-		s[1] = "HELLO\n";
-		
-		int counter = 0;
-		
-		int[] weights;
-		weights = new int[3];
-		weights[0] = 2;
-		weights[1] = 5;
-		weights[2] = 3;
-		
-		FileWriter FW;
-		try {
-			FW = new FileWriter(fileName);
-			for(int x = 0;x<line.length;x++)
+			fw = new FileWriter(fileName);
+			pw = new PrintWriter(fw);
+			for(int x = 0;x < saveData.length;x++)
 			{
-				FW.write(line[x] + weights[x] + "\n");
+				System.out.println(saveData[x]);
+				pw.print(saveData[x] + "\n");
 			}
-			FW.close();
-		} catch (IOException e) {
-			System.out.println("IOExpection");
-		}	
-		
+			fw.close();
+			pw.close();
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("IO expection");
+		}
 	}
-	public void fileCloseMethod()
+	public void writeObjectMethod(File fileName)
 	{
-		formatter.close();
-		scan.close();
+		int counterForSub = 0;
+		int counterForSpaces = 0;
+		String player = "";
+		String level = "";
+		int savePoints;
+		try 
+		{
+			saveObjData = new gameSaveInfo[10];
+			FOS = new FileOutputStream(fileName);
+			
+			for(int x = 0;x<saveObjData.length;x++)
+			{
+				while(counterForSpaces != 2)
+				{
+					if(saveData[x].charAt(counterForSub) == ' ')
+					{
+						counterForSpaces++;
+					}
+					player = player + (saveData[x].charAt(counterForSub));
+					counterForSub++;
+				}
+				System.out.println(player);
+				//saveObjData[x] = new gameSaveInfo(saveData[x].);
+				//System.out.println(saveData[x]. + x + "\n");
+			}
+			
+			saveInfo = new gameSaveInfo("Henry","one hundred",1,4,99);
+			FOS.write(saveInfo.toString().getBytes());
+			
+		}
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			//e.printStackTrace();
+		}
+	}
+	public void readObjectMethod(File fileName)
+	{
+		int content;
+		try 
+		{
+			FIS = new FileInputStream(fileName);
+			//System.out.println(FIS.available());
+			while ((content = FIS.read()) != -1) 
+			{
+				//System.out.print((char) content);
+			}
+			System.out.println();
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public String toString() 
+	{	    
+		return "toString";
 	}
 
 }

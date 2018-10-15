@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -12,13 +13,17 @@ public class Character extends JPanel
 	int WIDTH,HEIGHT,xCor,yCor,floorValue,gravityForce;
 	public int counterForJump;
 	public boolean jumping = true;
+	double w1,w2;
 	
 	public Character(int floorValue,int gravityForce)
 	{		
+		Random r = new Random();
 		WIDTH = 15;
 		HEIGHT = 50;
 		xCor = 100;
 		yCor = (6 * 60);
+		w1 = r.nextDouble();
+		w2 = r.nextDouble();
 		this.floorValue = floorValue;
 		this.gravityForce = gravityForce;
 	}

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -22,7 +23,7 @@ private static long serizableID = 1l;
 	
 	private static int WIDTH = 1500, HEIGHT = 800;
 	
-	private Key key;
+	//private Key key;
 	
 	int tickCounter = 0;
 	
@@ -51,6 +52,7 @@ private static long serizableID = 1l;
 	int counterForJump = 0;
 	
 	private Character Char;
+	private ArrayList<Character> CharArr;
 	
 	Random r;
 	
@@ -67,12 +69,16 @@ private static long serizableID = 1l;
 	int typeOfBarrier;
 	
 	double w1,w2;
+	
+	File textDoc;
 
 	public Screen()
 	{
+		textDoc = new File("textDocToSaveValues.txt");
+		
 		setFocusable(true);
-		key = new Key();
-		addKeyListener(key);
+		//key = new Key();
+		//addKeyListener(key);
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		
 		bigBarAL = new ArrayList<bigBarrier>();
@@ -87,6 +93,12 @@ private static long serizableID = 1l;
 		NerNet = new nerualNetwork();
 		
 		Char = new Character(floorValue,gravityForce);
+		CharArr = new ArrayList<Character>();
+		for(int x = 0;x<10;x++)
+		{
+			Char = new Character(floorValue,gravityForce);
+			CharArr.add(Char);
+		}
 		
 		time = new Timer();
 		
@@ -143,26 +155,32 @@ private static long serizableID = 1l;
 									break;
 							}
 						}
-						if(counterForJump >= 0)
+						for(int x = 0;x<CharArr.size();x++)
 						{
-							//System.out.print("JUMP" + counterForJump);
-							Char.yCor = Char.yCor - (gravityForce * 4);
-							counterForJump--;
-						}
-						Char.gravity();
-						collisonCheck();
-						upDateBarriers();
-						checkBarrierDelete();
-						checkNerualNetworkValues();
-						if(!Char.jumping)
-						{
-							//System.out.println("closest x value =" + closestXValue);
-							//System.out.println("type of barrier = " + typeOfBarrier);
-							NerNet.caculationForNetwork(closestXValue, typeOfBarrier, w1, w2);
-							if(NerNet.finalValue < 1.5)
+							if(counterForJump >= 0)
 							{
-								counterForJump = 5;
-								Char.jumping = true;
+								//System.out.print("JUMP" + counterForJump);
+								CharArr.get(x).yCor = CharArr.get(x).yCor - (gravityForce * 4);
+								counterForJump--;
+							}
+							CharArr.get(x).gravity();
+							collisonCheck();
+							if(!gameOver)
+							{
+								upDateBarriers();
+							}
+							checkBarrierDelete();
+							checkNerualNetworkValues();
+							if(!CharArr.get(x).jumping)
+							{
+								//System.out.println("closest x value =" + closestXValue);
+								//System.out.println("type of barrier = " + typeOfBarrier);
+								NerNet.caculationForNetwork(closestXValue, typeOfBarrier, CharArr.get(x).w1, CharArr.get(x).w2);
+								if(NerNet.finalValue < 1.5)
+								{
+									counterForJump = 5;
+									CharArr.get(x).jumping = true;
+								}
 							}
 						}
 					}
@@ -338,7 +356,7 @@ private static long serizableID = 1l;
 			}
 		}
 	}
-	private class Key implements KeyListener
+	/*private class Key implements KeyListener
 	{
 		@Override
 		public void keyPressed(KeyEvent e) 
@@ -370,4 +388,5 @@ private static long serizableID = 1l;
 		}
 		
 	}
+	*/
 }
