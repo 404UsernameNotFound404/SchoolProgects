@@ -1,10 +1,11 @@
+import java.io.Serializable;
 
-public class gameSaveInfo 
+public class gameSaveInfo implements Serializable
 {
 	String player,level;
-	int savePoints,lives;
-	float mana;
-	public gameSaveInfo(String player,String level,int savePoints,int lives,float mana)
+	String savePoints,lives;
+	String mana;
+	public gameSaveInfo(String player,String level,String savePoints,String lives,String mana)
 	{
 		this.level = level;
 		this.player = player;
@@ -15,7 +16,7 @@ public class gameSaveInfo
 	@Override
 	public String toString() 
 	{
-		return player +": " + level + ","  + savePoints + ","  + lives +  "," + mana + ",";
+		return player +": " + level + ","  + savePoints + ","  + lives +  "," + mana;
 		 
 	}
 }

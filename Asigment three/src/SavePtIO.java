@@ -6,7 +6,7 @@ public class SavePtIO
 	Scanner scan;
 	Formatter formatter;
 	
-	String[] saveData;
+	gameSaveInfo[] saveData;
 	gameSaveInfo[] saveObjData;
 	
 	FileReader fr;
@@ -18,6 +18,10 @@ public class SavePtIO
 	
 	FileOutputStream FOS;
 	
+	ObjectOutputStream OOS;
+	
+	ObjectInputStream OIS;
+	
 	gameSaveInfo saveInfo;
 	public void SavePtIO()
 	{
@@ -26,18 +30,31 @@ public class SavePtIO
 				
 	public void fileReadMethod(File fileName)
 	{
+		int counterForObjectSaver = 0;
 		try 
 		{
-			saveData = new String[10];
+			String[] gameSaveInfoValue;
+			String player, level, savePoints, lives, mana;
+			saveData = new gameSaveInfo[10];
 			fr = new FileReader(fileName);
 			br = new BufferedReader(fr);
 			
-			for(int x = 0;x < saveData.length;x++)
+			while(br.ready())
 			{
-				saveData[x] = br.readLine();
-				//System.out.println(saveData[x]);
+				gameSaveInfoValue = br.readLine().split(",");
+				
+				player = gameSaveInfoValue[0];
+				level =gameSaveInfoValue[1];
+				savePoints = gameSaveInfoValue[2];
+				lives = gameSaveInfoValue[3];
+				mana = gameSaveInfoValue[4];
+				
+				gameSaveInfo GSI = new gameSaveInfo(player,level,savePoints,lives,mana);
+				saveData[counterForObjectSaver] = GSI;
+				counterForObjectSaver++;
 			}
-			
+			fr.close();
+			br.close();
 		} 
 		catch (FileNotFoundException e) 
 		{
@@ -70,35 +87,14 @@ public class SavePtIO
 	}
 	public void writeObjectMethod(File fileName)
 	{
-		int counterForSub = 0;
-		int counterForSpaces = 0;
-		String player = "";
-		String level = "";
-		int savePoints;
 		try 
 		{
 			saveObjData = new gameSaveInfo[10];
-			FOS = new FileOutputStream(fileName);
-			
-			for(int x = 0;x<saveObjData.length;x++)
-			{
-				while(counterForSpaces != 2)
-				{
-					if(saveData[x].charAt(counterForSub) == ' ')
-					{
-						counterForSpaces++;
-					}
-					player = player + (saveData[x].charAt(counterForSub));
-					counterForSub++;
-				}
-				System.out.println(player);
-				//saveObjData[x] = new gameSaveInfo(saveData[x].);
-				//System.out.println(saveData[x]. + x + "\n");
-			}
-			
-			saveInfo = new gameSaveInfo("Henry","one hundred",1,4,99);
-			FOS.write(saveInfo.toString().getBytes());
-			
+			OOS = new ObjectOutputStream(new FileOutputStream(fileName));
+			int counterForObject = 0;
+			OOS.writeObject(saveData);
+			counterForObject++;			
+			OOS.close();
 		}
 		catch (FileNotFoundException e) 
 		{
@@ -112,24 +108,24 @@ public class SavePtIO
 	public void readObjectMethod(File fileName)
 	{
 		int content;
-		try 
-		{
-			FIS = new FileInputStream(fileName);
-			//System.out.println(FIS.available());
-			while ((content = FIS.read()) != -1) 
-			{
-				//System.out.print((char) content);
+			try {
+				OIS = new ObjectInputStream(new FileInputStream(fileName));
+				//System.out.println(OIS.readObject());
+				//saveObjData = (gameSaveInfo[]) OIS.readObject();
+				saveObjData = (gameSaveInfo[]) OIS.readObject();
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			System.out.println();
-		} 
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+			//System.out.println(FIS.available());
+ catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	@Override
 	public String toString() 

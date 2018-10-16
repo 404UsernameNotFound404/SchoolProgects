@@ -1,10 +1,10 @@
-File gamerStat.txt
-
-Tender Tootsie Ted, Three, 3, 4, 0.60
-Dominating Doug, Two, 3, 2, 0.80
-Snappy Susie, Four, 4, 3, 0.40
-Vicious Vickie, Three, 3, 3, 0.45
-Chatty Charlie, Two, 2, 1, 0.72
-
+Tender Tootsie Ted:  Three, 3, 4, 0.60
+Dominating Doug:  Two, 3, 2, 0.80
+Snappy Susie:  Four, 4, 3, 0.40
+Vicious Vickie:  Three, 3, 3, 0.45
+Chatty Charlie:  Two, 2, 1, 0.72
+null
+null
+null
 null
 null

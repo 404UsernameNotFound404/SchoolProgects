@@ -31,7 +31,7 @@ public class RetrieveAndSave
       	//info.writeFileMethod(backUpFile);
       	
       	info.writeObjectMethod(datFile);
-      	//info.readObjectMethod(datFile);
+        info.readObjectMethod(datFile);
       	
 		//info.fileReadMethod(currFile);
 		
