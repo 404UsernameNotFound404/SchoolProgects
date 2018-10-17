@@ -13,31 +13,23 @@ import java.io.PrintWriter;
 
 public class RetrieveAndSave 
 {	
-	public static void main (String args[])
-	{
+public static void main (String args[]){
+		
 		SavePtIO info = new SavePtIO();
 		
 		// define the File to open	
       	File currFile = new File("gamerStat.txt");
-      	File backUpFile = new File("gamerStatBackup.txt");
-      	File datFile = new File("gamerStat.dat");
       	
       	/***********************************************************/ 	
 		// open and read the original text file and instantiate
       	// the objects for the arrays in the SavePtIO class
       	/**********************************************************/
 		
-      	info.fileReadMethod(currFile);
-      	//info.writeFileMethod(backUpFile);
-      	
-      	info.writeObjectMethod(datFile);
-        info.readObjectMethod(datFile);
-      	
-		//info.fileReadMethod(currFile);
+		info.fileReadMethod(currFile);
 		
 				
 		// add another item into the game savepoint array saveData
-		//info.setSaveData();
+		info.setSaveData();
 		
 		//info.getSaveData().setPlayer("Curious George");
 		//info.getSaveData().setLevel("Two");
@@ -48,7 +40,7 @@ public class RetrieveAndSave
 		//info.setIncreaseCount();
 		
 		//print out all of the  entries using the toString()
-		//System.out.println(info);
+		System.out.println(info);
 		
 		
 		/*************************************************************/
@@ -56,7 +48,7 @@ public class RetrieveAndSave
 		/*************************************************************/
 		File backFile = new File("gamerStatBackUp.txt");
 		
-		//info.writeFileMethod(backFile);
+		info.writeFileMethod(backFile);
 		
 		
 		/*************************************************************/
@@ -64,7 +56,7 @@ public class RetrieveAndSave
 		/*************************************************************/
 		File newFile = new File("gamerStat.dat");
 		
-		//info.writeObjectMethod(newFile);
+		info.writeObjectMethod(newFile);
 		
 		
 		/*************************************************************/
@@ -74,17 +66,18 @@ public class RetrieveAndSave
 		
 		//remember the second array saveObjData was made for this part
 		
+		
 		//info.objectInputMethod(newFile);  
 		
 		//Final check of your results.
 		
 		//System.out.println("There are "+ info.getCounter() +" games saved in the list.\n" + "The game information is: ");
 		
-		//for(int c=0; c<info.getCounter(); c++)
-		//{
+		//for(int c=0; c<info.getCounter(); c++){
 			//System.out.print(c+":\n");
 			//System.out.print(info.getSaveObjData(c));
 			//System.out.println();
-		//}		
+		//}
 	}
+	
 }

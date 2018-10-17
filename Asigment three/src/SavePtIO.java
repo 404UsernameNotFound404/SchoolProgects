@@ -23,11 +23,14 @@ public class SavePtIO
 	ObjectInputStream OIS;
 	
 	gameSaveInfo saveInfo;
+	
+	int counter;
+	
 	public void SavePtIO()
 	{
+		counter = 5;
 	}
-	int counter;
-				
+	
 	public void fileReadMethod(File fileName)
 	{
 		int counterForObjectSaver = 0;
@@ -126,6 +129,21 @@ public class SavePtIO
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	public void setSaveData()
+	{
+		counter++;
+		/*
+		for(int x = 0;x < saveData.length;x++)
+		{
+			System.out.println(saveData[x]);
+
+		}
+		*/
+	}
+	public void getSaveData()
+	{
+		//saveData[counter].
 	}
 	@Override
 	public String toString() 
