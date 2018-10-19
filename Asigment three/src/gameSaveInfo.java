@@ -3,9 +3,9 @@ import java.io.Serializable;
 public class gameSaveInfo implements Serializable
 {
 	String player,level;
-	String savePoints,lives;
-	String mana;
-	public gameSaveInfo(String player,String level,String savePoints,String lives,String mana)
+	int savePoints,lives;
+	float mana;
+	public gameSaveInfo(String player,String level,int savePoints,int lives,float mana)
 	{
 		this.level = level;
 		this.player = player;
@@ -30,27 +30,27 @@ public class gameSaveInfo implements Serializable
 		this.level = level;
 	}
 
-	public String getSavePoints() {
+	public int getSavePoints() {
 		return savePoints;
 	}
 
-	public void setSavePoints(String savePoints) {
+	public void setSavePoint(int savePoints) {
 		this.savePoints = savePoints;
 	}
 
-	public String getLives() {
+	public int getLives() {
 		return lives;
 	}
 
-	public void setLives(String lives) {
+	public void setLives(int lives) {
 		this.lives = lives;
 	}
 
-	public String getMana() {
+	public float getMana() {
 		return mana;
 	}
 
-	public void setMana(String mana) {
+	public void setMana(float mana) {
 		this.mana = mana;
 	}
 

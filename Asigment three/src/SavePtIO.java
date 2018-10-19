@@ -52,7 +52,12 @@ public class SavePtIO
 				lives = gameSaveInfoValue[3];
 				mana = gameSaveInfoValue[4];
 				
-				gameSaveInfo GSI = new gameSaveInfo(player,level,savePoints,lives,mana);
+				int savePointsInt = Integer.parseInt(savePoints);
+				int livesInt = Integer.parseInt(lives);
+				float manaFloat = Float.parseFloat(mana);
+
+				
+				gameSaveInfo GSI = new gameSaveInfo(player,level,savePointsInt,livesInt,manaFloat);
 				saveData[counterForObjectSaver] = GSI;
 				counterForObjectSaver++;
 			}
@@ -108,7 +113,7 @@ public class SavePtIO
 			//e.printStackTrace();
 		}
 	}
-	public void readObjectMethod(File fileName)
+	public void objectInputMethod(File fileName)
 	{
 		int content;
 			try {
@@ -132,18 +137,22 @@ public class SavePtIO
 	}
 	public void setSaveData()
 	{
-		counter++;
-		/*
-		for(int x = 0;x < saveData.length;x++)
-		{
-			System.out.println(saveData[x]);
-
-		}
-		*/
 	}
-	public void getSaveData()
+	public int getCounter()
 	{
-		//saveData[counter].
+		return counter;
+	}
+	public gameSaveInfo getSaveObjData(int c)
+	{
+		return saveObjData[c];
+	}
+	public void setIncreaseCount()
+	{
+		counter++;
+	}
+	public gameSaveInfo getSaveData()
+	{
+		return saveData[counter];
 	}
 	@Override
 	public String toString() 

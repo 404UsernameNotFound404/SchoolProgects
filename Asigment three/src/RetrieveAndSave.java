@@ -31,13 +31,13 @@ public static void main (String args[]){
 		// add another item into the game savepoint array saveData
 		info.setSaveData();
 		
-		//info.getSaveData().setPlayer("Curious George");
-		//info.getSaveData().setLevel("Two");
-		//info.getSaveData().setLives(3);
-		//info.getSaveData().setSavePoint(5);
-		//info.getSaveData().setMana(0.56);
+		info.getSaveData().setPlayer("Curious George");
+		info.getSaveData().setLevel("Two");
+		info.getSaveData().setLives(3);
+		info.getSaveData().setSavePoint(5);
+		//info.getSaveData().setMana((float) 0.56);
 				
-		//info.setIncreaseCount();
+		info.setIncreaseCount();
 		
 		//print out all of the  entries using the toString()
 		System.out.println(info);
@@ -67,17 +67,20 @@ public static void main (String args[]){
 		//remember the second array saveObjData was made for this part
 		
 		
-		//info.objectInputMethod(newFile);  
+		info.objectInputMethod(newFile);  
 		
 		//Final check of your results.
 		
-		//System.out.println("There are "+ info.getCounter() +" games saved in the list.\n" + "The game information is: ");
+		System.out.println("There are "+ info.getCounter() +" games saved in the list.\n" + "The game information is: ");
 		
-		//for(int c=0; c<info.getCounter(); c++){
-			//System.out.print(c+":\n");
-			//System.out.print(info.getSaveObjData(c));
-			//System.out.println();
-		//}
+		for(int c=0; c<info.getCounter(); c++){
+			System.out.print(c+":\n");
+			System.out.print(info.getSaveObjData(c));
+			System.out.println();
+		}
+
+		
 	}
+
 	
 }
