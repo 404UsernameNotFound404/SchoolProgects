@@ -85,7 +85,6 @@ public class SavePtIO
 				int savePointsInt = Integer.parseInt(savePoints); //converts savePoints from string to int
 				int livesInt = Integer.parseInt(lives); //converts lives from string to int
 				float manaFloat = Float.parseFloat(mana); //converts mana from string to float
-
 				
 				GameSaveInfo GSI = new GameSaveInfo(player,level,savePointsInt,livesInt,manaFloat); //Creates a instance of gameSaveInfo
 				saveData[counterForObjectSaver] = GSI; //adds the gameSaveInfo from above to array saveData
