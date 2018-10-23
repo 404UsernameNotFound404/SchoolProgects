@@ -26,6 +26,7 @@ public class Character extends JPanel
 		w2 = r.nextDouble();
 		this.floorValue = floorValue;
 		this.gravityForce = gravityForce;
+		counterForJump = 0;
 	}
 	public void draw(Graphics g)
 	{

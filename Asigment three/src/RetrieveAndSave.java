@@ -1,3 +1,15 @@
+/*
+ * Name: Henry Morris
+ * Date: 9/7/2018
+ * 
+ * Constructors: 
+ * 
+ * Methods:
+ * 
+ * Getters and Setters:
+ * 
+ */
+
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
@@ -35,7 +47,7 @@ public static void main (String args[]){
 		info.getSaveData().setLevel("Two");
 		info.getSaveData().setLives(3);
 		info.getSaveData().setSavePoint(5);
-		//info.getSaveData().setMana((float) 0.56);
+		info.getSaveData().setMana(0.56);
 				
 		info.setIncreaseCount();
 		
@@ -73,8 +85,9 @@ public static void main (String args[]){
 		
 		System.out.println("There are "+ info.getCounter() +" games saved in the list.\n" + "The game information is: ");
 		
-		for(int c=0; c<info.getCounter(); c++){
-			System.out.print(c+":\n");
+		for(int c=0; c<info.getCounter(); c++)
+		{
+			System.out.print(c + ":\n");
 			System.out.print(info.getSaveObjData(c));
 			System.out.println();
 		}

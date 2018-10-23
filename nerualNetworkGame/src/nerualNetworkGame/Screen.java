@@ -155,30 +155,30 @@ private static long serizableID = 1l;
 									break;
 							}
 						}
+						if(!gameOver)
+						{
+							upDateBarriers();
+						}
+						checkBarrierDelete();
 						for(int x = 0;x<CharArr.size();x++)
 						{
-							if(counterForJump >= 0)
+							if(CharArr.get(x).counterForJump >= 0)
 							{
-								//System.out.print("JUMP" + counterForJump);
+								//System.out.println("JUMP: " + x);
 								CharArr.get(x).yCor = CharArr.get(x).yCor - (gravityForce * 4);
-								counterForJump--;
+								CharArr.get(x).counterForJump--;
 							}
 							CharArr.get(x).gravity();
 							collisonCheck();
-							if(!gameOver)
-							{
-								upDateBarriers();
-							}
-							checkBarrierDelete();
 							checkNerualNetworkValues();
 							if(!CharArr.get(x).jumping)
 							{
 								//System.out.println("closest x value =" + closestXValue);
 								//System.out.println("type of barrier = " + typeOfBarrier);
 								NerNet.caculationForNetwork(closestXValue, typeOfBarrier, CharArr.get(x).w1, CharArr.get(x).w2);
-								if(NerNet.finalValue < 1.5)
+								if(NerNet.finalValue > 0.5)
 								{
-									counterForJump = 5;
+									CharArr.get(x).counterForJump = 5;
 									CharArr.get(x).jumping = true;
 								}
 							}
@@ -235,6 +235,10 @@ private static long serizableID = 1l;
 		for(int x = 0; x < wideBarAL.size();x++)
 		{
 			wideBarAL.get(x).draw(g);
+		}
+		for(int x = 0;x<CharArr.size();x++)
+		{
+			CharArr.get(x).draw(g);
 		}
 		if(gameOver)
 		{

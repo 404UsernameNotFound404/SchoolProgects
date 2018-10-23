@@ -7,9 +7,9 @@ public class nerualNetwork
 	
 	public double caculationForNetwork(double x1,double x2,double w1,double w2) 
 	{
-		double bias = -170;
+		double bias = 170;
 		x2 = x2/10;
-		x1 = x1/10;
+		x1 = (x1/10) - bias;
 		
 		//System.out.println("weight 1 = "+ w1);
 		//System.out.println("weigth 2 = "+ w2);
@@ -24,11 +24,11 @@ public class nerualNetwork
 		
 		double value3 = value1 + value2;
 		
-		double value4 = value3 + bias;
+		double value4 = value3;
 		
-		System.out.println(value4);
+		//System.out.println(value4);
 		
-		finalValue = 1 / 1 + Math.exp(-value4);
+		finalValue = 1 / (1 + Math.exp(value4));
 		
 		System.err.println("final Value" + finalValue);
 		
