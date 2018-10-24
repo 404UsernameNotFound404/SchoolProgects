@@ -6,7 +6,7 @@ public class LibCatCTest
 	{
 		LibraryFunct LibFunct = new LibraryFunct();
 		
-		File booksTextFile = new File("");
+		File booksTextFile = new File("Lib.txt");
 		LibFunct.readFile(booksTextFile);
 	}
 }
