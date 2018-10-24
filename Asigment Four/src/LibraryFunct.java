@@ -18,25 +18,13 @@ public class LibraryFunct
 		{
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
-			int disCounter = 0;
 			while(br.ready())
 			{
-				//System.out.println(br.readLine());
-				instanceBook = new Book(br.readLine());
-				bookArrL.add(instanceBook);
+				AddBook(br.readLine());
 			}
 			for(int x = 0;x < bookArrL.size();x++)
 			{
-				for(int y = 0;y < bookArrL.get(x).authorLName.length();y++)
-				{
-					
-				}
-			}
-			for(int x = 0;x < bookArrL.size();x++)
-			{
-				
-				System.out.println(bookArrL.get(disCounter));
-				disCounter++;
+				System.out.println(bookArrL.get(x).toString() + "COUNTER: " + x);
 			}
 			
 		} 
@@ -52,5 +40,21 @@ public class LibraryFunct
 		}
 		
 	}
-
+	public void AddBook(String input)
+	{
+		instanceBook = new Book(input);
+		bookArrL.add(instanceBook);
+		sortArrL(instanceBook);
+	}
+	public void sortArrL(Book toBeSorted)
+	{
+		for(int x = 0;x < bookArrL.size();x++)
+		{
+			if(bookArrL.get(x).authorLName.compareToIgnoreCase(toBeSorted.authorLName) > 0)
+			{
+				bookArrL.add(x, toBeSorted);
+				break;
+			}
+		}
+	}//sortArrL()
 }
