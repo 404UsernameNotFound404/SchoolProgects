@@ -51,7 +51,8 @@ public class DisplayControler extends JPanel
 				}
 				break;
 			case 2:
-				JFrame InputFrame = new JFrame("Input Frame");
+				/*
+				 JFrame InputFrame = new JFrame("Input Frame");
 				InputFrame.setVisible(true);
 				InputFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				InputFrame.setLayout(new GridLayout(1,1,0,0));
@@ -59,12 +60,19 @@ public class DisplayControler extends JPanel
 				InputFrame.setSize(400, 200);
 				JPanel JP = new JPanel();
 				JTextField TF = new JTextField();
+				TF.setBounds(50,100, 200,30);  
 				JP.add(TF);
 				InputFrame.add(JP);
-				
-				
-				this.add(TF);
-				break;
+				*/
+				 JFrame frame = new JFrame("TextField Example");  
+				 JTextField t1,t2;  
+				 t1=new JTextField("Welcome to Javatpoint.");  
+				 t1.setBounds(50,100, 200,30);  
+				 frame.setSize(400,400);  
+				 frame.add(t1);
+				 frame.setLayout(null);  
+				 frame.setVisible(true);  
+				 break;
 			
 		}
 	}
