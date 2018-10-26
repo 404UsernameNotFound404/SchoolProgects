@@ -24,7 +24,7 @@ public class LibraryFunct
 			}
 			for(int x = 0;x < bookArrL.size();x++)
 			{
-				System.out.println(bookArrL.get(x).toString() + "COUNTER: " + x);
+				System.out.println(bookArrL.get(x).toString());
 			}
 			
 		} 
@@ -43,19 +43,37 @@ public class LibraryFunct
 	public void AddBook(String input)
 	{
 		instanceBook = new Book(input);
-		bookArrL.add(instanceBook);
 		sortArrL(instanceBook);
 	}
 	public void sortArrL(Book toBeSorted)
 	{
+		boolean foundSmall = true;
 		for(int x = 0;x < bookArrL.size();x++)
 		{
+<<<<<<< HEAD
 			//if() to check if same then compare fName
+=======
+			foundSmall = true;
+>>>>>>> d7c4ef0d46f89609d6c4cfe778a535e989c7d630
 			if(bookArrL.get(x).authorLName.compareToIgnoreCase(toBeSorted.authorLName) > 0)
 			{
 				bookArrL.add(x, toBeSorted);
+				foundSmall = false;
 				break;
 			}
 		}
+		if(foundSmall)
+		{
+			foundSmall = false;
+			bookArrL.add(toBeSorted);
+		}
 	}//sortArrL()
+	public Book getBook(int c)
+	{
+		return bookArrL.get(c);
+	}
+	public int getArraySize()
+	{
+		return bookArrL.size();
+	}
 }

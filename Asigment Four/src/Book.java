@@ -22,6 +22,7 @@ public class Book
 	@Override
 	public String toString() 
 	{
-		return authorLName + " " + authorFName + " " + title + " " + format + " " + publisher + " " + year + " " + language + " " + numISBN + " " + cost ; 
+		//return authorLName + " " + authorFName + " " + title + "\n" + format + " " + publisher + " " + year + " " + language + " " + numISBN + " " + cost ; 
+		return authorLName + " " + authorFName + " " + title;
 	}
 }
