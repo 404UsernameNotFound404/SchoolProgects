@@ -50,6 +50,7 @@ public class LibraryFunct
 	{
 		for(int x = 0;x < bookArrL.size();x++)
 		{
+			//if() to check if same then compare fName
 			if(bookArrL.get(x).authorLName.compareToIgnoreCase(toBeSorted.authorLName) > 0)
 			{
 				bookArrL.add(x, toBeSorted);
