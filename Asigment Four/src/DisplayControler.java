@@ -2,6 +2,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -19,6 +21,8 @@ public class DisplayControler extends JPanel
 	private Key key;
 	LibraryFunct LibFunct = new LibraryFunct();
 	File booksTextFile = new File("Lib.txt");
+	
+	String addBookInput;
 	public DisplayControler()
 	{
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -40,6 +44,10 @@ public class DisplayControler extends JPanel
 				Font f = new Font("TimesRoman", Font.BOLD, 90);
 				g.setFont(f);
 				g.drawString("Librayer Of Jorris", 50, 200);
+				g.setFont(new Font("TimesRoman", Font.BOLD,45));
+				g.drawString("0 = Back To Menue", 50, 300);
+				g.drawString("1 = Display Books In Librayer ", 50, 400);
+				g.drawString("2 = Enter A New Book", 50, 500);
 				break;
 			case 1:
 				for(int x = 0;x<LibFunct.getArraySize();x++)
@@ -47,7 +55,7 @@ public class DisplayControler extends JPanel
 					Font sf = new Font("TimesRoman", Font.BOLD, 25);
 					g.setFont(sf);
 					g.drawString(LibFunct.getBook(x).toString(),0,yValue);
-					yValue+= 100;
+					yValue+= 75;
 				}
 				break;
 			case 2:
@@ -64,12 +72,27 @@ public class DisplayControler extends JPanel
 				JP.add(TF);
 				InputFrame.add(JP);
 				*/
-				 JFrame frame = new JFrame("TextField Example");  
-				 JTextField t1,t2;  
-				 t1=new JTextField("Welcome to Javatpoint.");  
-				 t1.setBounds(50,100, 200,30);  
-				 frame.setSize(400,400);  
+				 JFrame frame = new JFrame("INPUT");  
+				 JTextField t1; 
+				 t1=new JTextField("Type all data at once and hit enter."); 
+				 t1.setBounds(10,10, 570,30);  
+				 frame.setSize(600,100);  
 				 frame.add(t1);
+				 t1.addActionListener(new ActionListener() 
+						 {
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								addBookInput = t1.getText();
+								frame.setVisible(false);
+								frame.dispose();
+								System.out.println(addBookInput);
+								LibFunct.AddBook(addBookInput);	
+							}
+						 }
+						 );
+				buttonNum = 0;
+				repaint();
 				 frame.setLayout(null);  
 				 frame.setVisible(true);  
 				 break;

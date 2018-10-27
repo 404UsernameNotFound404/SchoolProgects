@@ -50,11 +50,7 @@ public class LibraryFunct
 		boolean foundSmall = true;
 		for(int x = 0;x < bookArrL.size();x++)
 		{
-<<<<<<< HEAD
-			//if() to check if same then compare fName
-=======
 			foundSmall = true;
->>>>>>> d7c4ef0d46f89609d6c4cfe778a535e989c7d630
 			if(bookArrL.get(x).authorLName.compareToIgnoreCase(toBeSorted.authorLName) > 0)
 			{
 				bookArrL.add(x, toBeSorted);
