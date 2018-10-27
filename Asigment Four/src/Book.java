@@ -7,22 +7,29 @@ public class Book
 	float cost;
 	public Book(String allInfo)
 	{
-		String[] stringArr = allInfo.split(", ");
-		authorLName = stringArr[0];
-		authorFName	= stringArr[1];
-		title = stringArr[2];
-		format = stringArr[3];
-		publisher = stringArr[4];
-		year = Integer.parseInt(stringArr[5]);
-		language = stringArr[6];
-		numISBN = Long.parseLong(stringArr[7]);
-		cost = Float.parseFloat(stringArr[8]);
+		try
+		{
+			String[] stringArr = allInfo.split(", ");
+			authorLName = stringArr[0];
+			authorFName	= stringArr[1];
+			title = stringArr[2];
+			format = stringArr[3];
+			publisher = stringArr[4];
+			year = Integer.parseInt(stringArr[5]);
+			language = stringArr[6];
+			numISBN = Long.parseLong(stringArr[7]);
+			cost = Float.parseFloat(stringArr[8]);
+		}
+		catch(Exception e)
+		{
+			System.err.println("ERROR checker did not work");
+		}
 		
 	}
 	@Override
 	public String toString() 
 	{
-		//return authorLName + " " + authorFName + " " + title + "\n" + format + " " + publisher + " " + year + " " + language + " " + numISBN + " " + cost ; 
-		return authorLName + " " + authorFName + " " + title;
+		return authorLName + " " + authorFName + " " + title + "\n" + format + " " + publisher + " " + year + " " + language + " " + numISBN + " " + cost ; 
+		//return authorLName + " " + authorFName + " " + title;
 	}
 }

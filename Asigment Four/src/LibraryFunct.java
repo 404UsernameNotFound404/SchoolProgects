@@ -72,4 +72,26 @@ public class LibraryFunct
 	{
 		return bookArrL.size();
 	}
+	public boolean checkInfo(String allInfo)
+	{
+		try
+		{
+			String[] stringArr = allInfo.split(", ");
+			String authorLName = stringArr[0];
+			String authorFName	= stringArr[1];
+			String title = stringArr[2];
+			String format = stringArr[3];
+			String publisher = stringArr[4];
+			int year = Integer.parseInt(stringArr[5]);
+			String language = stringArr[6];
+			long numISBN = Long.parseLong(stringArr[7]);
+			float cost = Float.parseFloat(stringArr[8]);
+		}
+		catch(Exception e)
+		{
+			System.err.println("ERROR please use correct formatting when entering book");
+			return false;
+		}
+		return true;
+	}
 }
