@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +43,7 @@ public class Search extends JPanel
 										public void actionPerformed(ActionEvent e) 
 										{
 											String nameInput = JTF.getText();
+											boolean foundLname = false;
 											for(int x = 0;x < LibFunct.getArraySize();x++)
 											{
 												if(nameInput.compareTo(LibFunct.bookArrL.get(x).authorLName) == 0)
@@ -48,8 +51,16 @@ public class Search extends JPanel
 													LibFunct.bookArrL.remove(x);
 													frame.setVisible(false);
 													frame.dispose();
+													foundLname = true;
 													break;
 												}
+											}
+											if(!foundLname)
+											{
+												ErrorFrame errorFrame = new ErrorFrame();
+												errorFrame.show();
+												frame.setVisible(false);
+												frame.dispose();
 											}
 										}
 									}
@@ -75,10 +86,22 @@ public class Search extends JPanel
 									@Override
 									public void actionPerformed(ActionEvent e) 
 									{
-										int remove = Integer.parseInt(JTF.getText());
-										LibFunct.bookArrL.remove(remove);
-										frame.setVisible(false);
-										frame.dispose();
+										try
+										{
+											int remove = Integer.parseInt(JTF.getText());
+											LibFunct.bookArrL.remove(remove);
+											frame.setVisible(false);
+											frame.dispose();
+										}
+										catch(Exception e1)
+										{
+											System.out.println("did not enter int");
+											ErrorFrame errorFrame = new ErrorFrame();
+											errorFrame.show();
+											frame.setVisible(false);
+											frame.dispose();
+										}
+										
 									}
 								}
 								);
@@ -104,6 +127,7 @@ public class Search extends JPanel
 									public void actionPerformed(ActionEvent e) 
 									{
 										String inputTitle = JTF.getText();
+										boolean foundTitle = false;
 										for(int x = 0;x < LibFunct.getArraySize();x++)
 										{
 											if(inputTitle.compareTo(LibFunct.bookArrL.get(x).title) == 0)
@@ -111,7 +135,15 @@ public class Search extends JPanel
 												LibFunct.bookArrL.remove(x);
 												frame.setVisible(false);
 												frame.dispose();
+												foundTitle = true;
 											}
+										}
+										if(!foundTitle)
+										{
+											ErrorFrame errorFrame = new ErrorFrame();
+											errorFrame.show();
+											frame.setVisible(false);
+											frame.dispose();
 										}
 									}
 							
@@ -128,7 +160,9 @@ public class Search extends JPanel
 	}
 	public void paint(Graphics g)
 	{
-		
+		g.setFont(new Font("TimeRoman",Font.BOLD,25));
+		g.setColor(Color.RED);
+		g.drawString("Error", 10, 10);
 	}
 	public void remove()
 	{
