@@ -7,7 +7,7 @@ public class WindowCreator extends JFrame
 	public WindowCreator()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("runner");
+		setTitle("Library Of Jorris");
 		setResizable(false);
 		init();
 	}

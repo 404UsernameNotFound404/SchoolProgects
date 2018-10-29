@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,7 @@ public class ErrorFrame extends JPanel
 		JButton button = new JButton("Exit");
 		frame.setSize(300, 200);
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 		button.setBounds(50,50, 200,30);  
 		frame.add(button);
 		frame.add(this);

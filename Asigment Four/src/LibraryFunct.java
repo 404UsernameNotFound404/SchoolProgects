@@ -64,6 +64,42 @@ public class LibraryFunct
 			bookArrL.add(toBeSorted);
 		}
 	}//sortArrL()
+	public void selectionSortCost()
+	{
+		ArrayList<Book> tempBookArray = new ArrayList<Book>();
+		for(int x = bookArrL.size() - 1;x > 0;x--)
+		{
+			Book largestTitleBook = bookArrL.get(x);
+			for(int y = 0;y < x;y++)
+			{
+				if(largestTitleBook.cost < bookArrL.get(y).cost)
+				{
+					largestTitleBook = bookArrL.get(y);
+					bookArrL.remove(y);
+				}
+			}
+			tempBookArray.add(largestTitleBook);
+		}
+		bookArrL = tempBookArray;
+	}
+	public void bubbleSortTitle()
+	{
+		for(int x = bookArrL.size() - 1; x > 0;x--)
+		{
+			for(int y = 0;y < x;y++)
+			{
+				if(bookArrL.get(y).title.compareTo(bookArrL.get(y+1).title) > 0)
+				{
+					System.out.println(bookArrL.get(y + 1) + "before");
+					Book tempBook = new Book();
+					tempBook = bookArrL.get(y);
+					bookArrL.set(y, bookArrL.get(y + 1));
+					bookArrL.set(y + 1, tempBook);
+					System.out.println(bookArrL.get(y + 1) + "after");
+				}
+			}
+		}
+	}
 	public Book getBook(int c)
 	{
 		return bookArrL.get(c);

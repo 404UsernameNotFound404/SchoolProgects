@@ -3,12 +3,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,23 +26,36 @@ public class DisplayControler extends JPanel
 	LibraryFunct LibFunct = new LibraryFunct();
 	File booksTextFile = new File("Lib.txt");
 	
+	JFrame frame = new JFrame();
 	String addBookInput;
+	
+	JButton bubbleSort;
 	public DisplayControler()
 	{
+		JFrame frame = new JFrame("Library Of Jorris");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Library Of Jorris");
+		frame.setResizable(false);
+		frame.setSize(WIDTH, HEIGHT);
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		LibFunct.readFile(booksTextFile);
 		setFocusable(true);
 		key = new Key();
 		addKeyListener(key);
+		this.frame = frame;
 	}
 	public void paint(Graphics g)
 	{
+		super.paint(g);
 		g.clearRect(0, 0, WIDTH, HEIGHT);
+		ImageIcon img = new ImageIcon("blackImage.jpg");
+		img.paintIcon(this, g, 0, 0);
 		switch(buttonNum)
 		{
-			case 0:
+			case 0:				
 				Font f = new Font("TimesRoman", Font.BOLD, 90);
 				g.setFont(f);
+				g.setColor(Color.WHITE);
 				g.drawString("Library Of Jorris", 50, 100);
 				g.setFont(new Font("TimesRoman", Font.BOLD,45));
 				g.drawString("0 = Back To Menue", 50, 200);
@@ -50,13 +65,18 @@ public class DisplayControler extends JPanel
 				break;
 			case 1:
 				yValue = 50;
+				Font sf = new Font("TimesRoman", Font.BOLD, 20);
+				g.setFont(sf);
+				g.setColor(Color.WHITE);
 				for(int x = 0;x<LibFunct.getArraySize();x++)
 				{
-					Font sf = new Font("TimesRoman", Font.BOLD, 25);
-					g.setFont(sf);
 					g.drawString(LibFunct.getBook(x).toString(),10,yValue);
-					yValue+= 75;
+					yValue+= 50;
 				}
+				g.drawLine(0, HEIGHT - 115, WIDTH, HEIGHT - 115);
+				g.drawString("A = Sort By Title", 20, HEIGHT - 75);
+				g.drawString("B = Sort By Title", 20, HEIGHT - 50);
+				g.drawString("C = Sort By Title", 20, HEIGHT - 25);
 				break;
 			case 2:
 				UserInputBook UIB = new UserInputBook(LibFunct);
@@ -99,6 +119,20 @@ public class DisplayControler extends JPanel
 				System.out.println("2");
 				buttonNum = 3;
 				repaint();
+			}
+			if(key == KeyEvent.VK_A & buttonNum == 1) 
+			{
+				LibFunct.bubbleSortTitle();
+				repaint();
+			}
+			if(key == KeyEvent.VK_B & buttonNum == 1) 
+			{
+				LibFunct.selectionSortCost();
+				repaint();
+			}
+			if(key == KeyEvent.VK_C & buttonNum == 1) 
+			{
+				
 			}
 			
 		}
