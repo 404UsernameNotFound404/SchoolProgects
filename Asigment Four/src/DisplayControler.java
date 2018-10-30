@@ -24,7 +24,6 @@ public class DisplayControler extends JPanel
 	int yValue;
 	private Key key;
 	LibraryFunct LibFunct = new LibraryFunct();
-	File booksTextFile = new File("Lib.txt");
 	
 	JFrame frame = new JFrame();
 	String addBookInput;
@@ -38,7 +37,6 @@ public class DisplayControler extends JPanel
 		frame.setResizable(false);
 		frame.setSize(WIDTH, HEIGHT);
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
-		LibFunct.readFile(booksTextFile);
 		setFocusable(true);
 		key = new Key();
 		addKeyListener(key);
@@ -48,35 +46,37 @@ public class DisplayControler extends JPanel
 	{
 		super.paint(g);
 		g.clearRect(0, 0, WIDTH, HEIGHT);
-		ImageIcon img = new ImageIcon("blackImage.jpg");
-		img.paintIcon(this, g, 0, 0);
+		//ImageIcon img = new ImageIcon("blackImage.jpg");
+		//img.paintIcon(this, g, 0, 0);
 		switch(buttonNum)
 		{
 			case 0:				
 				Font f = new Font("TimesRoman", Font.BOLD, 90);
 				g.setFont(f);
-				g.setColor(Color.WHITE);
+				g.setColor(Color.BLACK);
 				g.drawString("Library Of Jorris", 50, 100);
 				g.setFont(new Font("TimesRoman", Font.BOLD,45));
 				g.drawString("0 = Back To Menue", 50, 200);
 				g.drawString("1 = Display Books In Librayer ", 50, 300);
 				g.drawString("2 = Enter A New Book", 50, 400);
 				g.drawString("3 = Remove A Book", 50, 500);
+				g.drawString("4 = Enter new File", 50, 600);
 				break;
 			case 1:
 				yValue = 50;
 				Font sf = new Font("TimesRoman", Font.BOLD, 20);
 				g.setFont(sf);
-				g.setColor(Color.WHITE);
+				g.setColor(Color.BLACK);
 				for(int x = 0;x<LibFunct.getArraySize();x++)
 				{
+					System.out.println(LibFunct.getBook(x).toString());
 					g.drawString(LibFunct.getBook(x).toString(),10,yValue);
 					yValue+= 50;
 				}
 				g.drawLine(0, HEIGHT - 115, WIDTH, HEIGHT - 115);
 				g.drawString("A = Sort By Title", 20, HEIGHT - 75);
-				g.drawString("B = Sort By Title", 20, HEIGHT - 50);
-				g.drawString("C = Sort By Title", 20, HEIGHT - 25);
+				g.drawString("B = Sort By Cost", 20, HEIGHT - 50);
+				g.drawString("C = Sort By Last Name", 20, HEIGHT - 25);
 				break;
 			case 2:
 				UserInputBook UIB = new UserInputBook(LibFunct);
@@ -84,11 +84,20 @@ public class DisplayControler extends JPanel
 				repaint();
 				break;
 			case 3:
-				Search Se = new Search(LibFunct);
+				RemoveBook Se = new RemoveBook(LibFunct);
 				buttonNum = 0;
 				repaint();
-				break;			
+				break;
+			case 4:
+				UseFile fileInput = new UseFile(LibFunct);
+				buttonNum = 0;
+				repaint();
+				break;
 		}
+	}
+	public void paintAgain()
+	{
+		repaint();
 	}
 	private class Key implements KeyListener
 	{
@@ -120,6 +129,12 @@ public class DisplayControler extends JPanel
 				buttonNum = 3;
 				repaint();
 			}
+			if(key == KeyEvent.VK_4)
+			{
+				System.out.println("hiting 4");
+				buttonNum = 4;
+				repaint();
+			}
 			if(key == KeyEvent.VK_A & buttonNum == 1) 
 			{
 				LibFunct.bubbleSortTitle();
@@ -132,7 +147,8 @@ public class DisplayControler extends JPanel
 			}
 			if(key == KeyEvent.VK_C & buttonNum == 1) 
 			{
-				
+				LibFunct.reSortByLastName();
+				repaint();
 			}
 			
 		}

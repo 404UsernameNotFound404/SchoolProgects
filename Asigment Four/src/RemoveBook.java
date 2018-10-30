@@ -3,18 +3,20 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Search extends JPanel
+public class RemoveBook extends JPanel
 {
 	int WidthF = 400,HeightF = 600;
 	int WidthB = 200, HeightB = 600;
 	boolean choseSearch = false;
-	public Search(LibraryFunct LibFunct)
+	public RemoveBook(LibraryFunct LibFunct)
 	{
 		JFrame frame = new JFrame("Serach");
 		JButton serachByName = new JButton("Search By Authors Last Name");
@@ -44,11 +46,13 @@ public class Search extends JPanel
 										{
 											String nameInput = JTF.getText();
 											boolean foundLname = false;
-											for(int x = 0;x < LibFunct.getArraySize();x++)
+											Iterator<Book> ILastName = LibFunct.bookArrL.iterator();
+											while(ILastName.hasNext())
 											{
-												if(nameInput.compareTo(LibFunct.bookArrL.get(x).authorLName) == 0)
+												Book checkLastName = ILastName.next();
+												if(nameInput.compareTo(checkLastName.authorLName) == 0)
 												{
-													LibFunct.bookArrL.remove(x);
+													LibFunct.bookArrL.remove(checkLastName);
 													frame.setVisible(false);
 													frame.dispose();
 													foundLname = true;
@@ -128,11 +132,14 @@ public class Search extends JPanel
 									{
 										String inputTitle = JTF.getText();
 										boolean foundTitle = false;
-										for(int x = 0;x < LibFunct.getArraySize();x++)
+										Iterator<Book> Ibook = LibFunct.bookArrL.iterator();
+										while(Ibook.hasNext())
 										{
-											if(inputTitle.compareTo(LibFunct.bookArrL.get(x).title) == 0)
+											Book check = Ibook.next();
+											if(inputTitle.compareTo(check.title) == 0)
 											{
-												LibFunct.bookArrL.remove(x);
+												LibFunct.bookArrL.remove(check);
+												System.out.println("DOUND");
 												frame.setVisible(false);
 												frame.dispose();
 												foundTitle = true;

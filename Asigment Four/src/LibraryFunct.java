@@ -12,6 +12,7 @@ public class LibraryFunct
 	FileReader fr;
 	BufferedReader br;
 	
+	int currentSort = 2;
 	public void readFile(File file)
 	{
 		try 
@@ -22,11 +23,6 @@ public class LibraryFunct
 			{
 				AddBook(br.readLine());
 			}
-			for(int x = 0;x < bookArrL.size();x++)
-			{
-				//System.out.println(bookArrL.get(x).toString());
-			}
-			
 		} 
 		catch (FileNotFoundException e) 
 		{
@@ -40,20 +36,53 @@ public class LibraryFunct
 		}
 		
 	}
+	public boolean ifEquals()
+	{
+		for(int x = 0;x < bookArrL.size() - 1;x++)
+		{
+			
+		}
+		return false;
+		
+	}
 	public void AddBook(String input)
 	{
 		instanceBook = new Book(input);
-		sortArrL(instanceBook);
+		switch(currentSort)
+		{
+			case 2:
+				sortArrL(instanceBook,bookArrL);
+				break;
+			case 1:
+				bookArrL.add(instanceBook);
+				selectionSortCost();
+				break;
+			case 0:
+				bookArrL.add(instanceBook);
+				bubbleSortTitle();
+				break;
+		}
+		
 	}
-	public void sortArrL(Book toBeSorted)
+	public void reSortByLastName()
+	{
+		currentSort = 2;
+		ArrayList<Book> tempArrayList = new ArrayList<Book>();
+		for(int x  = 0;x < bookArrL.size();x++)
+		{
+			sortArrL(bookArrL.get(x),tempArrayList);
+		}
+		bookArrL = tempArrayList;
+	}
+	public void sortArrL(Book toBeSorted,ArrayList<Book> arrayListToUse)
 	{
 		boolean foundSmall = true;
-		for(int x = 0;x < bookArrL.size();x++)
+		for(int x = 0;x < arrayListToUse.size();x++)
 		{
 			foundSmall = true;
-			if(bookArrL.get(x).authorLName.compareToIgnoreCase(toBeSorted.authorLName) > 0)
+			if(arrayListToUse.get(x).authorLName.compareToIgnoreCase(toBeSorted.authorLName) > 0)
 			{
-				bookArrL.add(x, toBeSorted);
+				arrayListToUse.add(x, toBeSorted);
 				foundSmall = false;
 				break;
 			}
@@ -61,28 +90,30 @@ public class LibraryFunct
 		if(foundSmall)
 		{
 			foundSmall = false;
-			bookArrL.add(toBeSorted);
+			arrayListToUse.add(toBeSorted);
 		}
 	}//sortArrL()
 	public void selectionSortCost()
 	{
+		currentSort = 1;
 		ArrayList<Book> tempArrL = new ArrayList<Book>();
 		//tempArrL = bookArrL;
-		
-		for(int x = 0;x < bookArrL.size() - 1;x++)
+		int sizeOfArray = bookArrL.size();
+		while(!bookArrL.isEmpty())
 		{
-			System.out.println("X: " + x);
-			System.out.println("BookArrL.Size(): " + bookArrL.size());
-			Book smallestBook = bookArrL.get(x);
-			for(int y = x;y < bookArrL.size();y++)
+			Book smallestBook = bookArrL.get(bookArrL.size() - 1);
+			int toDelete = bookArrL.size() - 1;
+			for(int y = 0;y < bookArrL.size() - 1;y++)
 			{
 				if(bookArrL.get(y).cost < smallestBook.cost)
 				{
 					smallestBook = bookArrL.get(y);
+					toDelete = y;
 					//System.out.println("andy samberg ----------------------------------------------");
 				}
 			}
 			tempArrL.add(smallestBook);
+			bookArrL.remove(toDelete);
 			//System.out.println(smallestBook);
 		}
 		for(int h = 0;h < tempArrL.size();h++)
@@ -93,6 +124,7 @@ public class LibraryFunct
 	}
 	public void bubbleSortTitle()
 	{
+		currentSort = 0;
 		for(int x = bookArrL.size() - 1; x > 0;x--)
 		{
 			for(int y = 0;y < x;y++)
