@@ -24,7 +24,7 @@ public class LibraryFunct
 			}
 			for(int x = 0;x < bookArrL.size();x++)
 			{
-				System.out.println(bookArrL.get(x).toString());
+				//System.out.println(bookArrL.get(x).toString());
 			}
 			
 		} 
@@ -66,21 +66,30 @@ public class LibraryFunct
 	}//sortArrL()
 	public void selectionSortCost()
 	{
-		ArrayList<Book> tempBookArray = new ArrayList<Book>();
-		for(int x = bookArrL.size() - 1;x > 0;x--)
+		ArrayList<Book> tempArrL = new ArrayList<Book>();
+		//tempArrL = bookArrL;
+		
+		for(int x = 0;x < bookArrL.size() - 1;x++)
 		{
-			Book largestTitleBook = bookArrL.get(x);
-			for(int y = 0;y < x;y++)
+			System.out.println("X: " + x);
+			System.out.println("BookArrL.Size(): " + bookArrL.size());
+			Book smallestBook = bookArrL.get(x);
+			for(int y = x;y < bookArrL.size();y++)
 			{
-				if(largestTitleBook.cost < bookArrL.get(y).cost)
+				if(bookArrL.get(y).cost < smallestBook.cost)
 				{
-					largestTitleBook = bookArrL.get(y);
-					bookArrL.remove(y);
+					smallestBook = bookArrL.get(y);
+					//System.out.println("andy samberg ----------------------------------------------");
 				}
 			}
-			tempBookArray.add(largestTitleBook);
+			tempArrL.add(smallestBook);
+			//System.out.println(smallestBook);
 		}
-		bookArrL = tempBookArray;
+		for(int h = 0;h < tempArrL.size();h++)
+		{
+			System.out.println(tempArrL.get(h));
+		}
+		bookArrL = tempArrL;
 	}
 	public void bubbleSortTitle()
 	{
