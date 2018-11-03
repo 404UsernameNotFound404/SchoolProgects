@@ -1,3 +1,12 @@
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Methods:
+ * Getters and Setters:
+ */
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -56,8 +65,8 @@ public class DisplayControler extends JPanel
 				g.setColor(Color.BLACK);
 				g.drawString("Library Of Jorris", 50, 100);
 				g.setFont(new Font("TimesRoman", Font.BOLD,45));
-				g.drawString("0 = Back To Menue", 50, 200);
-				g.drawString("1 = Display Books In Librayer ", 50, 300);
+				g.drawString("0 = Back To Menu", 50, 200);
+				g.drawString("1 = Display Books In Library ", 50, 300);
 				g.drawString("2 = Enter A New Book", 50, 400);
 				g.drawString("3 = Remove A Book", 50, 500);
 				g.drawString("4 = Enter new File", 50, 600);

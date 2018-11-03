@@ -1,9 +1,19 @@
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Methods:
+ * Getters and Setters:
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class LibraryFunct 
 {
@@ -36,33 +46,46 @@ public class LibraryFunct
 		}
 		
 	}
-	public boolean ifEquals()
+	public boolean ifEquals(Book inputBook)
 	{
-		for(int x = 0;x < bookArrL.size() - 1;x++)
+		Iterator<Book> Ibook = bookArrL.iterator();
+		boolean itEquals;
+		if(Ibook.hasNext())
 		{
-			
+			if(inputBook == Ibook.next())
+			{
+				
+			}
 		}
 		return false;
 		
 	}
 	public void AddBook(String input)
 	{
-		instanceBook = new Book(input);
-		switch(currentSort)
+		instanceBook = new Book(input, bookArrL);
+		if(!instanceBook.Equals())
 		{
-			case 2:
-				sortArrL(instanceBook,bookArrL);
-				break;
-			case 1:
-				bookArrL.add(instanceBook);
-				selectionSortCost();
-				break;
-			case 0:
-				bookArrL.add(instanceBook);
-				bubbleSortTitle();
-				break;
+			switch(currentSort)
+			{
+				case 2:
+					sortArrL(instanceBook,bookArrL);
+					break;
+				case 1:
+					bookArrL.add(instanceBook);
+					selectionSortCost();
+					break;
+				case 0:
+					bookArrL.add(instanceBook);
+					bubbleSortTitle();
+					break;
+			}
 		}
-		
+		else 
+		{
+			System.out.println("Equals");
+			ErrorFrame error = new ErrorFrame();
+			error.show();
+		}
 	}
 	public void reSortByLastName()
 	{

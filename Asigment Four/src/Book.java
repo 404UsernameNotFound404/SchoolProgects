@@ -1,3 +1,13 @@
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Methods:
+ * Getters and Setters:
+ */
+
+import java.util.ArrayList;
 
 public class Book 
 {
@@ -5,7 +15,8 @@ public class Book
 	int year;
 	long numISBN;
 	float cost;
-	public Book(String allInfo)
+	ArrayList<Book> bookArrL;
+	public Book(String allInfo, ArrayList<Book> bookArrL)
 	{
 		try
 		{
@@ -19,6 +30,7 @@ public class Book
 			language = stringArr[6];
 			numISBN = Long.parseLong(stringArr[7]);
 			cost = Float.parseFloat(stringArr[8]);
+			this.bookArrL = bookArrL;
 		}
 		catch(Exception e)
 		{
@@ -29,6 +41,20 @@ public class Book
 	public Book()
 	{
 		
+	}
+	public boolean Equals()
+	{
+		int counterForDelete = 0;
+		boolean delete = false;
+		for(int x = 0;x < bookArrL.size();x++)
+		{
+			if(this.toString().compareTo(bookArrL.get(x).toString()) == 0)
+			{
+				System.out.println("Delete equals true");
+				delete = true;
+			}
+		}
+		return delete;
 	}
 	@Override
 	public String toString() 

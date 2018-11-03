@@ -1,3 +1,13 @@
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Methods:
+ * init() this method formats my main JFrame E.X setting the name, keeping it one size
+ * Getters and Setters:
+ */
+
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
