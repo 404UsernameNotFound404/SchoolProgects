@@ -3,6 +3,8 @@
  * Date: 11/2/2018
  * 
  * Constructors: 
+ * UserInputBook(LibraryFunct LibFunct)
+ * -This Constructor creates the frame and adds all of the JTextFields it also sets up the action listeners for the JTextField
  * Methods:
  * Getters and Setters:
  */
@@ -26,8 +28,8 @@ public class UserInputBook extends JPanel
 		 JTextField t1,t2,t3,t4,t5,t6,t7,t8,t9; 
 		 t1=new JTextField("Last Name Of Author"); 
 		 t2=new JTextField("First Name Of Author"); 
-		 t3=new JTextField("Title"); 
-		 t4=new JTextField("Format"); 
+		 t3=new JTextField("Title");
+		 t4=new JTextField("Format");
 		 t5=new JTextField("Publisher"); 
 		 t6=new JTextField("Year(int)"); 
 		 t7=new JTextField("Language"); 
@@ -75,7 +77,6 @@ public class UserInputBook extends JPanel
 						}else
 						{
 							ErrorFrame errorFrame = new ErrorFrame();
-							errorFrame.show();
 						}
 						
 						frame.setVisible(false);

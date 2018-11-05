@@ -1,0 +1,901 @@
+/*
+ * Name: Henry Morris
+
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * DisplayControler()
+ * 
+ * Methods:
+ * void paint(Graphics g)
+ * -built in method for JPanel
+ * -more explanation
+ * Other Classes:
+ * Key implements KeyListener
+ * -This is apart of KeyListner library and allows for video game like input from java
+ */
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class DisplayControler extends JPanel
+{
+	int WIDTH = 1400;
+	int HEIGHT = 700;
+	int buttonNum = 0;
+	int yValue;
+	private Key key;
+	LibraryFunct LibFunct = new LibraryFunct();
+	
+	JFrame frame = new JFrame();
+	String addBookInput;
+	
+	JButton bubbleSort;
+	public DisplayControler()
+	{
+		JFrame frame = new JFrame("Library Of Jorris");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Library Of Jorris");
+		frame.setResizable(false);
+		frame.setSize(WIDTH, HEIGHT);
+		setPreferredSize(new Dimension(WIDTH,HEIGHT));
+		setFocusable(true);
+		key = new Key();
+		addKeyListener(key);
+		this.frame = frame;
+	}
+	public void paint(Graphics g)
+	{
+		super.paint(g);
+		g.clearRect(0, 0, WIDTH, HEIGHT);
+		//ImageIcon img = new ImageIcon("blackImage.jpg");
+		//img.paintIcon(this, g, 0, 0);
+		switch(buttonNum)
+		{
+			case 0:				
+				Font f = new Font("TimesRoman", Font.BOLD, 90);
+				g.setFont(f);
+				g.setColor(Color.BLACK);
+				g.drawString("Library Of Jorris", 50, 100);
+				g.setFont(new Font("TimesRoman", Font.BOLD,45));
+				g.drawString("0 = Back To Menu", 50, 200);
+				g.drawString("1 = Display Books In Library ", 50, 300);
+				g.drawString("2 = Enter A New Book", 50, 400);
+				g.drawString("3 = Remove A Book", 50, 500);
+				g.drawString("4 = Enter new File", 50, 600);
+				break;
+			case 1:
+				yValue = 50;
+				Font sf = new Font("TimesRoman", Font.BOLD, 20);
+				g.setFont(sf);
+				g.setColor(Color.BLACK);
+				for(int x = 0;x<LibFunct.getArraySize();x++)
+				{
+					System.out.println(LibFunct.getBook(x).toString());
+					g.drawString(LibFunct.getBook(x).toString(),10,yValue);
+					yValue+= 50;
+				}
+				g.drawLine(0, HEIGHT - 115, WIDTH, HEIGHT - 115);
+				g.drawString("A = Sort By Title", 20, HEIGHT - 75);
+				g.drawString("B = Sort By Cost", 20, HEIGHT - 50);
+				g.drawString("C = Sort By Last Name", 20, HEIGHT - 25);
+				break;
+			case 2:
+				UserInputBook UIB = new UserInputBook(LibFunct);
+				buttonNum = 0;
+				repaint();
+				break;
+			case 3:
+				RemoveBook Se = new RemoveBook(LibFunct.bookArrL);
+				buttonNum = 0;
+				repaint();
+				break;
+			case 4:
+				UseFile fileInput = new UseFile(LibFunct);
+				buttonNum = 0;
+				repaint();
+				break;
+		}
+	}
+	private class Key implements KeyListener
+	{
+		@Override
+		public void keyPressed(KeyEvent e) 
+		{
+			int key = e.getKeyCode();
+			if(key == KeyEvent.VK_0)
+			{
+				System.out.println("0");
+				buttonNum = 0;
+				repaint();
+			}
+			if(key == KeyEvent.VK_1 & buttonNum != 1)
+			{
+				System.out.println("1");
+				buttonNum = 1;
+				repaint();
+			}
+			if(key == KeyEvent.VK_2)
+			{
+				System.out.println("2");
+				buttonNum = 2;
+				repaint();
+			}
+			if(key == KeyEvent.VK_3)
+			{
+				System.out.println("2");
+				buttonNum = 3;
+				repaint();
+			}
+			if(key == KeyEvent.VK_4)
+			{
+				System.out.println("hiting 4");
+				buttonNum = 4;
+				repaint();
+			}
+			if(key == KeyEvent.VK_A & buttonNum == 1) 
+			{
+				LibFunct.bubbleSortTitle();
+				repaint();
+			}
+			if(key == KeyEvent.VK_B & buttonNum == 1) 
+			{
+				LibFunct.selectionSortCost();
+				repaint();
+			}
+			if(key == KeyEvent.VK_C & buttonNum == 1) 
+			{
+				LibFunct.reSortByLastName();
+				repaint();
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+}
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Methods:
+ * main(String[] args)
+ * -Creates an instance of WindowCreator();
+ * Getters and Setters:
+ */
+
+import java.io.File;
+
+public class LibCatCTest 
+{
+	public static void main(String[] args) 
+	{
+		WindowCreator Window = new WindowCreator();
+	}
+}
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructor:
+ * ErrorFrame()
+ * -This creates a new JFrame and places a button and String inside
+ * -The button closes said JFrame
+ */
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class ErrorFrame extends JPanel
+{
+	public ErrorFrame()
+	{
+		JFrame frame = new JFrame("ERROR");
+		JButton button = new JButton("Exit");
+		frame.setSize(300, 200);
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		button.setBounds(50,50, 200,30);  
+		frame.add(button);
+		frame.add(this);
+		button.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						frame.setVisible(false);
+						frame.dispose();
+					}
+				});
+		repaint();
+	}
+	public void paint(Graphics g)
+	{
+		Font font =  new Font("TimesRoman", Font.BOLD, 25);
+		g.setFont(font);
+		g.setColor(Color.red);
+		g.drawString("ERROR",100, 40);
+	}
+
+}
+
+
+
+/*
+ * Name: Henry Morris
+
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Methods:
+ * public void readFile(File file)
+ * -this method reads a line from the file and passes into addBook method
+ * public void AddBook(String input)
+ * -AddBook method takes argument of a string and creates a new book instance with the string as a argument
+ * public void reSortByLastName()
+ * -this method creates a new array list and puts all the books from bookArrL into the array after using sortArrL(Book toBeSorted,ArrayList<Book> arrayListToUse)
+ * public void sortArrL(Book toBeSorted,ArrayList<Book> arrayListToUse)
+ * -this takes a book that needs sorting and an array to sort it into. It sorts it by last name of author. More details in actually method.
+ * public void selectionSortCost()
+ * -Comments in actually method
+ * public void bubbleSortTitle()
+ * -Comments in actually method
+ * public boolean checkInfo(String allInfo)
+ * -This method takes a string which is input from user and checks if it is proper input using a try and catch statement.
+ * Getters and Setters:
+ * Book getBook(int c)
+ * -this returns the book at the index of the argument c
+ * int getArraySize()
+ * -this returns size of array as int
+ */
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class LibraryFunct 
+{
+	ArrayList<Book> bookArrL = new ArrayList<Book>();
+	Book instanceBook;
+	FileReader fr;
+	BufferedReader br;
+	
+	int currentSort = 2;
+	
+	public void readFile(File file)
+	{
+		try 
+		{
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			while(br.ready())
+			{
+				AddBook(br.readLine());
+			}
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	public void AddBook(String input)
+	{
+		instanceBook = new Book(input, bookArrL);
+		if(!instanceBook.Equals())
+		{
+			switch(currentSort)
+			{
+				case 2:
+					sortArrL(instanceBook,bookArrL);
+					break;
+				case 1:
+					bookArrL.add(instanceBook);
+					selectionSortCost();
+					break;
+				case 0:
+					bookArrL.add(instanceBook);
+					bubbleSortTitle();
+					break;
+			}
+		}
+		else 
+		{
+			System.out.println("Equals");
+			ErrorFrame error = new ErrorFrame();
+			error.show();
+		}
+	}
+	public void reSortByLastName()
+	{
+		currentSort = 2;
+		ArrayList<Book> tempArrayList = new ArrayList<Book>();
+		for(int x  = 0;x < bookArrL.size();x++)
+		{
+			sortArrL(bookArrL.get(x),tempArrayList);
+		}
+		bookArrL = tempArrayList;
+	}
+	public void sortArrL(Book toBeSorted,ArrayList<Book> arrayListToUse)
+	{
+		boolean foundSmall = true;
+		for(int x = 0;x < arrayListToUse.size();x++)
+		{
+			foundSmall = true;
+			if(arrayListToUse.get(x).authorLName.compareToIgnoreCase(toBeSorted.authorLName) > 0)
+			{
+				arrayListToUse.add(x, toBeSorted);
+				foundSmall = false;
+				break;
+			}
+		}
+		if(foundSmall)
+		{
+			foundSmall = false;
+			arrayListToUse.add(toBeSorted);
+		}
+	}//sortArrL()
+	public void selectionSortCost()
+	{
+		ArrayList<Book> tempArrL = new ArrayList<Book>(); //creates new array to save all the smallest values from the bookArrL array
+		while(!bookArrL.isEmpty()) //loop that goes through until bookArrL is empty
+		{
+			Book smallestBook = bookArrL.get(bookArrL.size() - 1); //this takes the last entry in the bookArrL and assumes its smallest
+			int toDelete = bookArrL.size() - 1; //this saves the last index of the array
+			for(int y = 0;y < bookArrL.size() - 1;y++) //this is a for loop that iterates through array
+			{
+				if(bookArrL.get(y).cost < smallestBook.cost) //this checks if the current check of the bookArrL has a lower cost then the current smallestBook
+				{
+					smallestBook = bookArrL.get(y); //saves the current check as the lowest cost book
+					toDelete = y; //this tells me which book to delete from array
+				}
+			}
+			tempArrL.add(smallestBook);
+			bookArrL.remove(toDelete);
+			//System.out.println(smallestBook);
+		}
+		bookArrL = tempArrL;
+	}
+	public void bubbleSortTitle()
+	{
+		currentSort = 0;
+		for(int x = bookArrL.size() - 1; x > 0;x--) //goes through whole array list
+		{
+			for(int y = 0;y < x;y++) //goes through unsorted part of array list
+			{
+				if(bookArrL.get(y).title.compareTo(bookArrL.get(y+1).title) > 0) //checks if book title value is greater then the next one in the list 
+				{
+					//System.out.println(bookArrL.get(y + 1) + "before");
+					Book tempBook = bookArrL.get(y); //creates temp book to save book program is replacing
+					bookArrL.set(y, bookArrL.get(y + 1));
+					bookArrL.set(y + 1, tempBook); //takes temp book and puts it in place of book we switched into its place
+					//System.out.println(bookArrL.get(y + 1) + "after");
+				}
+			}
+		}
+	}
+	public boolean checkInfo(String allInfo)
+	{
+		try
+		{
+			String[] stringArr = allInfo.split(", ");
+			String authorLName = stringArr[0];
+			String authorFName	= stringArr[1];
+			String title = stringArr[2];
+			String format = stringArr[3];
+			String publisher = stringArr[4];
+			int year = Integer.parseInt(stringArr[5]);
+			String language = stringArr[6];
+			long numISBN = Long.parseLong(stringArr[7]);
+			float cost = Float.parseFloat(stringArr[8]);
+		}
+		catch(Exception e)
+		{
+			System.err.println("ERROR please use correct formatting when entering book");
+			return false;
+		}
+		return true;
+	}
+	public Book getBook(int c)
+	{
+		return bookArrL.get(c);
+	}
+	public int getArraySize()
+	{
+		return bookArrL.size();
+	}
+}
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * RemoveBook(LibrrayFunct LibFunct)
+ * -This method takes in the bookArrL array list from LibraryFunct Class
+ * -It then creates JFrame with 3 JTextFields and those text fields input can delete things further comments for deleting in code
+ */
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class RemoveBook extends JPanel
+{
+	int WidthF = 400,HeightF = 600;
+	int WidthB = 200, HeightB = 600;
+	boolean choseSearch = false;
+	public RemoveBook(ArrayList<Book> bookArrL)
+	{
+		JFrame frame = new JFrame("Serach");
+		JButton serachByName = new JButton("Search By Authors Last Name");
+		JButton serachByIndex = new JButton("Search By Index");
+		JButton serachByTitle = new JButton("Search By Title");
+		serachByName.setBounds(75,50,250,30);
+		serachByIndex.setBounds(75,250,250,30);
+		serachByTitle.setBounds(75,450,250,30);
+		frame.setSize(WidthF, HeightF);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(serachByName);
+		frame.add(serachByIndex);
+		frame.add(serachByTitle);
+		serachByName.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e) 
+					{
+						if(!choseSearch) //does not allow two JTextInput fields to open at one time
+						{
+							JTextField JTF = new JTextField("Serach By Authors Last Name");
+							JTF.setBounds(75,90,200,30);
+							JTF.addActionListener(new ActionListener()
+									{
+										@Override
+										public void actionPerformed(ActionEvent e) 
+										{
+											String nameInput = JTF.getText();
+											boolean foundLname = false;
+											Iterator<Book> ILastName = bookArrL.iterator(); //creates iterator for bookArrL
+											while(ILastName.hasNext()) //while loop that goes through whole bookArrL array list
+											{
+												Book checkLastName = ILastName.next(); //gets a book from array
+												if(nameInput.compareTo(checkLastName.authorLName) == 0) //checks if book has same author name as user input 
+												{
+													bookArrL.remove(checkLastName); //removes book with same last name as input
+													frame.setVisible(false);
+													frame.dispose();
+													foundLname = true;
+													break;
+												}
+											}
+											if(!foundLname)
+											{
+												ErrorFrame errorFrame = new ErrorFrame(); //if program does not find a book with the same last name as input creates error screen
+												frame.setVisible(false);
+												frame.dispose();
+											}
+										}
+									}
+									);
+							frame.add(JTF);
+							System.out.println("Name");
+							choseSearch = true;
+						}
+					}
+				}
+				);
+		serachByIndex.addActionListener(new ActionListener()
+				{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+					if(!choseSearch) //does not allow two JTextInput fields to open at one time
+					{
+						JTextField JTF = new JTextField("Serach By Index");
+						JTF.setBounds(75,290,200,30);
+						JTF.addActionListener(new ActionListener()
+								{
+									@Override
+									public void actionPerformed(ActionEvent e) 
+									{
+										try
+										{
+											int remove = Integer.parseInt(JTF.getText()); //parse's JTF text to int
+											bookArrL.remove(remove); //removes a book from array at user input 
+											frame.setVisible(false); //makes frame not visible
+											frame.dispose(); //closes frame
+										}
+										catch(Exception e1)
+										{
+											ErrorFrame errorFrame = new ErrorFrame(); //if invalid input error frame shows up 
+											frame.setVisible(false); //closes frame
+											frame.dispose();// closes frame
+										}
+										
+									}
+								}
+								);
+						frame.add(JTF);
+						System.out.println("Index");
+						choseSearch = true;
+					}
+			}
+				}
+		);
+		serachByTitle.addActionListener(new ActionListener()
+				{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+					if(!choseSearch) //does not allow two JTextInput fields to open at one time
+					{
+						JTextField JTF = new JTextField("Serach By Title");
+						JTF.setBounds(75,490,200,30);
+						JTF.addActionListener(new ActionListener()
+								{
+									@Override
+									public void actionPerformed(ActionEvent e) 
+									{
+										String inputTitle = JTF.getText();
+										boolean foundTitle = false;
+										Iterator<Book> Ibook = bookArrL.iterator(); 
+										while(Ibook.hasNext()) //while loop that goes through whole bookArrL
+										{
+											Book check = Ibook.next(); //gets book from array
+											if(inputTitle.compareTo(check.title) == 0) //checks if input is same as title from each book
+											{
+												bookArrL.remove(check); //if title equals user input then delets book from array list
+												frame.setVisible(false);
+												frame.dispose();
+												foundTitle = true;
+											}
+										}
+										if(!foundTitle)
+										{
+											ErrorFrame errorFrame = new ErrorFrame(); //if input does not equal title of any book then displays error
+											frame.setVisible(false);
+											frame.dispose();
+										}
+									}
+							
+								});
+						frame.add(JTF);
+						System.out.println("Title");
+						choseSearch = true;
+					}
+			}
+				}
+		);
+		frame.setLayout(null);
+		frame.setVisible(true);  
+	}
+	public void paint(Graphics g)
+	{
+		g.setFont(new Font("TimeRoman",Font.BOLD,25));
+		g.setColor(Color.RED);
+		g.drawString("Error", 10, 10);
+	}
+}
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * UserInputBook(LibraryFunct LibFunct)
+ * -This Constructor creates the frame and adds all of the JTextFields it also sets up the action listeners for the JTextField
+ * Methods:
+ * Getters and Setters:
+ */
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class UserInputBook extends JPanel
+{
+	String addBookInput;
+	public UserInputBook(LibraryFunct LibFunct)
+	{
+		 JFrame frame = new JFrame("INPUT");  
+		 JButton button = new JButton("Enter");
+		 JTextField t1,t2,t3,t4,t5,t6,t7,t8,t9; 
+		 t1=new JTextField("Last Name Of Author"); 
+		 t2=new JTextField("First Name Of Author"); 
+		 t3=new JTextField("Title");
+		 t4=new JTextField("Format");
+		 t5=new JTextField("Publisher"); 
+		 t6=new JTextField("Year(int)"); 
+		 t7=new JTextField("Language"); 
+		 t8=new JTextField("ISBN #(long)"); 
+		 t9=new JTextField("Cost(float)"); 
+		 t1.setBounds(10,10, 570,30);  
+		 t2.setBounds(10,50, 570,30);  
+		 t3.setBounds(10,90, 570,30);  
+		 t4.setBounds(10,130, 570,30);  
+		 t5.setBounds(10,170, 570,30);  
+		 t6.setBounds(10,210, 570,30);  
+		 t7.setBounds(10,250, 570,30);  
+		 t8.setBounds(10,290, 570,30);  
+		 t9.setBounds(10,330, 570,30);
+		 button.setBounds(10,380,100,30);
+		 frame.setSize(600,600);  
+		 frame.add(t1);
+		 frame.add(t2);
+		 frame.add(t3);
+		 frame.add(t4);
+		 frame.add(t5);
+		 frame.add(t6);
+		 frame.add(t7);
+		 frame.add(t8);
+		 frame.add(t9);
+		 frame.add(button);
+		 button.addActionListener(new ActionListener()
+				 {
+					@Override
+					public void actionPerformed(ActionEvent e) 
+					{
+						addBookInput = t1.getText();
+						addBookInput = addBookInput +", " + t2.getText();
+						addBookInput = addBookInput +", " + t3.getText();
+						addBookInput = addBookInput +", " + t4.getText();
+						addBookInput = addBookInput +", " + t5.getText();
+						addBookInput = addBookInput +", " + t6.getText();
+						addBookInput = addBookInput +", " + t7.getText();
+						addBookInput = addBookInput +", " + t8.getText();
+						addBookInput = addBookInput +", " + t9.getText();
+						if(LibFunct.checkInfo(addBookInput))
+						{
+							LibFunct.AddBook(addBookInput);
+							
+						}else
+						{
+							ErrorFrame errorFrame = new ErrorFrame();
+						}
+						
+						frame.setVisible(false);
+						frame.dispose();
+						System.out.println(addBookInput);
+					}
+				 }
+				 );
+		 frame.setLayout(null);
+		 frame.setVisible(true);  
+	}
+
+}
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * Constructors:
+ * -this method formats and sets up my main JFrame E.X setting the name, keeping it one size
+ */
+
+import java.awt.GridLayout;
+
+import javax.swing.JFrame;
+
+public class WindowCreator extends JFrame
+{
+	public WindowCreator()
+	{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Library Of Jorris");
+		setResizable(false);
+		setLayout(new GridLayout(1,1,0,0));
+		DisplayControler s = new DisplayControler();
+		add(s);
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+	
+}
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Book(String allInfo, ArrayList<Book> bookArrL)
+ * -creates a book with the info allInfo and parses into the proper fields if it passes try test
+ * -also takes array list because it needs to check other books if this book equals them
+ * Getters and Setters:
+ * toString:
+ * -The toString return all fields in books 
+ */
+
+import java.util.ArrayList;
+
+public class Book 
+{
+	String authorLName, authorFName, title, format, publisher, language;
+	int year;
+	long numISBN;
+	float cost;
+	ArrayList<Book> bookArrL;
+	public Book(String allInfo, ArrayList<Book> bookArrL)
+	{
+		try
+		{
+			String[] stringArr = allInfo.split(", ");
+			authorLName = stringArr[0];
+			authorFName	= stringArr[1];
+			title = stringArr[2];
+			format = stringArr[3];
+			publisher = stringArr[4];
+			year = Integer.parseInt(stringArr[5]);
+			language = stringArr[6];
+			numISBN = Long.parseLong(stringArr[7]);
+			cost = Float.parseFloat(stringArr[8]);
+			this.bookArrL = bookArrL;
+		}
+		catch(Exception e)
+		{
+			System.err.println("ERROR checker did not work");
+		}
+		
+	}
+	public boolean Equals()
+	{
+		int counterForDelete = 0;
+		boolean delete = false;
+		for(int x = 0;x < bookArrL.size();x++)
+		{
+			if(this.toString().compareTo(bookArrL.get(x).toString()) == 0)
+			{
+				System.out.println("Delete equals true");
+				delete = true;
+			}
+		}
+		return delete;
+	}
+	@Override
+	public String toString() 
+	{
+		return authorLName + ", " + authorFName + ", " + title + ", " + format + ", " + publisher + ", " + year + ", " + language + ", " + numISBN + ", " + cost ; 
+		//return authorLName + " " + authorFName + " " + title;
+	}
+}
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/2/2018
+ * 
+ * Constructors: 
+ * Methods:
+ * Getters and Setters:
+ */
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class UseFile extends JPanel
+{
+	int WIDTH = 350,HEIGHT = 150;
+	public UseFile(LibraryFunct LibFunct)
+	{
+		System.out.println("UseFile");
+		JFrame frame = new JFrame("FileInput");
+		JLabel label = new JLabel();
+		JTextField inputField = new JTextField();
+		inputField.setBounds(50,50,200,30);
+		label.setBounds(50,0,400,50);
+		frame.setSize(WIDTH, HEIGHT);
+		frame.setVisible(true);
+		frame.setLayout(null);
+		frame.add(inputField);
+		frame.add(label);
+		inputField.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e) 
+					{
+						String fileName = inputField.getText();
+						File inputFile = new File(fileName);
+						if(!inputFile.exists())
+						{
+							System.out.println("Error frame");
+							ErrorFrame errFrame = new ErrorFrame();
+						}else
+						{
+							LibFunct.readFile(inputFile);
+						}
+			
+						frame.setVisible(false);
+						frame.dispose();
+					}
+				});
+		label.setFont(new Font("TimesRoman",Font.BOLD,20));
+		label.setText("Type Text File Name");
+	}
+	public void paint(Graphics g)
+	{
+		System.out.println("pain");
+		g.setFont(new Font("TimeRoman",Font.BOLD,20));
+		g.setColor(Color.BLACK);
+		g.drawString("Enter File Name E.X:", 50, 0);
+	}
+
+}
+
+
+

@@ -12,7 +12,7 @@
  * -more explanation
  * Other Classes:
  * Key implements KeyListener
- * -This is apart of KetListner library and allows for video game like input from java
+ * -This is apart of KeyListner library and allows for video game like input from java
  */
 
 import java.awt.Color;
@@ -101,7 +101,7 @@ public class DisplayControler extends JPanel
 				repaint();
 				break;
 			case 3:
-				RemoveBook Se = new RemoveBook(LibFunct);
+				RemoveBook Se = new RemoveBook(LibFunct.bookArrL);
 				buttonNum = 0;
 				repaint();
 				break;

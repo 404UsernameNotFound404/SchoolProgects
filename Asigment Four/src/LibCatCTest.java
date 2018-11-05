@@ -4,7 +4,8 @@
  * 
  * Constructors: 
  * Methods:
- * Creates an instance of WindowCreator();
+ * main(String[] args)
+ * -Creates an instance of WindowCreator();
  * Getters and Setters:
  */
 

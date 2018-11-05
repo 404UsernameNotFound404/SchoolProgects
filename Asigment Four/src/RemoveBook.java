@@ -3,8 +3,9 @@
  * Date: 11/2/2018
  * 
  * Constructors: 
- * Methods:
- * Getters and Setters:
+ * RemoveBook(LibrrayFunct LibFunct)
+ * -This method takes in the bookArrL array list from LibraryFunct Class
+ * -It then creates JFrame with 3 JTextFields and those text fields input can delete things further comments for deleting in code
  */
 
 import java.awt.Color;
@@ -25,7 +26,7 @@ public class RemoveBook extends JPanel
 	int WidthF = 400,HeightF = 600;
 	int WidthB = 200, HeightB = 600;
 	boolean choseSearch = false;
-	public RemoveBook(LibraryFunct LibFunct)
+	public RemoveBook(ArrayList<Book> bookArrL)
 	{
 		JFrame frame = new JFrame("Serach");
 		JButton serachByName = new JButton("Search By Authors Last Name");
@@ -44,7 +45,7 @@ public class RemoveBook extends JPanel
 					@Override
 					public void actionPerformed(ActionEvent e) 
 					{
-						if(!choseSearch)
+						if(!choseSearch) //does not allow two JTextInput fields to open at one time
 						{
 							JTextField JTF = new JTextField("Serach By Authors Last Name");
 							JTF.setBounds(75,90,200,30);
@@ -55,13 +56,13 @@ public class RemoveBook extends JPanel
 										{
 											String nameInput = JTF.getText();
 											boolean foundLname = false;
-											Iterator<Book> ILastName = LibFunct.bookArrL.iterator();
-											while(ILastName.hasNext())
+											Iterator<Book> ILastName = bookArrL.iterator(); //creates iterator for bookArrL
+											while(ILastName.hasNext()) //while loop that goes through whole bookArrL array list
 											{
-												Book checkLastName = ILastName.next();
-												if(nameInput.compareTo(checkLastName.authorLName) == 0)
+												Book checkLastName = ILastName.next(); //gets a book from array
+												if(nameInput.compareTo(checkLastName.authorLName) == 0) //checks if book has same author name as user input 
 												{
-													LibFunct.bookArrL.remove(checkLastName);
+													bookArrL.remove(checkLastName); //removes book with same last name as input
 													frame.setVisible(false);
 													frame.dispose();
 													foundLname = true;
@@ -70,8 +71,7 @@ public class RemoveBook extends JPanel
 											}
 											if(!foundLname)
 											{
-												ErrorFrame errorFrame = new ErrorFrame();
-												errorFrame.show();
+												ErrorFrame errorFrame = new ErrorFrame(); //if program does not find a book with the same last name as input creates error screen
 												frame.setVisible(false);
 												frame.dispose();
 											}
@@ -90,7 +90,7 @@ public class RemoveBook extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-					if(!choseSearch)
+					if(!choseSearch) //does not allow two JTextInput fields to open at one time
 					{
 						JTextField JTF = new JTextField("Serach By Index");
 						JTF.setBounds(75,290,200,30);
@@ -101,18 +101,16 @@ public class RemoveBook extends JPanel
 									{
 										try
 										{
-											int remove = Integer.parseInt(JTF.getText());
-											LibFunct.bookArrL.remove(remove);
-											frame.setVisible(false);
-											frame.dispose();
+											int remove = Integer.parseInt(JTF.getText()); //parse's JTF text to int
+											bookArrL.remove(remove); //removes a book from array at user input 
+											frame.setVisible(false); //makes frame not visible
+											frame.dispose(); //closes frame
 										}
 										catch(Exception e1)
 										{
-											System.out.println("did not enter int");
-											ErrorFrame errorFrame = new ErrorFrame();
-											errorFrame.show();
-											frame.setVisible(false);
-											frame.dispose();
+											ErrorFrame errorFrame = new ErrorFrame(); //if invalid input error frame shows up 
+											frame.setVisible(false); //closes frame
+											frame.dispose();// closes frame
 										}
 										
 									}
@@ -130,7 +128,7 @@ public class RemoveBook extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-					if(!choseSearch)
+					if(!choseSearch) //does not allow two JTextInput fields to open at one time
 					{
 						JTextField JTF = new JTextField("Serach By Title");
 						JTF.setBounds(75,490,200,30);
@@ -141,14 +139,13 @@ public class RemoveBook extends JPanel
 									{
 										String inputTitle = JTF.getText();
 										boolean foundTitle = false;
-										Iterator<Book> Ibook = LibFunct.bookArrL.iterator();
-										while(Ibook.hasNext())
+										Iterator<Book> Ibook = bookArrL.iterator(); 
+										while(Ibook.hasNext()) //while loop that goes through whole bookArrL
 										{
-											Book check = Ibook.next();
-											if(inputTitle.compareTo(check.title) == 0)
+											Book check = Ibook.next(); //gets book from array
+											if(inputTitle.compareTo(check.title) == 0) //checks if input is same as title from each book
 											{
-												LibFunct.bookArrL.remove(check);
-												System.out.println("DOUND");
+												bookArrL.remove(check); //if title equals user input then delets book from array list
 												frame.setVisible(false);
 												frame.dispose();
 												foundTitle = true;
@@ -156,8 +153,7 @@ public class RemoveBook extends JPanel
 										}
 										if(!foundTitle)
 										{
-											ErrorFrame errorFrame = new ErrorFrame();
-											errorFrame.show();
+											ErrorFrame errorFrame = new ErrorFrame(); //if input does not equal title of any book then displays error
 											frame.setVisible(false);
 											frame.dispose();
 										}
@@ -179,10 +175,5 @@ public class RemoveBook extends JPanel
 		g.setFont(new Font("TimeRoman",Font.BOLD,25));
 		g.setColor(Color.RED);
 		g.drawString("Error", 10, 10);
-	}
-	public void remove()
-	{
-		
-		
 	}
 }
