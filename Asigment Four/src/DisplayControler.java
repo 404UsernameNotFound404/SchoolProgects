@@ -1,10 +1,18 @@
 /*
  * Name: Henry Morris
+
  * Date: 11/2/2018
  * 
  * Constructors: 
+ * DisplayControler()
+ * 
  * Methods:
- * Getters and Setters:
+ * void paint(Graphics g)
+ * -built in method for JPanel
+ * -more explanation
+ * Other Classes:
+ * Key implements KeyListener
+ * -This is apart of KetListner library and allows for video game like input from java
  */
 
 import java.awt.Color;
@@ -103,10 +111,6 @@ public class DisplayControler extends JPanel
 				repaint();
 				break;
 		}
-	}
-	public void paintAgain()
-	{
-		repaint();
 	}
 	private class Key implements KeyListener
 	{

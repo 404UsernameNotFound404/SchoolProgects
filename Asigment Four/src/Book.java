@@ -3,8 +3,12 @@
  * Date: 11/2/2018
  * 
  * Constructors: 
- * Methods:
+ * Book(String allInfo, ArrayList<Book> bookArrL)
+ * -creates a book with the info allInfo and parses into the proper fields if it passes try test
+ * -also takes array list because it needs to check other books if this book equals them
  * Getters and Setters:
+ * toString:
+ * -The toString return all fields in books 
  */
 
 import java.util.ArrayList;
@@ -36,10 +40,6 @@ public class Book
 		{
 			System.err.println("ERROR checker did not work");
 		}
-		
-	}
-	public Book()
-	{
 		
 	}
 	public boolean Equals()

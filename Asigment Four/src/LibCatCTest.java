@@ -4,6 +4,7 @@
  * 
  * Constructors: 
  * Methods:
+ * Creates an instance of WindowCreator();
  * Getters and Setters:
  */
 
