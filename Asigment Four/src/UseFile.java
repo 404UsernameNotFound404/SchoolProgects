@@ -46,7 +46,6 @@ public class UseFile extends JPanel
 						{
 							System.out.println("Error frame");
 							ErrorFrame errFrame = new ErrorFrame();
-							errFrame.show();
 						}else
 						{
 							LibFunct.readFile(inputFile);

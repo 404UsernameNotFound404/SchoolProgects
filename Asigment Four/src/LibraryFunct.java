@@ -24,7 +24,6 @@
  * -this returns the book at the index of the argument c
  * int getArraySize()
  * -this returns size of array as int
- * 
  */
 
 import java.io.BufferedReader;
@@ -43,6 +42,7 @@ public class LibraryFunct
 	BufferedReader br;
 	
 	int currentSort = 2;
+	
 	public void readFile(File file)
 	{
 		try 

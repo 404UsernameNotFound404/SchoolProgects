@@ -2,9 +2,10 @@
  * Name: Henry Morris
  * Date: 11/2/2018
  * 
- * Constructors: 
- * Methods:
- * Getters and Setters:
+ * Constructor:
+ * ErrorFrame()
+ * -This creates a new JFrame and places a button and String inside
+ * -The button closes said JFrame
  */
 
 import java.awt.Color;
@@ -20,7 +21,7 @@ import javax.swing.JPanel;
 
 public class ErrorFrame extends JPanel
 {
-	public void show()
+	public ErrorFrame()
 	{
 		JFrame frame = new JFrame("ERROR");
 		JButton button = new JButton("Exit");
