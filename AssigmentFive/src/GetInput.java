@@ -1,3 +1,15 @@
+/*
+ * Name: Henry Morris
+
+
+ * Date: 11/27/2018
+ * 
+ * Methods:
+ * GetInputInt() This method returns an integer when called and checks for invalid input
+ * GetInputYes() This method checks if a player input is any form of yes E.X Yes,y,yes etc
+ * 
+ * 
+ */
 import java.util.Scanner; 
 
 public class GetInput 
