@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*************************************************************************/
 // class ZooStats  -has a Vector that holds the Animal items
 // need the following methods:
@@ -14,21 +16,29 @@
 
 public class ZooStats 
 {
+	ArrayList<Animal> listOfAnimals;
+	int totalCostForAllAnimals = 0;
+	public Zoo displayForCost;
 	public ZooStats()
 	{
-		
+		listOfAnimals = new ArrayList<Animal>();
 	}
 	public void enterItem(Animal item)
 	{
-		
+		listOfAnimals.add(item);
 	}
 	public int numberOfItems()
 	{
-		return 0;
+		
+		return listOfAnimals.size();
 	}
 	public int totalCost()
 	{
-		return 0;
+		for(int x = 0;x < listOfAnimals.size(); x++)
+		{
+			totalCostForAllAnimals += listOfAnimals.get(x).getCost();
+		}
+		return totalCostForAllAnimals;
 	}
 	public void clear()
 	{
@@ -37,8 +47,14 @@ public class ZooStats
 	@Override
 	public String toString()
 	{
-		return null;
-		
+		String output = "Daily Accounts: \n";
+		for(int x = 0;x < listOfAnimals.size();x++)
+		{
+			output += "The Daily " + listOfAnimals.get(x).getClass() + " Cost is " + displayForCost.cents2dollarsAndCents((listOfAnimals.get(x).getCost() / listOfAnimals.get(x).population)) + "/day \n";
+			output += listOfAnimals.get(x).population + " " + listOfAnimals.get(x).name + " " + displayForCost.cents2dollarsAndCents(listOfAnimals.get(x).getCost());
+			output += "\n";
+		}
+		return output;
 	}
 
 }

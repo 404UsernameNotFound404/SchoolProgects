@@ -5,8 +5,8 @@ public class Zoo
 	public final static int MAX_ITEM_NAME_SIZE = 50;
 	public final static int COST_WIDTH = 6;
 
-	public static String cents2dollarsAndCents(int cents) {
-
+	public static String cents2dollarsAndCents(int cents) 
+	{
 		String s = "";
 
 		if (cents < 0) {

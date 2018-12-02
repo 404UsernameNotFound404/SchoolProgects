@@ -1,11 +1,4 @@
-/*
- * Name: Henry Morris
 
-
- * Date: 11/16/2018
- * 
- *
- */
 public abstract class Animal 
 {
 	protected String name;
@@ -21,7 +14,8 @@ public abstract class Animal
 	/**
 	 * Initializes Animal data
 	 */   
-	  public Animal(String name,int pop) {
+	  public Animal(String name,int pop) 
+	  {
 	    if (name.length() <= Zoo.MAX_ITEM_NAME_SIZE)
 	      this.name = name;
 	    else 
@@ -29,11 +23,22 @@ public abstract class Animal
 	    this.population = pop;
 	  }
 
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
+
+	public void setPopulation(int population) 
+	{
+		this.population = population;
+	}
+
 	/**
 	 * Returns name of Animal
 	 * @return name of Animal
 	 */  
-	  public final String getName() {
+	  public final String getName() 
+	  {
 	    return name;
 	  }
 
@@ -41,7 +46,8 @@ public abstract class Animal
 	 * Returns population of Animal
 	 * @return population of Animal
 	 */  
-	  public final int getPopulation() {
+	  public final int getPopulation() 
+	  {
 	    return population;
 	  }
 
