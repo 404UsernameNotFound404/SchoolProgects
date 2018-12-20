@@ -29,7 +29,6 @@ public class ZooStats
 	}
 	public int numberOfItems()
 	{
-		
 		return listOfAnimals.size();
 	}
 	public int totalCost()
@@ -42,7 +41,8 @@ public class ZooStats
 	}
 	public void clear()
 	{
-		
+		listOfAnimals.clear();
+		totalCostForAllAnimals = 0;
 	}
 	@Override
 	public String toString()
@@ -50,11 +50,44 @@ public class ZooStats
 		String output = "Daily Accounts: \n";
 		for(int x = 0;x < listOfAnimals.size();x++)
 		{
-			output += "The Daily " + listOfAnimals.get(x).getClass() + " Cost is " + displayForCost.cents2dollarsAndCents((listOfAnimals.get(x).getCost() / listOfAnimals.get(x).population)) + "/day \n";
-			output += listOfAnimals.get(x).population + " " + listOfAnimals.get(x).name + " " + displayForCost.cents2dollarsAndCents(listOfAnimals.get(x).getCost());
+			output += "The Daily " + listOfAnimals.get(x).getClass() + " Cost is ";
+			if(listOfAnimals.get(x).getClass() == Snake.class)
+			{
+				Snake SnakeClass = (Snake) listOfAnimals.get(x);
+				output += displayForCost.cents2dollarsAndCents((SnakeClass.getCost() - SnakeClass.getHabitatCost())/ SnakeClass.population);
+				output += "/ea. & ." + SnakeClass.getHabitatCost()  + "\n";
+			}else if(listOfAnimals.get(x).getClass() == Amphibian.class || listOfAnimals.get(x).getClass() == Invertebrate.class)
+			{
+				output += displayForCost.cents2dollarsAndCents(listOfAnimals.get(x).getCost()) + "\n";
+			}else
+			{
+				output += displayForCost.cents2dollarsAndCents(listOfAnimals.get(x).getCost() / listOfAnimals.get(x).population) + "\n";
+			}
+			// displayForCost.cents2dollarsAndCents((listOfAnimals.get(x).getCost() / listOfAnimals.get(x).population)) + "/day \n";
+			output += listOfAnimals.get(x).population + " " + listOfAnimals.get(x).name;
+			
+			for(int y = 0;y < 50 - (String.valueOf(listOfAnimals.get(x).population).length() + listOfAnimals.get(x).name.length());y++)
+			{
+				output += " ";
+			}
+			output += displayForCost.cents2dollarsAndCents(listOfAnimals.get(x).getCost());
 			output += "\n";
 		}
+		output += "\n";
+		for(int x = 0; x < 57 - 10;x++)
+		{
+			output += " ";
+		}
+		for(int x = 0; x < 15;x++)
+		{
+			output += "-";
+		}
+		output += "\n" + "Total Cost";
+		for(int x = 0;x < 57 - (String.valueOf(totalCostForAllAnimals).length() + 10 );x++)
+		{
+			output += " ";
+		}
+		output += displayForCost.cents2dollarsAndCents(totalCostForAllAnimals);
 		return output;
 	}
-
 }

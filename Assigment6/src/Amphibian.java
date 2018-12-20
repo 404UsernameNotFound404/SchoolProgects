@@ -1,3 +1,15 @@
+/*
+ * Name: Henry Morris
+ * 
+ * Date: 11/27/2018
+ * 
+ * Constructors: 
+ * 
+ * Methods:
+ * 
+ * toString:
+ * 
+ */
 
 public class Amphibian extends Animal
 {
@@ -12,8 +24,7 @@ public class Amphibian extends Animal
 	}
 	@Override
 	public int getCost() {
-		
-		return costForOneDay * population;
+		return costForOneDay;
 	}
 
 }
