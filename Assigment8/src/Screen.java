@@ -1,9 +1,11 @@
 import java.awt.Color;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -11,14 +13,31 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
+import javax.imageio.ImageIO;
+import javax.print.attribute.standard.Media;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.w3c.dom.css.Rect;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+ import javax.sound.sampled.Clip;
+ 
 public class Screen extends JPanel
 {
 	int WIDTH = 1200;
@@ -36,7 +55,7 @@ public class Screen extends JPanel
 	
 	float timeLeft = 100;
 	
-	int score = 10;
+	int score = 0;
 	
 	int[][] gameBoard;
 	Jewel[][] gameJewels;
@@ -55,7 +74,8 @@ public class Screen extends JPanel
 	
 	boolean switchHappening = false;
 	
-	int counterForSwitch = 0;
+	int howManyFramesForSwitchDefault = 2;
+	int counterForSwitch = howManyFramesForSwitchDefault;
 	
 	Rectangle firstRecForSwitch;
 	Rectangle secondRecForSwitch;
@@ -63,8 +83,28 @@ public class Screen extends JPanel
 	int MovingValueForSwitchCol = 0;
 	int MovingValueForSwitchRow = 0;
 	
+	int[] RowsToFall;
+	int[] ColToFall;
+	
+	boolean thingsFalling = false;
+	
+	boolean switchBack = false;
+	
+	Clip clip;
+	
+	BufferedImage image;
+	BufferedImage imageBackground;
+	
+	BufferedImage returnImage;
+	
+	
+	
 	public Screen()
 	{
+		//music
+		//playMusic();
+		RowsToFall = new int[6];
+		ColToFall = new int[6];
 		addMouseListener(new MyMouseAdapter());
 		firstRecForSwitch = new Rectangle(0,0,0,0);
 		secondRecForSwitch = new Rectangle(0,0,0,0);
@@ -76,36 +116,11 @@ public class Screen extends JPanel
 			for(int col = 0;col < 8;col++)
 			{
 				Color tempColor = Color.BLACK;
-				int randomColorValue = r.nextInt(6);
+				int randomColorValue = r.nextInt(5);
 				gameBoard[row][col] = randomColorValue;
-				switch(randomColorValue)
-				{
-				case 0:
-					tempColor = Color.RED;
-					break;
-				case 1:
-					tempColor = Color.GREEN;
-					break;
-				case 2:
-					tempColor = Color.CYAN;
-					break;
-				case 3:
-					tempColor = Color.YELLOW;
-					break;
-				case 4:
-					tempColor = Color.LIGHT_GRAY;
-					break;
-				case 5:
-					tempColor = Color.MAGENTA;
-					break;
-				case 6:
-					tempColor = Color.ORANGE;
-					break;
-				}
-				Jewel tempJewel = new Jewel(offSet + (col * (WIDTH - offSet) / 8), row * (HEIGHT / 8), (WIDTH - offSet) /8, HEIGHT/8, tempColor, randomColorValue);
-				gameJewels[row][col] = tempJewel;
 			}
 		}
+		checkForThreeInARow(false, false);
 		time = new Timer();
 		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -119,152 +134,180 @@ public class Screen extends JPanel
 				}
 				if(timeLeft <= 0)
 				{
-					System.out.println("YOU LOST YOU LOSER");
+					//System.out.println("YOU LOST YOU LOSER");
 				}
 				if(switchHappening)
 				{
-					counterForSwitch++;
-					if(counterForSwitch <= 0)
-					{
-						if(FirstColSelcted - SecondColSelcted)
-						{
-							MovingValueForSwitchCol = -1 * ((HEIGHT/8) / 4);
-						}
-						else
-						{
-							
-						}
-						switch(FirstRowSelcted - SecondRowSelcted)
-						{
-						case -1:
-							
-							break;
-						case 0:
-							
-							break; 
-						case 1:
-							
-							break;
-						}
-						firstRecForSwitch.setBounds(offSet + (FirstColSelcted * (WIDTH - offSet) / 8), FirstRowSelcted * (HEIGHT / 8), (WIDTH - offSet) /8, HEIGHT/8); 
-						secondRecForSwitch.setBounds(offSet + (SecondColSelcted * (WIDTH - offSet) / 8), SecondRowSelcted * (HEIGHT / 8), (WIDTH - offSet) /8, HEIGHT/8);
-						
-					}else
-					{
-						gameBoard[FirstRowSelcted][FirstColSelcted] = SecondColorSelected;
-						gameBoard[SecondRowSelcted][SecondColSelcted] = FirstColorSelected;
-						switchHappening = false;
-						counterForSwitch = 0;
-						FirstColSelcted = -1;
-						FirstRowSelcted = -1;
-						SecondColSelcted = -1;
-						SecondRowSelcted = -1;
-					}
+					repaint();
 				}
 				counter++;
 				//System.out.println(counter);
-				repaint();
+				//repaint();
+				checkForThreeInARow(true, false);
+				GravityCheck();
 			}
 		};
 		time.scheduleAtFixedRate(task, 1, 10);
-		checkForThreeInARow();
 	}
 	public void paint(Graphics g)
 	{
-		//checkForThreeInARow();
+		super.paint(g);
 		Color tempColor;
 		g.clearRect(0, 0, WIDTH, HEIGHT);
-		for(int row = 0;row < 8;row++)
+		try {
+			imageBackground = ImageIO.read(new File("skyBackground.jpg"));
+			g.drawImage(imageBackground, 0, 0, WIDTH, HEIGHT, null);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(switchHappening)
 		{
-			for(int col = 0;col < 8;col++)
+			//System.out.println(counterForSwitch);
+			counterForSwitch--;
+			//System.out.println(counterForSwitch);
+			if(counterForSwitch >= 0)
 			{
-				if(row == FirstRowSelcted && col == FirstColSelcted)
+				if (FirstColSelcted - SecondColSelcted == 1)
 				{
-					//g.setColor(Color.black);
+					//System.out.println("Col Moving -");
+					MovingValueForSwitchRow += -1 * (((WIDTH - offSet) / 8) / howManyFramesForSwitchDefault);
 				}
+				if(FirstColSelcted - SecondColSelcted == -1)
+				{
+					//System.out.println("Col Moving +");
+					MovingValueForSwitchRow += 1 * (((WIDTH - offSet) / 8) / howManyFramesForSwitchDefault);
+				}
+				if (FirstRowSelcted - SecondRowSelcted == -1)
+				{
+					//System.out.println("Row Moving -");
+					MovingValueForSwitchCol += 1 * ((HEIGHT/8) / howManyFramesForSwitchDefault);
+				}
+				if(FirstRowSelcted - SecondRowSelcted == 1)
+				{
+					MovingValueForSwitchCol += -1 * ((HEIGHT/8) / howManyFramesForSwitchDefault);
+					//System.out.println("Row Moving+");
+				}
+				image = colorPicker(FirstColorSelected);
+				g.drawImage(image, offSet + (FirstColSelcted * (WIDTH - offSet) / 8) + MovingValueForSwitchRow, FirstRowSelcted * (HEIGHT / 8) + MovingValueForSwitchCol, (WIDTH - offSet) /8, HEIGHT/8, null);
+				image = colorPicker(SecondColorSelected);
+				g.drawImage(image, offSet + (SecondColSelcted * (WIDTH - offSet) / 8) + (-1 * MovingValueForSwitchRow), SecondRowSelcted * (HEIGHT / 8) + (-1 * MovingValueForSwitchCol), (WIDTH - offSet) /8, HEIGHT/8, null);
+//				g.setColor(Color.GREEN);
+//				g.fillRect(offSet + (FirstColSelcted * (WIDTH - offSet) / 8) + MovingValueForSwitchRow, FirstRowSelcted * (HEIGHT / 8) + MovingValueForSwitchCol, (WIDTH - offSet) /8, HEIGHT/8);
+//				g.setColor(Color.BLACK);
+//				g.fillRect(offSet + (SecondColSelcted * (WIDTH - offSet) / 8) + (-1 * MovingValueForSwitchRow), SecondRowSelcted * (HEIGHT / 8) + (-1 * MovingValueForSwitchCol), (WIDTH - offSet) /8, HEIGHT/8);
+			}else
+			{
+				gameBoard[FirstColSelcted][FirstRowSelcted] = SecondColorSelected;
+				gameBoard[SecondColSelcted][SecondRowSelcted] = FirstColorSelected;
 				
-					switch(gameBoard[row][col])
-					{
-						case 0:
-							g.setColor(Color.RED);
-							break;
-						case 1:
-							g.setColor(Color.GREEN);
-							break;
-						case 2:
-							g.setColor(Color.CYAN);
-							break;
-						case 3:
-							g.setColor(Color.YELLOW);
-							break;
-						case 4:
-							g.setColor(Color.LIGHT_GRAY);
-							break;
-						case 5:
-							g.setColor(Color.MAGENTA);
-							break;
-						case 6:
-							g.setColor(Color.ORANGE);
-							break;
-						case 7:
-							g.setColor(Color.WHITE);
-							break;
+				if(!checkForThreeInARow(true, true) && !switchBack)
+				{
+					//System.out.println("switch back");
+					//if no three in a row
+					int tempForColorSwitchBackCol = 0;
+					tempForColorSwitchBackCol = FirstColSelcted;
+					FirstColSelcted = SecondColSelcted;
+					SecondColSelcted = tempForColorSwitchBackCol;
 					
+					int tempForColorSwitchBackRow = 0;
+					tempForColorSwitchBackRow = FirstRowSelcted;
+					FirstRowSelcted = SecondRowSelcted;
+					SecondRowSelcted = tempForColorSwitchBackRow;
+					
+//					SecondColorSelected = gameBoard[FirstRowSelcted][FirstColSelcted];
+//					FirstColorSelected = gameBoard[SecondRowSelcted][SecondColSelcted];
+					//System.out.println("First Col " + FirstColSelcted + "First Row " + FirstRowSelcted);
+					gameBoard[FirstColSelcted][FirstRowSelcted] = 7;
+					gameBoard[SecondColSelcted][SecondRowSelcted] = 7;
+					switchHappening = true; 
+					MovingValueForSwitchRow = 0;
+					MovingValueForSwitchCol = 0;
+					counterForSwitch = howManyFramesForSwitchDefault;
+					switchBack = true;
+					//System.out.println("FUCK SAKE");
 				}
-				g.fillRect(offSet + (col * (WIDTH - offSet) / 8), row * (HEIGHT / 8), widthOfSquare, heightOfSquare);
+				else
+				{
+					//System.out.println("FUCK SAKE ELSE");
+					//System.out.println("SO sad");
+					gameBoard[FirstColSelcted][FirstRowSelcted] = SecondColorSelected;
+					gameBoard[SecondColSelcted][SecondRowSelcted] = FirstColorSelected;
+					switchHappening = false;
+					counterForSwitch = howManyFramesForSwitchDefault;
+					FirstColSelcted = -1;
+					FirstRowSelcted = -1;
+					SecondColSelcted = -1;
+					SecondRowSelcted = -1;
+					MovingValueForSwitchRow = 0;
+					MovingValueForSwitchCol = 0;
+				}
 			}
 		}
-		
-		g.setFont(new Font("Serif", Font.BOLD, 50));
-		
-		FontMetrics metrics = g.getFontMetrics(new Font("Serif", Font.BOLD, 50));
-		boolean toCheckFont = true;
-		int toGetTextRight = 50;
-		while(toCheckFont)
-		{
-			if(HEIGHT/10 <= metrics.getHeight())
+			//draws squares
+			for(int row = 0;row < 8;row++)
 			{
-				//System.out.println("HELLO IS IT ME YOUR LOOKING FOR");
-				toGetTextRight--;
-				metrics = g.getFontMetrics(new Font("Serif", Font.BOLD, toGetTextRight));
+				for(int col = 0;col < 8;col++)
+				{
+					if(switchHappening && (FirstRowSelcted == row && FirstColSelcted == col) || (SecondRowSelcted == row && SecondColSelcted == col) )
+					{
+						
+					}
+					else
+					{
+						image = colorPicker(gameBoard[col][row]);
+						g.drawImage(image, offSet + (col * (WIDTH - offSet) / 8), row * (HEIGHT / 8), widthOfSquare, heightOfSquare, null);
+					}
+				}
 			}
-			else
+			g.setFont(new Font("Serif", Font.BOLD, 50));
+			FontMetrics metrics = g.getFontMetrics(new Font("Serif", Font.BOLD, 50));
+			boolean toCheckFont = true;
+			int toGetTextRight = 50;
+			while(toCheckFont)
 			{
-				g.setFont(new Font("Serif", Font.BOLD, toGetTextRight));
-				//System.out.println(toGetTextRight + "TEST RIGHT");
-				toCheckFont = false;
+				if(HEIGHT/10 <= metrics.getHeight())
+				{
+					//System.out.println("HELLO IS IT ME YOUR LOOKING FOR");
+					toGetTextRight--;
+					metrics = g.getFontMetrics(new Font("Serif", Font.BOLD, toGetTextRight));
+				}
+				else
+				{
+					g.setFont(new Font("Serif", Font.BOLD, toGetTextRight));
+					//System.out.println(toGetTextRight + "TEST RIGHT");
+					toCheckFont = false;
+				}
 			}
-		}
-		g.drawString(String.valueOf(score), HEIGHT/20, (int) (HEIGHT/20 + (metrics.getHeight() / 1.3)));
-		g.setColor(Color.black);
-		g.drawRect(HEIGHT/20, HEIGHT/20, WIDTH/4 - ((HEIGHT/20) * 2), HEIGHT/10);
-		//g.fillRect(WIDTH - 25, 0, WIDTH - 25, HEIGHT);
-		//above is left side and right side line
-		for(int x = 0;x <= 8;x++)
-		{
+			g.drawString(String.valueOf(score), HEIGHT/20, (int) (HEIGHT/20 + (metrics.getHeight() / 1.3)));
+			g.setColor(Color.black);
+			g.drawRect(HEIGHT/20, HEIGHT/20, WIDTH/4 - ((HEIGHT/20) * 2), HEIGHT/10);
+			//spliting lines
+	//		for(int x = 0;x <= 8;x++)
+	//		{
+	//			g.setColor(Color.BLACK);
+	//			g.drawLine(offSet + (x * (WIDTH - offSet) / 8), 0, offSet + (x * (WIDTH - offSet) / 8), HEIGHT);
+	//			//System.out.println(offSet + (x * 100));
+	//		}
+	//		for(int x = 0;x <= 8;x++)
+	//		{
+	//			g.drawLine(offSet, x * (HEIGHT / 8), WIDTH, x * (HEIGHT / 8));
+	//		}
+			//death line ----------------
+			g.drawLine(offSet, 0, offSet, HEIGHT);
 			g.setColor(Color.BLACK);
-			g.drawLine(offSet + (x * (WIDTH - offSet) / 8), 0, offSet + (x * (WIDTH - offSet) / 8), HEIGHT);
-			//System.out.println(offSet + (x * 100));
-		}
-		for(int x = 0;x <= 8;x++)
-		{
-			g.drawLine(offSet, x * (HEIGHT / 8), WIDTH, x * (HEIGHT / 8));
-		}
-		//death line ----------------
-		g.drawLine(offSet, 0, offSet, HEIGHT);
-		g.setColor(Color.BLACK);
-		int timeLeftToInt = (int)((timeLeft/100) * (HEIGHT/2));
-		//System.out.println(timeLeftToInt - (HEIGHT/5));
-		//System.out.println();
-		g.fillRect(HEIGHT/5, ((HEIGHT/2) - timeLeftToInt) + (HEIGHT/5), offSet/4, timeLeftToInt);
-		//g.fillRect(timeLeftToInt, offSet/4,HEIGHT/5, HEIGHT/5);
-		//System.out.println(timeLeft/100);
+			int timeLeftToInt = (int)((timeLeft/100) * (HEIGHT/2));
+			g.fillRect(HEIGHT/5, ((HEIGHT/2) - timeLeftToInt) + (HEIGHT/5), offSet/4, timeLeftToInt);
+			//death line -------------------
 	}
-	
 	private class MyMouseAdapter extends MouseAdapter {
+
 	    @Override
 	    public void mousePressed(MouseEvent e) 
 	    {
+	    	if(!thingsFalling && !switchHappening)
+	    	{
 	    	/*
 //			int x = MouseInfo.getPointerInfo().getLocation().x;
 //			int y = MouseInfo.getPointerInfo().getLocation().y;
@@ -288,13 +331,15 @@ public class Screen extends JPanel
 				 int recRow = y / (HEIGHT / 8);
 				 int recCol = (x - offSet) / (WIDTH / 8);
 				 //System.out.println("Row " + recRow + "Col " + recCol);
-				 System.out.println(recRow + "ROW");
+				 //System.out.println(recRow + " ROW");
 				 if(!someThingSlected)
 				 {
+					 //System.out.println("FIRST");
 					 FirstRowSelcted = recRow;
 				 }
 				 else
 				 {
+					 //System.out.println("SECOND");
 					 SecondRowSelcted = recRow;
 				 }
 				 //FirstrowSelcted = recRow;
@@ -305,9 +350,9 @@ public class Screen extends JPanel
 					 //System.out.println(row * widthOfSquare + "&&" + ((row * ((WIDTH - offSet) / 8)) + widthOfSquare));
 					 if(x >= ((col * widthOfSquare) + offSet) && x <= (col * ((WIDTH - offSet) / 8) + offSet) + widthOfSquare)
 					 {
-						System.out.println(col + "Row");
+						//System.out.println(col + " COL");
 						tempForCol = col;
-						System.out.println();
+						//System.out.println();
 						break;
 					 }
 				 }
@@ -322,9 +367,10 @@ public class Screen extends JPanel
 					 someThingSlected = false;
 					 Switch();
 				 }
-				 System.out.println("First Col " + FirstColSelcted + "First Row" + FirstRowSelcted);
-				 System.out.println("First Col " + SecondColSelcted + "First Row" + SecondRowSelcted);
+				 //System.out.println("First Col " + FirstColSelcted + "First Row" + FirstRowSelcted);
+				 //System.out.println("First Col " + SecondColSelcted + "First Row" + SecondRowSelcted);
 			 }
+	    	}
 	    }
 	    @Override
 	    public void mouseDragged(MouseEvent e) {
@@ -342,25 +388,30 @@ public class Screen extends JPanel
 	}
 	public void Switch()
 	{
-		System.out.println("Switch runs");
-		if((FirstColSelcted + 1 == SecondColSelcted || FirstColSelcted - 1 == SecondColSelcted) || (FirstRowSelcted + 1 == SecondRowSelcted || FirstRowSelcted - 1 == SecondRowSelcted))
+		//System.out.println("Switch runs");
+		if(((FirstColSelcted + 1 == SecondColSelcted || FirstColSelcted - 1 == SecondColSelcted) && FirstRowSelcted == SecondRowSelcted) || ((FirstRowSelcted + 1 == SecondRowSelcted || FirstRowSelcted - 1 == SecondRowSelcted) && FirstColSelcted == SecondColSelcted))
 		{
+			System.out.println("SCol: " + SecondColSelcted + " SRow: " + SecondRowSelcted + " Color For Second: " + gameBoard[FirstColSelcted][FirstRowSelcted]);
 			//System.out.println("SWITCH " + gameBoard[FirstColSelcted][FirstRowSelcted] + " TO " + gameBoard[SecondRowSelcted][SecondColSelcted]);
 			int tempForColorSwitch = 0;
-			FirstColorSelected = gameBoard[FirstRowSelcted][FirstColSelcted];
-			SecondColorSelected = gameBoard[FirstRowSelcted][FirstColSelcted];
-			tempForColorSwitch = gameBoard[FirstRowSelcted][FirstColSelcted];
-			gameBoard[FirstRowSelcted][FirstColSelcted] = gameBoard[SecondRowSelcted][SecondColSelcted];
-			gameBoard[SecondRowSelcted][SecondColSelcted] = tempForColorSwitch;
-			gameBoard[FirstRowSelcted][FirstColSelcted] = 7;
-			gameBoard[SecondRowSelcted][SecondColSelcted] = 7;
+			FirstColorSelected = gameBoard[FirstColSelcted][FirstRowSelcted];
+			SecondColorSelected = gameBoard[SecondColSelcted][SecondRowSelcted];
+			//tempForColorSwitch = gameBoard[FirstColSelcted][FirstRowSelcted];
+			//gameBoard[FirstRowSelcted][FirstColSelcted] = gameBoard[SecondColSelcted][SecondRowSelcted];
+			//gameBoard[SecondRowSelcted][SecondColSelcted] = tempForColorSwitch;
+			System.out.println("First Col " + FirstColSelcted + "First Row " + FirstRowSelcted);
+			gameBoard[FirstColSelcted][FirstRowSelcted] = 7;
+			gameBoard[SecondColSelcted][SecondRowSelcted] = 7;
 			switchHappening = true; 
-			System.out.println("Allowed Switch");
-			checkForThreeInARow();
+			//System.out.println("Allowed Switch");
+			//checkForThreeInARow();
+			switchBack = false;
 		}
 	}
-	public void checkForThreeInARow()
+	public boolean checkForThreeInARow(boolean deleteIfTrue, boolean justChecking)
 	{
+		//System.out.println("Check for three");
+		boolean checkForThreeInARowBool = false;
 		for(int row = 0;row < 8;row++)
 		{
 			for(int col = 0;col < 8;col++)
@@ -368,15 +419,51 @@ public class Screen extends JPanel
 				try
 				{
 					//check up
-					if(gameBoard[row][col] == gameBoard[row - 1][col])
+					if(gameBoard[col][row] == gameBoard[col - 1][row])
 					{
-						if(gameBoard[row][col] == gameBoard[row - 2][col])
+						if(gameBoard[col][row] == gameBoard[col - 2][row])
 						{
-							System.out.println("Found Three In A Row");
-							gameBoard[row][col] = 7;
-							gameBoard[row - 1][col] = 7;
-							gameBoard[row - 2][col] = 7;
-							GravityCheck();
+							//System.out.println("HENRY");
+							if(justChecking)
+							{
+								checkForThreeInARowBool = true;
+							}
+							else
+							{
+								if(deleteIfTrue)
+								{
+									System.out.println("Found Three In A Row");
+									gameBoard[col][row] = 7;
+									gameBoard[col - 1][row] = 7;
+									gameBoard[col - 2][row] = 7;
+									repaint();
+									try
+									{
+										Thread.sleep(100);
+									}
+									catch(Exception e)
+									{
+										
+									}
+									//RowsToFall[0] = col;
+									//RowsToFall[1] = col - 1;
+									//RowsToFall[2] = col - 2;
+									score += 10;
+									//GravityCheck();
+								}
+								else
+								{
+									System.out.println("DELETE");
+									if(r.nextInt(1) == 0)
+									{
+										gameBoard[col - 1][row] = r.nextInt(6);
+									}
+									else
+									{
+										gameBoard[col][row] = r.nextInt(6);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -387,15 +474,48 @@ public class Screen extends JPanel
 				try
 				{
 					//check down
-					if(gameBoard[row][col] == gameBoard[row + 1][col])
+					if(gameBoard[col][row] == gameBoard[col + 1][row])
 					{
-						if(gameBoard[row][col] == gameBoard[row + 2][col])
+						if(gameBoard[col][row] == gameBoard[col + 2][row])
 						{
-							System.out.println("Found Three In A Row");
-							gameBoard[row][col] = 7;
-							gameBoard[row + 1][col] = 7;
-							gameBoard[row + 2][col] = 7;
-							GravityCheck();
+							if(justChecking)
+							{
+								checkForThreeInARowBool = true;
+							}
+							else
+							{
+								//System.out.println("HENRY");
+								if(deleteIfTrue)
+								{
+									System.out.println("Found Three In A Row");
+									gameBoard[col][row] = 7;
+									gameBoard[col + 1][row] = 7;
+									gameBoard[col + 2][row] = 7;
+									score += 10;
+									repaint();
+									try
+									{
+										Thread.sleep(100);
+									}
+									catch(Exception e)
+									{
+										
+									}
+									//GravityCheck();
+								}
+								else
+								{
+									System.out.println("DELETE");
+									if(r.nextInt(1) == 0)
+									{
+										gameBoard[col + 1][row] = r.nextInt(6);
+									}
+									else
+									{
+										gameBoard[col][row] = r.nextInt(6);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -406,15 +526,47 @@ public class Screen extends JPanel
 				try
 				{
 					//check right
-					if(gameBoard[row][col] == gameBoard[row][col + 1])
+					if(gameBoard[col][row] == gameBoard[col][row + 1])
 					{
-						if(gameBoard[row][col] == gameBoard[row][col + 2])
+						if(gameBoard[col][row] == gameBoard[col][row + 2])
 						{
-							System.out.println("Found Three In A Row");
-							gameBoard[row][col] = 7;
-							gameBoard[row][col + 1] = 7;
-							gameBoard[row][col + 2] = 7;
-							GravityCheck();
+							if(justChecking)
+							{
+								checkForThreeInARowBool = true;
+							}
+							else
+							{
+								//System.out.println("HENRY");
+								if(deleteIfTrue)
+								{
+									System.out.println("Found Three In A Row");
+									gameBoard[col][row] = 7;
+									gameBoard[col][row + 1] = 7;
+									gameBoard[col][row + 2] = 7;
+									score += 10;
+									repaint();
+									try
+									{
+										Thread.sleep(100);
+									}
+									catch(Exception e)
+									{
+										
+									}
+								}
+								else
+								{
+									System.out.println("DELETE");
+									if(r.nextInt(1) == 0)
+									{
+										gameBoard[col][row + 1] = r.nextInt(6);
+									}
+									else
+									{
+										gameBoard[col][row] = r.nextInt(6);
+									}
+								}
+							}
 						}
 						
 					}
@@ -426,15 +578,48 @@ public class Screen extends JPanel
 				try
 				{
 					//check left 
-					if(gameBoard[row][col] == gameBoard[row][col - 1])
+					if(gameBoard[col][row] == gameBoard[col][row - 1])
 					{
-						if(gameBoard[row][col] == gameBoard[row][col - 2])
+						if(gameBoard[col][row] == gameBoard[col][row - 2])
 						{
-							System.out.println("Found Three In A Row");
-							gameBoard[row][col] = 7;
-							gameBoard[row][col - 1] = 7;
-							gameBoard[row][col - 2] = 7;
-							GravityCheck();
+							if(justChecking)
+							{
+								checkForThreeInARowBool = true;
+							}
+							else
+							{
+								//System.out.println("HENRY");
+								if(deleteIfTrue)
+								{
+									System.out.println("Found Three In A Row");
+									gameBoard[col][row] = 7;
+									gameBoard[col][row - 1] = 7;
+									gameBoard[col][row - 2] = 7;
+									score += 10;
+									repaint();
+									try
+									{
+										Thread.sleep(100);
+									}
+									catch(Exception e)
+									{
+										
+									}
+									//GravityCheck();
+								}
+								else
+								{
+									System.out.println("DELETE");
+									if(r.nextInt(1) == 0)
+									{
+										gameBoard[col - 1][row] = r.nextInt(6);
+									}
+									else
+									{
+										gameBoard[col][row] = r.nextInt(6);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -444,41 +629,191 @@ public class Screen extends JPanel
 				}
 			}
 		}
+		GravityCheck();
+		return checkForThreeInARowBool;
 	}
 	public void GravityCheck()
 	{
-		System.out.println("HELLO");
-		boolean boolTemp = true;
-		boolean foundFall = false;
-		Random r = new Random();
-		for(int y = 0;y < 8;y++)
+		if(!switchHappening)
 		{
-			System.out.println("INFINTY");
-			for(int x = 0;x<8;x++)
+			//System.out.println("HELLO");
+			boolean boolTemp = true;
+			boolean foundFall = false;
+			Random r = new Random();
+			
+			int counterForRowsToPick = 0;
+			
+			for(int y = 0;y < 8;y++)
 			{
-				if(gameBoard[0][x] == 7)
+				//System.out.println("INFINTY");
+				for(int x = 0;x<8;x++)
 				{
-					gameBoard[0][x] = r.nextInt(6);
-					//boolTemp = false;
-				}
-			}
-			for(int row = 1;row < 8;row++)
-			{
-				for(int col = 0;col < 8;col++)
-				{
-					if(gameBoard[row][col] == 7)
+					if(gameBoard[0][x] == 7)
 					{
-						gameBoard[row][col] = gameBoard[row - 1][col];
-						gameBoard[row - 1][col] = 7;
-//						try {
-//							Thread.sleep(10);
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
+						gameBoard[0][x] = r.nextInt(5);
+						//boolTemp = false;
+					}
+				}
+				for(int row = 0;row < 8;row++)
+				{
+					for(int col = 0;col < 8;col++)
+					{
+						if(gameBoard[col][row] == 7)
+						{
+							System.out.println("COL: " + col + " ROW: " + row);
+							gameBoard[col][row] = gameBoard[col - 1][row];
+							gameBoard[col - 1][row] = 7;
+							//RowsToFall[counterForRowsToPick] = row;
+							//ColToFall[counterForRowsToPick] = col;
+							//counterForRowsToPick++;
+						}
 					}
 				}
 			}
+		}
+	}
+	public BufferedImage colorPicker(int color)
+	{
+		//Color returnValue = Color.WHITE;
+		try {
+			returnImage = ImageIO.read(new File("download.jpg"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		switch(color)
+		{
+		case 0:
+			try {
+				returnImage = ImageIO.read(new File("bejeweled_red_gem_by_ldinos_dc7zw40-pre.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 1:
+			try {
+				returnImage = ImageIO.read(new File("bejeweled_green_gem_by_ldinos_dc2fr2h-pre.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			try {
+				returnImage = ImageIO.read(new File("bejeweled_blue_gem_by_ldinos_dc2j9bc-pre.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			try {
+				returnImage = ImageIO.read(new File("bejeweled_yellow_gem_by_ldinos_dc7nv99-pre.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 4:
+			try {
+				returnImage = ImageIO.read(new File("bejeweled_purple_gem_by_ldinos_dc9v7iu-pre.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 5:
+			try {
+				returnImage = ImageIO.read(new File("bejeweled_orange_gem_by_ldinos_dc2fouk-pre.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 7:
+			try {
+				returnImage = ImageIO.read(new File("0x0000007a-screenshot.jpg"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		return returnImage;
+	}
+	public boolean checkIfGoodSwitch(int col1, int row1, int color)
+	{
+		boolean returnValue = false;
+		try {
+			//System.out.println("HI");
+			if((gameBoard[col1 + 1][row1] == color && gameBoard[col1 + 2][row1] == color) || (gameBoard[col1 + 1][row1] == color && gameBoard[col1 - 1][row1] == color))
+			{
+				returnValue = true;
+				System.out.println("Col + or Col +/-");
+			}
+		} catch(Exception NullPointerException)
+		{
+			//System.out.println("Null Pinter Expection");
+		}
+		try {
+			System.out.println("HI");
+			if(gameBoard[col1 - 1][row1] == color && gameBoard[col1 - 2][row1] == color)
+			{
+				returnValue = true;
+				System.out.println("col-");
+			}
+		}catch(Exception NullPointerException)
+		{
+			//System.out.println("Null Pinter Expection");
+		}
+		try {
+			System.out.println("HI");
+			if((gameBoard[col1][row1 + 1] == color && gameBoard[col1][row1  + 2] == color) || (gameBoard[col1][row1 + 1] == color && gameBoard[col1][row1 - 1] == color))
+			{
+				returnValue = true;
+				System.out.println("row+ or row +/-");
+			}
+		} catch(Exception NullPointerException)
+		{
+			//System.out.println("Null Pinter Expection");
+		}
+		try {
+			System.out.println("HI");
+			if(gameBoard[col1][row1 - 1] == color && gameBoard[col1][row1  - 2] == color)
+			{
+				returnValue = true;
+				System.out.println("Row-");
+			}
+		} catch(Exception NullPointerException)
+		{
+			//System.out.println("Null Pinter Expection");
+		}
+		return returnValue;
+	}
+	public void playMusic()
+	{
+		try
+		{
+			File music = new File("BlackMirrorSong.wav");
+			if(music.exists())
+			{
+				AudioInputStream audio = AudioSystem.getAudioInputStream(music);
+				clip = AudioSystem.getClip();
+				clip.open(audio);
+				clip.start();
+				clip.loop(clip.LOOP_CONTINUOUSLY);
+				
+				System.out.println("HELLO");
+			}
+			else
+			{
+				System.out.println("WHAT");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("ERROR");
 		}
 	}
 }
