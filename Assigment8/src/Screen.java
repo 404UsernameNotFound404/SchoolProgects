@@ -37,6 +37,7 @@ import org.w3c.dom.css.Rect;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
  import javax.sound.sampled.Clip;
+
  
 public class Screen extends JPanel
 {
@@ -71,10 +72,9 @@ public class Screen extends JPanel
 	int SecondColorSelected = -1;
 	
 	boolean someThingSlected = false;
-	
 	boolean switchHappening = false;
 	
-	int howManyFramesForSwitchDefault = 2;
+	int howManyFramesForSwitchDefault = 35;
 	int counterForSwitch = howManyFramesForSwitchDefault;
 	
 	Rectangle firstRecForSwitch;
@@ -102,7 +102,7 @@ public class Screen extends JPanel
 	public Screen()
 	{
 		//music
-		//playMusic();
+		playMusic();
 		RowsToFall = new int[6];
 		ColToFall = new int[6];
 		addMouseListener(new MyMouseAdapter());
