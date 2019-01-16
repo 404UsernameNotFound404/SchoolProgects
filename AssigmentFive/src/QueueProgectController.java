@@ -1,13 +1,12 @@
 /*
  * Name: Henry Morris
-
  * Date: 11/27/2018
- * 
- * Constructors: 
- * 
+ * Constructors:
  * Main:
- * The main has to parts
- * 1st is reading the files orders.txt, and names.txt and putting there contents into two diffrent array lists 
+ * The main has two parts
+ * 1st is reading the files orders.txt, and names.txt and putting there contents into two different array lists 
+ * then it goes into the menu which is a while loop that asks what they would like to do then complete the task
+ * it takes the choice as a int then uses a switch statement to give them the correct menu option
  */
 
 import java.io.BufferedReader;
@@ -52,6 +51,7 @@ public class QueueProgectController {
 					System.out.println(queue.toString());
 					break;
 				case 2:
+					//this dequeues a person from the line unless there are no pepole in the line
 					if(queue.start < queue.numberOfEntries)
 					{
 						queue.dequeue();
@@ -64,37 +64,35 @@ public class QueueProgectController {
 					}
 					break;
 				case 3:
+					//Enqueues another person into the list unless the list is full
 					if(queue.start > 0 && queue.start != 0)
 					{
 						queue.enqueue();
-						//System.out.println("New array with new person added");
-						//System.out.println(queue);
 					}else
 					{
 						System.out.println("ERROR to many pepole in line");
 					}
 					break;
 				case 4:
+					//displays the number of people in the queue
 					System.out.println("Number of people in queue " + queue.size());
 					break;
 				case 5:
+					//This takes an input int from the user then deletes that index from the queue
 					System.out.println("Please type in the index of the person you would like to remove.");
 					queue.remove();
 					break;
 				case 6:
+					//this adds a new person to the line at the begging 
 					System.out.print("You have added a person.");
 					queue.add();
 					break;
 				case 7:
+					//this exits
 					System.out.println("Goodbye");
 					System.exit(0);
 					break;
 			}
-			//System.out.println("Would you like to do something else?");
-			//if(GI.GetInputYes() == 0)
-			//{
-			//	menu = false;
-			//2}
 		}
 	}
 }

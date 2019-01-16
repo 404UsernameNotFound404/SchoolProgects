@@ -7,8 +7,11 @@ import javax.swing.JFrame;
 
 public class JFrameController extends JFrame
 {
-	public JFrameController()
+	int w,h;
+	public JFrameController(int W, int H)
 	{
+		w = W;
+		h = H;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Snake");
 		setResizable(true);
@@ -17,7 +20,7 @@ public class JFrameController extends JFrame
 	public void InIt()
 	{
 		setLayout(new GridLayout(1,1,0,0));
-		Screen s = new Screen();
+		Screen s = new Screen(w, h);
 		add(s);
 		pack();
 		setLocationRelativeTo(null);
@@ -27,7 +30,9 @@ public class JFrameController extends JFrame
 
 	public static void main(String[] args) 
 	{
-		new JFrameController();
+		new SelectionClass();
+		//new JFrameController(1000, 500);
+		//new GameOver();
 	}
 
 }
