@@ -1,13 +1,8 @@
 /*
  * Name: Henry Morris
-
-
  * Date: 11/27/2018
- * 
  * Constructors: 
  * Customer(String name, String order) the constructor takes a name and order then sets them to the local variables costumerName and order respectively
- * 
- * 
  */
 
 import java.io.BufferedReader;

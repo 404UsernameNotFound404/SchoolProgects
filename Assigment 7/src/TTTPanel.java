@@ -1,3 +1,26 @@
+/*
+ * Name: Henry Morris
+ * 
+ * Date: 20/01/2019
+ * 
+ * Constructors: 
+ * 		A lot of the code in the constructor was given, except you had one row of buttons and I had to make 3 rows.
+ * 		I also added a label for who's turn it is and moved it to the left, when I realized I wanted it to be on the left 
+ * 		I also made the JFrame/JPanel bigger to accommodate. 
+ * 
+ * Methods:
+ * checkGame()
+ *		this looks for three in a row to see if anyone won, or if all spots are taken then declare it a tie.
+ *		further explanation within method
+ * mousePressed()
+ * 		This was mainly created by you, but I added the logic of changing the buttons text and checking if its player one or two.
+ * resetGame()
+ * 		this is where I decided to add my exception with it being used if a player trys to reset game when board is cleared. 
+ * 		The actually function of this method is to reset the texts and make it player one's turn.
+ * 
+ * 
+ */
+
 import java.awt.Color;
 import java.awt.Font; //needed to use components setting methods (e.g., colors, fonts) 
 import java.awt.Graphics;
@@ -14,7 +37,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException; 
 
-public class TTTPanel extends JPanel implements ActionListener,MouseListener{
+public class TTTPanel extends JPanel implements ActionListener, MouseListener{
 	// model
 	//private TicTacToe aTictactoe;
 
@@ -132,6 +155,7 @@ public class TTTPanel extends JPanel implements ActionListener,MouseListener{
 				}
 		       }
 		   }
+		   
 		   public void mousePressed(MouseEvent event) 
 		   { 
 			   // get location of mouse press
@@ -200,10 +224,11 @@ public class TTTPanel extends JPanel implements ActionListener,MouseListener{
 		   }
 		   void checkGame()
 		   {
+			   //for loop to run through rows and collums of buttons
 			   for(int r = 0;r < 3;r++)
 			   {
 				   for(int c = 0;c < 3;c++)
-				   {
+				   { 
 					   if(button[r][c].getText().compareTo("X") == 0)
 					   {
 						   switch(c)
@@ -241,18 +266,7 @@ public class TTTPanel extends JPanel implements ActionListener,MouseListener{
 						   totalCounter++;
 					   }
 				   }
-				   if(button[0][0].getText().compareTo("X") == 0 & button[1][1].getText().compareTo("X") == 0 & button[2][2].getText().compareTo("X") == 0)
-				   {
-					   System.out.println("X WINS");
-					   win(playerOneIsTrue);
-					   disableListeners();
-				   }
-				   if(button[0][0].getText().compareTo("Y") == 0 & button[1][1].getText().compareTo("Y") == 0 & button[2][2].getText().compareTo("Y") == 0)
-				   {
-					   System.out.println("Y WINS");
-					   win(playerOneIsTrue);
-					   disableListeners();
-				   }
+				   
 				   if(xCounterRow == 3)
 				   {
 					   System.out.println("x Wins");
@@ -264,6 +278,30 @@ public class TTTPanel extends JPanel implements ActionListener,MouseListener{
 				   }
 				   xCounterRow = 0;
 				   yCounterRow = 0;
+			   }
+			   if(button[0][0].getText().compareTo("X") == 0 & button[1][1].getText().compareTo("X") == 0 & button[2][2].getText().compareTo("X") == 0)
+			   {
+				   System.out.println("X WINS");
+				   win(playerOneIsTrue);
+				   disableListeners();
+			   }
+			   if(button[0][0].getText().compareTo("Y") == 0 & button[1][1].getText().compareTo("Y") == 0 & button[2][2].getText().compareTo("Y") == 0)
+			   {
+				   System.out.println("Y WINS");
+				   win(playerOneIsTrue);
+				   disableListeners();
+			   }
+			   if(button[0][2].getText().compareTo("X") == 0 & button[1][1].getText().compareTo("X") == 0 & button[2][0].getText().compareTo("X") == 0)
+			   {
+				   System.out.println("X WINS");
+				   win(playerOneIsTrue);
+				   disableListeners();
+			   }
+			   if(button[0][2].getText().compareTo("Y") == 0 & button[1][1].getText().compareTo("Y") == 0 & button[2][0].getText().compareTo("Y") == 0)
+			   {
+				   System.out.println("Y WINS");
+				   win(playerOneIsTrue);
+				   disableListeners();
 			   }
 			   //System.out.println("xCounterCol0: " + xCounterCol0);
 			   //System.out.println("xCounterCol1: " + xCounterCol1);
@@ -280,7 +318,7 @@ public class TTTPanel extends JPanel implements ActionListener,MouseListener{
 				   win(playerOneIsTrue);
 				   disableListeners();
 			   }
-			   if(yCounterCol0 == 3 || yCounterCol1 == 3 || xCounterCol2 == 3) 
+			   if(yCounterCol0 == 3 || yCounterCol1 == 3 || yCounterCol2 == 3) 
 			   {
 				   System.out.println("Y WINS");
 				   win(playerOneIsTrue);
@@ -306,6 +344,7 @@ public class TTTPanel extends JPanel implements ActionListener,MouseListener{
 		   {	
 			   Turn.setText("Player One's Turn");
 			   boolean found = false;
+			   playerOneIsTrue = true;
 			   for(int x = 0;x < 3;x++)
 			   {
 				   for(int y = 0;y < 3;y++)

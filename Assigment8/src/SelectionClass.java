@@ -16,10 +16,9 @@ public class SelectionClass extends JPanel implements ActionListener
 	Character ch;
 	public SelectionClass ()
 	{
-		JFrame frame = new JFrame("ERROR");
+		JFrame frame = new JFrame("");
 		JButton button = new JButton("Enter Resolution");
 		frame.setSize(400, 400);
-		
 		String[] res = new String[] {
 				"1000 x 500", "500 x 500", "400 x 200"
 		};

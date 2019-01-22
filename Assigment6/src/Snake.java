@@ -6,6 +6,8 @@
  * Constructors: 
  * 
  * Methods:
+ * getHabitatCost()
+ * 		Because the program required per day cost I needed the habitat cost to subtract from daily cost. 
  * 
  * toString:
  * 
@@ -29,5 +31,4 @@ public class Snake extends Reptile
 	{
 		return (costPerDay * population) + habitatCost;
 	}
-
 }

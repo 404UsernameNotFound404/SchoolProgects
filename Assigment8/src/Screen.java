@@ -40,7 +40,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
  import javax.sound.sampled.Clip;
 
- 
 public class Screen extends JPanel
 {
 	int WIDTH;
@@ -110,7 +109,7 @@ public class Screen extends JPanel
 		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		//music
-		//playMusic();
+		playMusic();
 		//music end
 		addMouseListener(new MyMouseAdapter());
 		r = new Random();
@@ -850,7 +849,7 @@ public class Screen extends JPanel
 	{
 		try
 		{
-			File music = new File("BlackMirrorSong.wav");
+			File music = new File("RapForBej.wav");
 			if(music.exists())
 			{
 				AudioInputStream audio = AudioSystem.getAudioInputStream(music);

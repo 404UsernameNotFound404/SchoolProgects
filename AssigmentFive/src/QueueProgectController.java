@@ -83,12 +83,12 @@ public class QueueProgectController {
 					queue.remove();
 					break;
 				case 6:
-					//this adds a new person to the line at the begging 
+					//This adds a new person to the line at the begging 
 					System.out.print("You have added a person.");
 					queue.add();
 					break;
 				case 7:
-					//this exits
+					//This stops the program from running
 					System.out.println("Goodbye");
 					System.exit(0);
 					break;

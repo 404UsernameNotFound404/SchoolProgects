@@ -13,7 +13,7 @@ public class JFrameController extends JFrame
 		w = W;
 		h = H;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Snake");
+		setTitle("Bejewled");
 		setResizable(true);
 		InIt();
 	}

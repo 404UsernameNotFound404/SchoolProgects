@@ -1,0 +1,367 @@
+/*
+ * Name: Henry Morris
+ * Date: 11/27/2018
+ * Constructors:
+ * Main:
+ * The main has two parts
+ * 1st is reading the files orders.txt, and names.txt and putting there contents into two different array lists 
+ * then it goes into the menu which is a while loop that asks what they would like to do then complete the task
+ * it takes the choice as a int then uses a switch statement to give them the correct menu option
+ */
+
+import java.io.BufferedReader;
+import java.io.Console;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
+
+public class QueueProgectController {
+	
+	static BasicQueue queue;
+	public int totalRolls;
+	public int[] total;
+
+	public static void main(String[] args) 
+	{
+		queue = new BasicQueue();
+		boolean menu = true;
+		int UserInput;
+		
+		while(menu)
+		{
+			GetInput GI = new GetInput();
+			System.out.println("Welcome To Coffe Shop Queue 9000");
+			System.out.println("1 = Display People In Queue");
+			System.out.println("2 = Dequeue Person From Line");
+			System.out.println("3 = Eneque person to line");
+			System.out.println("4 = How Many People In Line");
+			System.out.println("5 = Remove Someone With Index");
+			System.out.println("6 = Add Someone To Line");
+			System.out.println("7 = Exit");
+			
+			UserInput = GI.GetInputInt();
+			switch(UserInput) //this switch statement takes user input and gives them the option they wanted
+			{
+				case 1:
+					System.out.println(queue.toString());
+					break;
+				case 2:
+					//this dequeues a person from the line unless there are no pepole in the line
+					if(queue.start < queue.numberOfEntries)
+					{
+						queue.dequeue();
+						//System.out.println("Person removed " + queue.start + " number of entires " + queue.numberOfEntries);
+						//System.out.println(queue);
+					}
+					else
+					{
+						System.out.println("Error no cosutmers in line so no one to remove dumb dumb");
+					}
+					break;
+				case 3:
+					//Enqueues another person into the list unless the list is full
+					if(queue.start > 0 && queue.start != 0)
+					{
+						queue.enqueue();
+					}else
+					{
+						System.out.println("ERROR to many pepole in line");
+					}
+					break;
+				case 4:
+					//displays the number of people in the queue
+					System.out.println("Number of people in queue " + queue.size());
+					break;
+				case 5:
+					//This takes an input int from the user then deletes that index from the queue
+					System.out.println("Please type in the index of the person you would like to remove.");
+					queue.remove();
+					break;
+				case 6:
+					//This adds a new person to the line at the begging 
+					System.out.print("You have added a person.");
+					queue.add();
+					break;
+				case 7:
+					//This stops the program from running
+					System.out.println("Goodbye");
+					System.exit(0);
+					break;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/27/2018
+ * 
+ * Constructors: 
+ * -BasicQueue(ArrayList<String> orders, ArrayList<String> names)the constructor populates the array list with 10 costumers
+ * the constuctor also gives this class acess to the orders and names arraylist of strings which I need to make more costumers
+ * Methods:
+ * dequeue() This method adds one to start so as not to delete it without using a lot of processing power it also checks if the queue is now empty
+ * enqueue() This method takes one away from start to add another person to line and not to have the same person you have dequeued it makes that
+ * remove() This method takes one away from numberOfEntries and removes the person from line at the given index the person inputs
+ * add() This method adds one to numberOfEntries and adds a new person to start of line 
+ * isFull() this returns isFull boolean which is updated when ever a relevant function is run
+ * isEmpty() this returns isEmpty boolean which is updated when ever a relevant function is run
+ * size() this returns number of entries - start which equals the number of entries 
+ * toString:
+ * the to string outputs all the values in the array list()
+ * 
+ */
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
+
+public class BasicQueue 
+{
+	ArrayList<Customer> arrLQueue;
+	int start = 0;
+	int numberOfEntries = 0;
+	Random r;
+	public ArrayList<String> orders;
+	public ArrayList<String> names;
+	
+	boolean isFull;
+	boolean isEmpty = false;
+	
+	
+	public BasicQueue()
+	{
+		//Queue<Costumer> q = new LinkedList<Costumer>();
+		File textFileWithNames = new File("names.txt");
+		File textFileWithOrders = new File("orders.txt");
+		ArrayList<String> cosNamesArr = new ArrayList<String>();
+		ArrayList<String> cosOrdersArr = new ArrayList<String>();
+				
+		try 
+		{
+			BufferedReader brNames = new BufferedReader(new FileReader(textFileWithNames));
+			BufferedReader brOrder = new BufferedReader(new FileReader(textFileWithOrders));
+			while(brNames.ready())
+			{
+				cosNamesArr.add(brNames.readLine());
+			}
+			while(brOrder.ready())
+			{
+				cosOrdersArr.add(brOrder.readLine());
+			}
+			for(int x = 0;x < cosNamesArr.size();x++)
+			{
+						//queue.enqueue(cosNamesArr.get(r.nextInt(29)), cosOrdersArr.get(r.nextInt(9)));
+			}
+					
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+				orders = cosOrdersArr;
+				names = cosNamesArr;
+		r = new Random();
+		arrLQueue = new ArrayList<Customer>();
+		for(int x = 0;x < 10;x++)
+		{
+			arrLQueue.add(new Customer(names.get(r.nextInt(29)), orders.get(r.nextInt(9))));
+			numberOfEntries++;
+			isFull = true;
+		}
+		
+	}
+	public void dequeue()
+	{
+		//System.out.println("DEQUEU");
+		start++;
+		if(start == numberOfEntries)
+		{
+			isEmpty = true;
+		}
+		if(start != 0)
+		{
+			isFull = false;
+		}
+	}
+	public void enqueue()
+	{
+		r = new Random();		
+		arrLQueue.set(start, new Customer(names.get(r.nextInt(29)), orders.get(r.nextInt(9))));
+		start--;
+		isEmpty = false;
+		//numberOfEntries++;
+	}
+	public boolean isFull()
+	{
+		return isFull;
+	}
+	public boolean isEmpty()
+	{
+		return isEmpty;
+	}
+	public void remove()
+	{
+		
+		GetInput inputController = new GetInput();
+		Iterator<Customer> iterForRemove = arrLQueue.iterator();
+		int intInputForRemove = inputController.GetInputInt();
+		while(iterForRemove.hasNext())
+		{
+			Customer next = iterForRemove.next();
+			//System.out.println(next.Order + "==" + arrLQueue.get(intInputForRemove).Order);
+			if(next.costumerName.compareTo(arrLQueue.get(intInputForRemove).costumerName) == 0 && next.Order.compareTo(arrLQueue.get(intInputForRemove).Order) == 0)
+			{
+				//System.out.println("--------------------------- " + next);
+				iterForRemove.remove();
+				//start++;
+				numberOfEntries--;
+				break;
+			}
+		}
+	}
+	public int size()
+	{
+		return numberOfEntries - start;
+	}
+	public void add()
+	{
+		arrLQueue.add(new Customer(names.get(r.nextInt(29)), orders.get(r.nextInt(9))));
+		numberOfEntries++;
+	}
+	@Override
+	public String toString() 
+	{
+		String placeHolderToString = "";
+		
+		for(int x = start;x < arrLQueue.size();x++)
+		{
+			//System.out.println(x);
+			//placeHolderToString = placeHolderToString + arrLQueue.get(x) + " Number X: " + x + "\n";
+			placeHolderToString = placeHolderToString + arrLQueue.get(x) + "\n";
+		}	
+		return placeHolderToString;
+	}
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Name: Henry Morris
+ * Date: 11/27/2018
+ * Constructors: 
+ * Customer(String name, String order) the constructor takes a name and order then sets them to the local variables costumerName and order respectively
+ */
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Customer 
+{
+	String costumerName;
+	String Order;
+	public Customer(String name,String order)
+	{
+		//System.out.println(order);
+		Order = order;
+		costumerName = name;
+	}
+	@Override
+	public String toString() 
+	{
+		return costumerName + ": " + Order;
+		 
+	}
+	
+}
+
+
+
+
+
+
+
+/*
+ * Name: Henry Morris
+ *
+ * Date: 11/27/2018
+ * 
+ * Methods:
+ * GetInputInt() This method returns an integer when called and checks for invalid input
+ * GetInputYes() This method checks if a player input is any form of yes E.X Yes,y,yes etc
+ *
+ */
+import java.util.Scanner; 
+
+public class GetInput 
+{
+	public static int GetInputInt()
+	{
+		int playerInput = 0;
+		boolean validInputIsTrue = true;
+		while(validInputIsTrue)
+		{
+			validInputIsTrue = false;
+			try
+			{
+				Scanner inputScanner = new Scanner(System.in);
+				System.out.println("Please Input an Integer: ");
+				playerInput = inputScanner.nextInt();
+			}
+			catch (Exception e)
+			{
+				System.out.println("Error invalid Input please Input a Inreger: ");
+				validInputIsTrue = true;
+			}
+		}
+		return playerInput;
+	}
+	public static int GetInputYes()
+	{
+		String userInput;
+		int yesIsOne = 0;
+		Scanner inputScanner = new Scanner(System.in);
+		userInput = inputScanner.next();
+		if(userInput.compareTo("Yes") == 0 || userInput.compareTo("Y") == 0 || userInput.compareTo("yes") == 0 || userInput.compareTo("y") == 0)
+		{
+			yesIsOne = 1;
+		}
+		return yesIsOne;
+	}
+}

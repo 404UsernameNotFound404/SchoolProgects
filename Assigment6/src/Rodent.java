@@ -6,6 +6,8 @@
  * Constructors: 
  * 
  * Methods:
+ * getCost()
+ *		Return how much it costs per day and for habitat for the day. 
  * 
  * toString:
  * 
